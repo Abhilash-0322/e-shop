@@ -77,10 +77,10 @@ function SignInForm() {
 export default function SignInPage() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
-        halo<span className="text-amazon-orange">zon</span>
+      <Link href="/" className="text-3xl font-extrabold mb-4 hz-logo">
+        Halozon
       </Link>
-      <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
+      <div className="w-full max-w-sm bg-white border border-slate-200 rounded-2xl p-6 shadow-card">
         <Suspense fallback={<div>Loading…</div>}>
           <SignInForm />
         </Suspense>

@@ -2,15 +2,30 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, MapPin, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
+import {
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+  Sparkles,
+  User,
+  Package,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
 
 type User = { id: string; name: string; email: string; role: string } | null;
 
 const CATS = [
-  'Electronics', 'Computers', 'Smart Home', 'Arts & Crafts',
-  'See all', 'Books', 'Movies', 'Music', 'Games', 'Home & Kitchen', 'Fashion',
+  'Electronics',
+  'Computers',
+  'Smart Home',
+  'Books',
+  'Fashion',
+  'Home & Kitchen',
+  'Games',
+  'Music',
 ];
 
 export default function Header({ user }: { user: User }) {
@@ -25,13 +40,16 @@ export default function Header({ user }: { user: User }) {
   const { count } = useCart();
 
   useEffect(() => {
-    fetch('/api/categories').then((r) => r.json()).then((d) => {
-      setCats((d.items || []).map((c: { name: string }) => c.name));
-    }).catch(() => {});
+    fetch('/api/categories')
+      .then((r) => r.json())
+      .then((d) => {
+        setCats((d.items || []).map((c: { name: string }) => c.name));
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -49,234 +67,234 @@ export default function Header({ user }: { user: User }) {
     router.refresh();
   }
 
+  const categoryList = cats.length ? cats : CATS;
+
+  function catHref(name: string) {
+    return `/category/${encodeURIComponent(name.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'))}`;
+  }
+
   return (
-    <header className="sticky top-0 z-50">
-      {/* Top nav */}
-      <nav className="bg-amazon-navy text-white text-sm">
-        <div className="px-2 py-1.5 flex items-center gap-1">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-end border border-transparent hover:border-white px-2 py-1.5 transition-all"
-          >
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-white">
-              halo
+    <header
+      className={cn(
+        'sticky top-0 z-50 transition-all duration-300',
+        scrolled ? 'shadow-header' : 'shadow-sm'
+      )}
+    >
+      <div className="bg-white/90 backdrop-blur-xl border-b border-slate-200/80">
+        <div className="max-w-screen-2xl mx-auto px-3 md:px-6 py-3 flex items-center gap-3 md:gap-4">
+          <Link href="/" className="flex items-center gap-2 shrink-0 group" aria-label="Halozon home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-hz-gradient text-white shadow-glow group-hover:scale-105 transition-transform">
+              <Sparkles className="w-5 h-5" />
             </span>
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-amazon-orange">
-              zon
+            <span className="hidden sm:block text-xl font-extrabold tracking-tight">
+              <span className="hz-logo">Halozon</span>
             </span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
           </Link>
 
-          {/* Deliver to */}
-          <Link
-            href="/account/addresses"
-            className="hidden md:flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5"
-          >
-            <MapPin className="w-5 h-5 text-white/90" />
-            <div className="leading-tight">
-              <div className="text-[11px] text-white/80">Deliver to</div>
-              <div className="font-bold text-sm">United States</div>
-            </div>
-          </Link>
-
-          {/* Search */}
-          <form onSubmit={submitSearch} className="flex-1 mx-2">
-            <div className="flex rounded-md overflow-hidden h-10 bg-white">
-              <select
-                aria-label="Search category"
-                className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
-                defaultValue=""
-              >
-                <option value="">All</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Books">Books</option>
-                <option value="Fashion">Fashion</option>
-                <option value="Home">Home</option>
-                <option value="Deals">Deals</option>
-              </select>
+          <form onSubmit={submitSearch} className="flex-1 max-w-3xl mx-auto">
+            <div className="flex items-center gap-2 rounded-full bg-slate-100/90 border border-slate-200/80 pl-4 pr-1.5 py-1.5 focus-within:ring-2 focus-within:ring-violet-300 focus-within:bg-white transition-all">
+              <Search className="w-5 h-5 text-violet-500 shrink-0" />
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search halozon"
-                className="flex-1 px-3 text-amazon-text text-sm outline-none"
+                placeholder="Search products, brands, categories…"
+                className="flex-1 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none min-w-0"
               />
-              <button
-                type="submit"
-                aria-label="Search"
-                className="bg-amazon-orange hover:bg-amazon-orangelight px-4 transition-colors"
-              >
-                <Search className="w-5 h-5 text-amazon-navy" />
+              <button type="submit" className="amazon-btn-primary !py-2 !px-4 !text-xs shrink-0">
+                Search
               </button>
             </div>
           </form>
 
-          {/* Account */}
-          <div
-            className="relative"
-            onMouseEnter={() => setShowAcc(true)}
-            onMouseLeave={() => setShowAcc(false)}
-          >
-            <button className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5">
-              <span className="text-[11px] text-white/80">
-                {user ? `Hello, ${user.name.split(' ')[0]}` : 'Hello, sign in'}
-              </span>
-              <span className="font-bold text-sm leading-tight flex items-center gap-0.5">
-                Account & Lists <ChevronDown className="w-3 h-3" />
-              </span>
-            </button>
-            {showAcc && (
-              <div className="absolute right-0 top-full pt-1 w-[480px] z-50 animate-slideDown">
-                <div className="bg-white text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
-                  {user ? (
-                    <>
-                      <div className="col-span-2 flex items-center justify-between border-b border-amazon-border pb-3">
-                        <div>
-                          <div className="font-bold">Hello, {user.name}</div>
-                          <div className="text-xs text-amazon-textMuted">{user.email}</div>
-                        </div>
-                        <button onClick={logout} className="amazon-btn-yellow !text-xs">
-                          Sign out
-                        </button>
-                      </div>
-                      <div>
-                        <div className="font-bold mb-2">Your Account</div>
-                        <ul className="space-y-1.5 text-sm">
-                          <li><Link className="amazon-link" href="/account">Your Account</Link></li>
-                          <li><Link className="amazon-link" href="/account/orders">Your Orders</Link></li>
-                          <li><Link className="amazon-link" href="/account/wishlist">Your Wish List</Link></li>
-                          <li><Link className="amazon-link" href="/account/payment">Payment options</Link></li>
-                          <li><Link className="amazon-link" href="/account/addresses">Addresses</Link></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <div className="font-bold mb-2">Shop & Browse</div>
-                        <ul className="space-y-1.5 text-sm">
-                          <li><Link className="amazon-link" href="/deals">Today's Deals</Link></li>
-                          <li><Link className="amazon-link" href="/category/electronics">Electronics</Link></li>
-                          <li><Link className="amazon-link" href="/category/books">Books</Link></li>
-                          <li><Link className="amazon-link" href="/help">Customer Service</Link></li>
-                          <li><Link className="amazon-link" href="/prime">Prime</Link></li>
-                        </ul>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="col-span-2 flex justify-center border-b border-amazon-border pb-3">
-                        <Link href="/signin" className="amazon-btn-primary !text-sm">
-                          Sign in to your account
-                        </Link>
-                      </div>
-                      <div>
-                        <div className="font-bold mb-2">Your Lists</div>
-                        <ul className="space-y-1.5 text-sm">
-                          <li><Link className="amazon-link" href="/signin">Create a List</Link></li>
-                          <li><Link className="amazon-link" href="/signin">Find a List or Registry</Link></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <div className="font-bold mb-2">Your Account</div>
-                        <ul className="space-y-1.5 text-sm">
-                          <li><Link className="amazon-link" href="/signin">Account</Link></li>
-                          <li><Link className="amazon-link" href="/signin">Orders</Link></li>
-                          <li><Link className="amazon-link" href="/signin">Wish List</Link></li>
-                          <li><Link className="amazon-link" href="/signin">Recommendations</Link></li>
-                        </ul>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Returns */}
-          <Link
-            href="/account/orders"
-            className="hidden md:flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5"
-          >
-            <span className="text-[11px] text-white/80">Returns</span>
-            <span className="font-bold text-sm">& Orders</span>
-          </Link>
-
-          {/* Cart */}
-          <Link
-            href="/cart"
-            className="relative flex items-end border border-transparent hover:border-white px-2 py-1.5"
-          >
-            <div className="relative">
-              <ShoppingCart className="w-8 h-8" />
-              <span className="absolute -top-1 left-1/2 -translate-x-1/2 text-amazon-orange font-bold text-sm">
-                {count}
-              </span>
-            </div>
-            <span className="hidden md:inline font-bold text-sm ml-1 mb-0.5">Cart</span>
-          </Link>
-        </div>
-
-        {/* Sub-nav */}
-        <div className={cn(
-          "bg-amazon-navylight text-white text-sm transition-shadow",
-          scrolled && "shadow-header"
-        )}>
-          <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
-            <button
-              onClick={() => setShowCat(true)}
-              className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"
+          <div className="flex items-center gap-1 md:gap-2 shrink-0">
+            <div
+              className="relative hidden sm:block"
+              onMouseEnter={() => setShowAcc(true)}
+              onMouseLeave={() => setShowAcc(false)}
             >
-              <Menu className="w-4 h-4" /> All
-            </button>
-            {(cats.length ? cats : CATS).slice(0, 14).map((c) => (
-              <Link
-                key={c}
-                href={`/category/${encodeURIComponent(c.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'))}`}
-                className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-2xl px-3 py-2 hover:bg-violet-50 transition-colors"
               >
-                {c}
-              </Link>
-            ))}
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+                  <User className="w-4 h-4" />
+                </span>
+                <span className="text-left hidden lg:block">
+                  <span className="block text-[11px] text-slate-500 leading-none">
+                    {user ? `Hi, ${user.name.split(' ')[0]}` : 'Welcome'}
+                  </span>
+                  <span className="flex items-center gap-0.5 text-sm font-semibold text-slate-800">
+                    Account <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  </span>
+                </span>
+              </button>
+              {showAcc && (
+                <div className="absolute right-0 top-full pt-2 w-[440px] z-50 animate-slideDown">
+                  <div className="bg-white text-amazon-text rounded-2xl shadow-2xl border border-slate-100 p-5 grid grid-cols-2 gap-5">
+                    {user ? (
+                      <>
+                        <div className="col-span-2 flex items-center justify-between border-b border-slate-100 pb-3">
+                          <div>
+                            <div className="font-bold">{user.name}</div>
+                            <div className="text-xs text-amazon-textMuted">{user.email}</div>
+                          </div>
+                          <button type="button" onClick={logout} className="amazon-btn-yellow !text-xs">
+                            Sign out
+                          </button>
+                        </div>
+                        <div>
+                          <div className="font-bold mb-2 text-violet-700">Your space</div>
+                          <ul className="space-y-1.5 text-sm">
+                            <li><Link className="amazon-link" href="/account">Dashboard</Link></li>
+                            <li><Link className="amazon-link" href="/account/orders">Orders</Link></li>
+                            <li><Link className="amazon-link" href="/account/wishlist">Wishlist</Link></li>
+                            <li><Link className="amazon-link" href="/account/payment">Payments</Link></li>
+                            <li><Link className="amazon-link" href="/account/addresses">Addresses</Link></li>
+                          </ul>
+                        </div>
+                        <div>
+                          <div className="font-bold mb-2 text-fuchsia-600">Explore</div>
+                          <ul className="space-y-1.5 text-sm">
+                            <li><Link className="amazon-link" href="/deals">Flash deals</Link></li>
+                            <li><Link className="amazon-link" href="/category/electronics">Electronics</Link></li>
+                            <li><Link className="amazon-link" href="/help">Help center</Link></li>
+                            <li><Link className="amazon-link" href="/prime">Halozon Plus</Link></li>
+                            {user.role === 'seller' && (
+                              <li><Link className="amazon-link" href="/seller/dashboard">Seller hub</Link></li>
+                            )}
+                            {user.role === 'admin' && (
+                              <li><Link className="amazon-link" href="/admin">Admin</Link></li>
+                            )}
+                          </ul>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="col-span-2 flex flex-col items-center gap-3 border-b border-slate-100 pb-4">
+                          <Link href="/signin" className="amazon-btn-primary w-full text-center">
+                            Sign in
+                          </Link>
+                          <Link href="/register" className="text-sm amazon-link">
+                            New here? Create an account
+                          </Link>
+                        </div>
+                        <div>
+                          <div className="font-bold mb-2">Lists</div>
+                          <ul className="space-y-1.5 text-sm">
+                            <li><Link className="amazon-link" href="/signin">Wishlist</Link></li>
+                            <li><Link className="amazon-link" href="/signin">Saved for later</Link></li>
+                          </ul>
+                        </div>
+                        <div>
+                          <div className="font-bold mb-2">Orders</div>
+                          <ul className="space-y-1.5 text-sm">
+                            <li><Link className="amazon-link" href="/signin">Track packages</Link></li>
+                            <li><Link className="amazon-link" href="/signin">Returns</Link></li>
+                          </ul>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link
-              href="/deals"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap font-bold text-amazon-orange"
+              href="/account/orders"
+              className="hidden md:flex items-center gap-2 rounded-2xl px-3 py-2 hover:bg-cyan-50 transition-colors"
             >
-              Today's Deals
+              <Package className="w-5 h-5 text-cyan-600" />
+              <span className="text-sm font-semibold text-slate-700">Orders</span>
             </Link>
+
             <Link
-              href="/prime"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+              href="/cart"
+              className="relative flex items-center gap-2 rounded-2xl px-3 py-2 hover:bg-pink-50 transition-colors"
             >
-              Prime
+              <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-violet-500 text-white shadow-md">
+                <ShoppingCart className="w-5 h-5" />
+                {count > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[1.25rem] h-5 px-1 rounded-full bg-cyan-400 text-[11px] font-bold text-slate-900 flex items-center justify-center border-2 border-white">
+                    {count}
+                  </span>
+                )}
+              </span>
+              <span className="hidden lg:inline text-sm font-semibold text-slate-700">Cart</span>
             </Link>
+
+            <button
+              type="button"
+              onClick={() => setShowCat(true)}
+              className="md:hidden flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700"
+              aria-label="Open categories"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
           </div>
         </div>
-      </nav>
 
-      {/* Sidebar Categories */}
+        <div className="max-w-screen-2xl mx-auto px-3 md:px-6 pb-3 flex items-center gap-2 overflow-x-auto scrollbar-thin">
+          <button
+            type="button"
+            onClick={() => setShowCat(true)}
+            className="hidden md:inline-flex items-center gap-1.5 hz-nav-pill hz-nav-pill-active shrink-0"
+          >
+            <Menu className="w-4 h-4" /> Categories
+          </button>
+          {categoryList.slice(0, 12).map((c) => (
+            <Link key={c} href={catHref(c)} className="hz-nav-pill shrink-0">
+              {c}
+            </Link>
+          ))}
+          <Link href="/deals" className="hz-nav-pill shrink-0 text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-semibold">
+            Flash deals
+          </Link>
+          <Link href="/seller/apply" className="hz-nav-pill shrink-0 text-violet-700 font-semibold">
+            Sell on Halozon
+          </Link>
+          <Link href="/prime" className="hz-nav-pill shrink-0 text-sky-600 hover:bg-sky-50">
+            Plus membership
+          </Link>
+        </div>
+      </div>
+
       {showCat && (
         <div className="fixed inset-0 z-[60] flex">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setShowCat(false)} />
-          <aside className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl">
-            <div className="bg-amazon-navylight text-white px-5 py-4 flex items-center justify-between">
-              <div className="font-bold text-xl flex items-center gap-2">
-                <Menu className="w-5 h-5" /> Shop by Category
+          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setShowCat(false)} />
+          <aside className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl rounded-r-3xl">
+            <div className="bg-hz-gradient text-white px-5 py-5 flex items-center justify-between">
+              <div className="font-bold text-lg flex items-center gap-2">
+                <Menu className="w-5 h-5" /> Browse
               </div>
-              <button onClick={() => setShowCat(false)}><X className="w-5 h-5" /></button>
+              <button type="button" onClick={() => setShowCat(false)} aria-label="Close menu">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="p-2">
-              {(cats.length ? cats : CATS).map((c) => (
+            <div className="p-3">
+              {categoryList.map((c) => (
                 <Link
                   key={c}
-                  href={`/category/${encodeURIComponent(c.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'))}`}
-                  className="block px-3 py-2.5 hover:bg-amazon-bg rounded text-sm"
+                  href={catHref(c)}
+                  className="block px-4 py-3 hover:bg-violet-50 rounded-xl text-sm font-medium text-slate-700"
                   onClick={() => setShowCat(false)}
                 >
                   {c}
                 </Link>
               ))}
-              <div className="border-t my-2" />
-              <Link href="/deals" className="block px-3 py-2.5 hover:bg-amazon-bg rounded font-bold text-amazon-deal">Today's Deals</Link>
-              <Link href="/prime" className="block px-3 py-2.5 hover:bg-amazon-bg rounded">Prime</Link>
-              <Link href="/help" className="block px-3 py-2.5 hover:bg-amazon-bg rounded">Customer Service</Link>
+              <div className="border-t my-3 border-slate-100" />
+              <Link
+                href="/deals"
+                className="block px-4 py-3 hover:bg-rose-50 rounded-xl font-semibold text-rose-600"
+                onClick={() => setShowCat(false)}
+              >
+                Flash deals
+              </Link>
+              <Link href="/prime" className="block px-4 py-3 hover:bg-sky-50 rounded-xl text-sky-700" onClick={() => setShowCat(false)}>
+                Halozon Plus
+              </Link>
+              <Link href="/help" className="block px-4 py-3 hover:bg-slate-50 rounded-xl" onClick={() => setShowCat(false)}>
+                Help center
+              </Link>
             </div>
           </aside>
         </div>

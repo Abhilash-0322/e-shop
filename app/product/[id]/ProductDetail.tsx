@@ -190,7 +190,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
           {product.isPrime && (
             <div className="border-b border-amazon-border pb-3">
               <div className="flex items-center gap-2 text-sm">
-                <span className="font-bold text-amazon-prime">prime</span>
+                <span className="font-bold text-amazon-prime">Plus delivery</span>
                 <span className="text-amazon-text">FREE delivery <b>Tomorrow</b></span>
               </div>
               <div className="text-xs text-amazon-textMuted mt-1">

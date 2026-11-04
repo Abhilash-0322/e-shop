@@ -16,7 +16,7 @@ export default async function AccountPage() {
           <Card title="Payment options" desc="Manage your cards and saved methods" href="/account/payment" />
           <Card title="Your Wish List" desc="Save items you love for later" href="/account/wishlist" />
           <Card title="Login & security" desc="Edit login, name, and mobile number" href="/account/security" />
-          <Card title="Prime" desc="View your benefits and membership" href="/prime" />
+          <Card title="Plus" desc="View your membership benefits" href="/prime" />
           {(user as any).role === 'seller' && (
             <Card title="Seller Central" desc="Manage your store, products, and orders" href="/seller/dashboard" highlight />
           )}

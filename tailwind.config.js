@@ -7,48 +7,47 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Authentic Amazon palette
+        // Halozon design tokens (legacy `amazon-*` class names map here)
         amazon: {
-          // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
-          // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
-          // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
-          // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
-          // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
-          // States
-          deal: '#CC0C39',
-          prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
-          red: '#B12704',
-          // Stars
-          star: '#FFA41C',
+          navy: '#1e1b4b',
+          navylight: '#4338ca',
+          navyxlight: '#6366f1',
+          orange: '#ec4899',
+          orangelight: '#f472b6',
+          orangedark: '#fbcfe8',
+          yellow: '#06b6d4',
+          yellowHover: '#0891b2',
+          buy: '#8b5cf6',
+          buyHover: '#7c3aed',
+          bg: '#f1f5f9',
+          panel: '#ffffff',
+          border: '#e2e8f0',
+          borderDark: '#cbd5e1',
+          text: '#0f172a',
+          textMuted: '#64748b',
+          link: '#7c3aed',
+          linkHover: '#db2777',
+          deal: '#f43f5e',
+          prime: '#0ea5e9',
+          green: '#10b981',
+          greenDark: '#059669',
+          red: '#ef4444',
+          star: '#fbbf24',
         },
       },
       fontFamily: {
-        amazon: ['"Amazon Ember"', 'Arial', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        amazon: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.04)',
-        cardHover: '0 4px 14px rgba(0,0,0,0.12)',
-        header: '0 2px 4px rgba(0,0,0,0.2)',
+        card: '0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(99, 102, 241, 0.08)',
+        cardHover: '0 12px 40px rgba(124, 58, 237, 0.18)',
+        header: '0 4px 24px rgba(15, 23, 42, 0.08)',
+        glow: '0 0 0 1px rgba(139, 92, 246, 0.15), 0 8px 32px rgba(236, 72, 153, 0.12)',
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.5rem',
       },
       keyframes: {
         shimmer: {
@@ -68,13 +67,17 @@ module.exports = {
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         pulseRing: {
-          '0%': { boxShadow: '0 0 0 0 rgba(255,153,0,.6)' },
-          '70%': { boxShadow: '0 0 0 12px rgba(255,153,0,0)' },
-          '100%': { boxShadow: '0 0 0 0 rgba(255,153,0,0)' },
+          '0%': { boxShadow: '0 0 0 0 rgba(139,92,246,.45)' },
+          '70%': { boxShadow: '0 0 0 12px rgba(139,92,246,0)' },
+          '100%': { boxShadow: '0 0 0 0 rgba(139,92,246,0)' },
         },
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
         },
       },
       animation: {
@@ -84,6 +87,11 @@ module.exports = {
         scaleIn: 'scaleIn .2s ease-out both',
         pulseRing: 'pulseRing 1.6s cubic-bezier(0.4,0,0.6,1) infinite',
         marquee: 'marquee 30s linear infinite',
+        float: 'float 4s ease-in-out infinite',
+      },
+      backgroundImage: {
+        'hz-gradient': 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #06b6d4 100%)',
+        'hz-gradient-soft': 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(236,72,153,0.12) 50%, rgba(6,182,212,0.12) 100%)',
       },
     },
   },

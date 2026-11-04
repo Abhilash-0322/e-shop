@@ -50,7 +50,7 @@ export default function CategoryView({
   if (searchParams.max) chips.push({ label: `Max $${searchParams.max}`, href: `?${spWith({ max: '' })}` });
   if (searchParams.minRating) chips.push({ label: `${searchParams.minRating}★ & up`, href: `?${spWith({ minRating: '' })}` });
   if (searchParams.minDiscount) chips.push({ label: `${searchParams.minDiscount}%+ off`, href: `?${spWith({ minDiscount: '' })}` });
-  if (searchParams.prime) chips.push({ label: 'Prime', href: `?${spWith({ prime: '' })}` });
+  if (searchParams.prime) chips.push({ label: 'Plus', href: `?${spWith({ prime: '' })}` });
   if (searchParams.deal) chips.push({ label: "Today's Deals", href: `?${spWith({ deal: '' })}` });
   activeBrands.forEach((b) =>
     chips.push({
@@ -153,7 +153,7 @@ export default function CategoryView({
             href={`?${spWith({ prime: searchParams.prime ? '' : '1' })}`}
             className="flex items-center gap-2 text-sm amazon-link"
           >
-            {searchParams.prime ? '✓ ' : ''}Prime eligible
+            {searchParams.prime ? '✓ ' : ''}Plus eligible
           </Link>
         </div>
 

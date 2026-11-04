@@ -57,7 +57,7 @@ export default function CartView() {
                     {it.title}
                   </Link>
                   {it.isPrime && (
-                    <div className="text-xs text-amazon-link font-semibold mt-1">prime</div>
+                    <div className="text-xs text-sky-600 font-semibold mt-1">Plus delivery</div>
                   )}
                   <div className="text-xs text-amazon-greenDark font-medium mt-1">In Stock</div>
                   <div className="text-xs text-amazon-textMuted">Eligible for FREE Shipping</div>

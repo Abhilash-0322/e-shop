@@ -11,7 +11,7 @@ const TABS = [
   { href: '/account/addresses', label: 'Your Addresses' },
   { href: '/account/payment', label: 'Payment Options' },
   { href: '/account/wishlist', label: 'Wish List' },
-  { href: '/prime', label: 'Prime' },
+  { href: '/prime', label: 'Plus' },
 ];
 
 export default function AccountLayout({ user, children }: { user: { name: string; email: string }; children: React.ReactNode }) {

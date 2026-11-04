@@ -5,31 +5,31 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const SLIDES = [
   {
-    eyebrow: 'Up to 60% off',
-    title: 'A new era of smart home',
-    sub: 'Discover Echo, Fire TV and Ring devices.',
-    bg: 'from-amazon-navy via-amazon-navylight to-amazon-orange/70',
-    cta: { href: '/category/electronics', label: 'Shop Electronics' },
+    eyebrow: 'New season',
+    title: 'Tech that pops',
+    sub: 'Curated electronics, smart home, and audio — picked for color and quality.',
+    bg: 'from-violet-600 via-fuchsia-500 to-pink-500',
+    cta: { href: '/category/electronics', label: 'Shop electronics' },
   },
   {
-    eyebrow: 'Today only',
-    title: 'Deals of the Day',
-    sub: 'New deals every hour. Refresh often.',
-    bg: 'from-amazon-orange via-amazon-orangedark to-amazon-buy',
-    cta: { href: '/deals', label: 'See today\u2019s deals' },
+    eyebrow: 'Limited time',
+    title: 'Flash deals',
+    sub: 'Fresh price drops every day. Grab them before they’re gone.',
+    bg: 'from-rose-500 via-orange-400 to-amber-400',
+    cta: { href: '/deals', label: 'View flash deals' },
   },
   {
-    eyebrow: 'Prime exclusive',
-    title: 'Fast, free delivery',
-    sub: 'On millions of items with Prime.',
-    bg: 'from-amazon-prime via-amazon-navylight to-amazon-navy',
-    cta: { href: '/prime', label: 'Try Prime free' },
+    eyebrow: 'Halozon Plus',
+    title: 'Delivery on your schedule',
+    sub: 'Members get fast shipping and exclusive perks.',
+    bg: 'from-cyan-500 via-sky-600 to-indigo-700',
+    cta: { href: '/prime', label: 'Explore Plus' },
   },
   {
-    eyebrow: 'Featured',
-    title: 'Books that inspire',
-    sub: 'Bestsellers, indie gems, and more.',
-    bg: 'from-amazon-navy via-emerald-900 to-amazon-navy',
+    eyebrow: 'Curated reads',
+    title: 'Stories worth keeping',
+    sub: 'Bestsellers, indie picks, and beautiful editions.',
+    bg: 'from-emerald-600 via-teal-600 to-violet-700',
     cta: { href: '/category/books', label: 'Browse books' },
   },
 ];
@@ -42,58 +42,52 @@ export default function Hero() {
   }, []);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
-      <div
-        key={i}
-        className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
-      />
-      {/* Decorative shapes */}
+    <div className="relative w-full h-[400px] md:h-[480px] overflow-hidden rounded-b-[2.5rem] md:rounded-b-[3rem] shadow-glow mx-auto max-w-[100vw]">
+      <div key={i} className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`} />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-white/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-300/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iLjA4Ii8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+')] opacity-40" />
       </div>
-      <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
-        <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
+      <div className="relative max-w-screen-xl mx-auto px-6 md:px-10 h-full flex flex-col justify-center text-white">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-semibold uppercase tracking-wider mb-3">
           {s.eyebrow}
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-tight">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-[1.05] drop-shadow-sm">
           {s.title}
         </h1>
-        <p className="text-lg md:text-xl mb-6 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
-        <Link
-          href={s.cta.href}
-          className="amazon-btn-yellow w-fit !text-base !px-6 !py-2.5 animate-fadeIn"
-        >
+        <p className="text-lg md:text-xl mb-8 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
+        <Link href={s.cta.href} className="amazon-btn-yellow w-fit !text-base animate-fadeIn shadow-lg">
           {s.cta.label}
         </Link>
       </div>
-      {/* Arrows */}
       <button
+        type="button"
         onClick={() => setI((v) => (v - 1 + SLIDES.length) % SLIDES.length)}
         aria-label="Previous slide"
-        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white"
+        className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/25 hover:bg-white/40 backdrop-blur-md text-white border border-white/30"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button
+        type="button"
         onClick={() => setI((v) => (v + 1) % SLIDES.length)}
         aria-label="Next slide"
-        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white"
+        className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white/25 hover:bg-white/40 backdrop-blur-md text-white border border-white/30"
       >
         <ChevronRight className="w-6 h-6" />
       </button>
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
         {SLIDES.map((_, k) => (
           <button
             key={k}
+            type="button"
             onClick={() => setI(k)}
-            className={`h-2 rounded-full transition-all ${k === i ? 'w-8 bg-white' : 'w-2 bg-white/50'}`}
+            aria-label={`Go to slide ${k + 1}`}
+            className={`h-2 rounded-full transition-all ${k === i ? 'w-10 bg-white' : 'w-2 bg-white/45 hover:bg-white/70'}`}
           />
         ))}
       </div>
-      {/* Fade strip */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-amazon-bg" />
     </div>
   );
 }

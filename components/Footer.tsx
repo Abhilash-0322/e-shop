@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ChevronUp, Globe } from 'lucide-react';
+import { ChevronUp, Globe, Sparkles } from 'lucide-react';
 
 type Item = { label: string; href: string };
 
@@ -10,30 +10,30 @@ const COLS: { title: string; items: Item[] }[] = [
     items: [
       { label: 'Careers', href: '/info/careers' },
       { label: 'Blog', href: '/info/blog' },
-      { label: 'About halozon', href: '/info/about' },
+      { label: 'About Halozon', href: '/info/about' },
       { label: 'Sustainability', href: '/info/sustainability' },
       { label: 'Press Center', href: '/info/press' },
       { label: 'Investor Relations', href: '/info/investor-relations' },
-      { label: 'halozon Devices', href: '/info/devices' },
-      { label: 'halozon Science', href: '/info/science' },
+      { label: 'Halozon Devices', href: '/info/devices' },
+      { label: 'Halozon Science', href: '/info/science' },
     ],
   },
   {
     title: 'Make Money with Us',
     items: [
-      { label: 'Sell on halozon', href: '/seller/apply' },
-      { label: 'Sell apps on halozon', href: '/info/sell-apps' },
+      { label: 'Sell on Halozon', href: '/seller/apply' },
+      { label: 'Sell apps on Halozon', href: '/info/sell-apps' },
       { label: 'Become an Affiliate', href: '/info/affiliate' },
       { label: 'Advertise Your Products', href: '/info/advertise' },
       { label: 'Self-Publish with Us', href: '/info/publish' },
-      { label: 'Host a halozon Hub', href: '/info/hub' },
+      { label: 'Host a Halozon Hub', href: '/info/hub' },
       { label: '› See More Ways to Make Money', href: '/info/make-money' },
     ],
   },
   {
     title: 'Payment Products',
     items: [
-      { label: 'halozon Business Card', href: '/info/business-card' },
+      { label: 'Halozon Business Card', href: '/info/business-card' },
       { label: 'Shop with Points', href: '/info/shop-points' },
       { label: 'Reload Your Balance', href: '/info/reload-balance' },
       { label: 'Currency Converter', href: '/currency-converter' },
@@ -55,29 +55,26 @@ const COLS: { title: string; items: Item[] }[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
-      {/* Back to top */}
+    <footer className="mt-16">
       <button
+        type="button"
         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white text-sm py-3 transition-colors flex items-center justify-center gap-1"
+        className="w-full bg-hz-gradient text-white text-sm py-3.5 transition-opacity hover:opacity-95 flex items-center justify-center gap-2 font-medium"
         aria-label="Back to top"
       >
         <ChevronUp className="w-4 h-4" /> Back to top
       </button>
 
-      {/* Main 4-col */}
-      <div className="bg-amazon-navy text-white text-sm">
-        <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="bg-slate-900 text-slate-300 text-sm relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.25),transparent_50%),radial-gradient(ellipse_at_bottom_right,_rgba(236,72,153,0.2),transparent_45%)] pointer-events-none" />
+        <div className="relative max-w-screen-xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
           {COLS.map((col) => (
             <div key={col.title}>
               <h3 className="font-bold mb-3 text-white">{col.title}</h3>
-              <ul className="space-y-1.5 text-white/80">
+              <ul className="space-y-2">
                 {col.items.map((it) => (
                   <li key={it.href + it.label}>
-                    <Link
-                      href={it.href}
-                      className="hover:underline text-white/80 hover:text-white transition-colors"
-                    >
+                    <Link href={it.href} className="hover:text-white hover:underline transition-colors">
                       {it.label}
                     </Link>
                   </li>
@@ -87,33 +84,36 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Logo divider */}
-        <div className="border-t border-white/10 py-6 flex flex-col items-center gap-4">
-          <Link href="/" className="flex items-end" aria-label="halozon home">
-            <span className="text-2xl font-extrabold leading-none">halo</span>
-            <span className="text-2xl font-extrabold leading-none text-amazon-orange">zon</span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
+        <div className="relative border-t border-white/10 py-8 flex flex-col items-center gap-4">
+          <Link href="/" className="flex items-center gap-2" aria-label="Halozon home">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-hz-gradient text-white">
+              <Sparkles className="w-5 h-5" />
+            </span>
+            <span className="text-2xl font-extrabold text-white">Halozon</span>
           </Link>
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white flex items-center gap-1">
-              <Globe className="w-3 h-3" /> English
+            <button type="button" className="border border-white/25 rounded-full px-4 py-2 hover:border-white/60 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5" /> English
             </button>
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white">$ USD - U.S. Dollar</button>
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white">🇺🇸 United States</button>
+            <button type="button" className="border border-white/25 rounded-full px-4 py-2 hover:border-white/60">
+              $ USD
+            </button>
+            <button type="button" className="border border-white/25 rounded-full px-4 py-2 hover:border-white/60">
+              United States
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Bottom strip */}
-      <div className="bg-amazon-navy/95 text-white/70 text-xs">
+      <div className="bg-slate-950 text-slate-500 text-xs">
         <div className="max-w-screen-xl mx-auto px-6 py-6">
           <ul className="flex flex-wrap gap-x-6 gap-y-2 mb-3">
-            <li><Link href="/conditions" className="hover:underline">Conditions of Use</Link></li>
-            <li><Link href="/privacy" className="hover:underline">Privacy Notice</Link></li>
-            <li><Link href="/interest-based-ads" className="hover:underline">Interest-Based Ads</Link></li>
-            <li><Link href="/help" className="hover:underline">Help</Link></li>
+            <li><Link href="/conditions" className="hover:text-slate-300">Conditions of Use</Link></li>
+            <li><Link href="/privacy" className="hover:text-slate-300">Privacy Notice</Link></li>
+            <li><Link href="/interest-based-ads" className="hover:text-slate-300">Interest-Based Ads</Link></li>
+            <li><Link href="/help" className="hover:text-slate-300">Help</Link></li>
           </ul>
-          <div>© 1996-2026, halozon.com, Inc. or its affiliates. Built with care for a beautiful shopping experience.</div>
+          <div>© {new Date().getFullYear()} Halozon, Inc. A colorful marketplace — not your typical big-box clone.</div>
         </div>
       </div>
     </footer>

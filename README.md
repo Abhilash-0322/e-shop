@@ -1,6 +1,6 @@
-# halozon — Amazon-like e-commerce clone
+# halozon — modern marketplace (e-commerce)
 
-A high-fidelity Amazon clone built with Next.js 14 (App Router), Tailwind CSS, MongoDB, and Mongoose. Features the authentic Amazon color palette, layout, and core shopping flow — plus a seller marketplace, an admin console, and a host of trust & polish features.
+A full-featured online marketplace built with Next.js 14 (App Router), Tailwind CSS, MongoDB, and Mongoose. Vibrant, modern UI with seller marketplace, admin console, and core shopping flows.
 
 > **Demo credentials** — see [Demo accounts](#demo-accounts) below.
 
@@ -24,7 +24,7 @@ A high-fidelity Amazon clone built with Next.js 14 (App Router), Tailwind CSS, M
 
 ## Highlights
 
-- **Authentic Amazon UI** — dark-blue header (`#131921`), orange logo/accent (`#FF9900`), yellow CTAs (`#FFD814`), buy-box layout, star ratings, breadcrumbs, deal badges.
+- **Modern Halozon UI** — gradient accents, Plus Jakarta Sans, rounded cards, glass header, and a distinct (non-clone) shopping experience.
 - **Full shopping flow** — home → category → search → product detail → cart → multi-address checkout → tracking → returns.
 - **Marketplace** — anyone can apply to become a seller, manage products, fulfill orders, view analytics.
 - **Admin console** — moderate reviews, approve seller applications, ban users, manage products.

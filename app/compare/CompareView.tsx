@@ -43,7 +43,7 @@ const ROWS: { label: string; render: (p: P) => React.ReactNode }[] = [
       <span className="text-xs text-amazon-textMuted">({p.ratingCount || 0})</span>
     </div>
   ) : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
-  { label: 'Prime', render: (p) => p.isPrime ? <Check className="w-5 h-5 text-amazon-prime mx-auto" /> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
+  { label: 'Plus delivery', render: (p) => p.isPrime ? <Check className="w-5 h-5 text-amazon-prime mx-auto" /> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
   { label: 'Free Shipping', render: (p) => p.freeShipping !== false ? <Check className="w-5 h-5 text-amazon-greenDark mx-auto" /> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
   { label: 'Stock', render: (p) => p.stock && p.stock > 0 ? <span className="text-amazon-greenDark text-sm font-medium">In Stock ({p.stock})</span> : <span className="text-amazon-deal text-sm">Out of stock</span> },
   { label: 'Colors', render: (p) => p.colors && p.colors.length ? <span className="text-sm">{p.colors.length} option{p.colors.length !== 1 ? 's' : ''}</span> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
