@@ -1,0 +1,1 @@
+import {Suspense} from 'react';import AuthForm from '@/components/AuthForm';export default function SignIn(){return <div className="shell min-h-[70vh] flex items-center justify-center py-16"><Suspense fallback={<div className="surface p-8">Loading...</div>}><AuthForm mode="signin"/></Suspense></div>}

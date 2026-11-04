@@ -1,0 +1,1 @@
+import type {MetadataRoute} from 'next';export default function sitemap():MetadataRoute.Sitemap{const routes=['','search','deals','prime','help','privacy','conditions','signin','register','cart'].map(path=>({url:`https://halozon.example/${path}`,lastModified:new Date()}));return routes}
