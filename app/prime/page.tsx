@@ -4,7 +4,7 @@ export default function PrimePage() {
   return (
     <div className="min-h-[80vh]">
       <div className="bg-gradient-to-br from-amazon-prime via-amazon-navylight to-amazon-navy text-white py-20">
-        <div className="max-w-screen-xl mx-auto px-6 text-center">
+        <div className="page-shell !py-12 text-center">
           <div className="text-5xl md:text-6xl font-extrabold mb-4">halozon Prime</div>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-white/90">
             Fast, free delivery on millions of items. Plus, exclusive deals, movies, and music.
@@ -14,7 +14,7 @@ export default function PrimePage() {
           </Link>
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="page-shell grid grid-cols-1 gap-6 md:grid-cols-3">
         {[
           { t: 'FREE Fast Delivery', d: 'Get FREE One-Day, Same-Day, and Two-Day delivery on eligible items.' },
           { t: 'Prime Video', d: 'Watch thousands of movies and TV shows, including award-winning halozon Originals.' },

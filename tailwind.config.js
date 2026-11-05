@@ -7,48 +7,49 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Authentic Amazon palette
+        // Compatibility aliases retained for existing route components.
         amazon: {
-          // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
-          // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
-          // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
-          // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
-          // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
-          // States
-          deal: '#CC0C39',
-          prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
-          red: '#B12704',
-          // Stars
-          star: '#FFA41C',
+          navy: '#11121A',
+          navylight: '#26273A',
+          navyxlight: '#3B3D58',
+          orange: '#D8FF3E',
+          orangelight: '#E7FF86',
+          orangedark: '#A8CC20',
+          yellow: '#D8FF3E',
+          yellowHover: '#C4ED2F',
+          buy: '#34D6DE',
+          buyHover: '#1CBAC3',
+          bg: '#F4F6F8',
+          panel: '#FBFCFD',
+          border: '#E1E5EA',
+          borderDark: '#C7CDD6',
+          text: '#11121A',
+          textMuted: '#667085',
+          link: '#6552D8',
+          linkHover: '#4E3FC0',
+          deal: '#E04986',
+          prime: '#34D6DE',
+          green: '#28B985',
+          greenDark: '#168B64',
+          red: '#D64965',
+          star: '#FFB547',
+        },
+        kinetic: {
+          ink: '#11121A',
+          lime: '#D8FF3E',
+          violet: '#7C5CFF',
+          cyan: '#34D6DE',
+          pink: '#FF5CA8',
         },
       },
       fontFamily: {
         amazon: ['"Amazon Ember"', 'Arial', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.04)',
-        cardHover: '0 4px 14px rgba(0,0,0,0.12)',
-        header: '0 2px 4px rgba(0,0,0,0.2)',
+        card: '0 10px 30px rgba(17, 18, 26, 0.06)',
+        cardHover: '0 18px 42px rgba(17, 18, 26, 0.14)',
+        header: '0 12px 30px rgba(17, 18, 26, 0.16)',
+        glow: '0 0 0 1px rgba(216,255,62,.16), 0 18px 60px rgba(124,92,255,.18)',
       },
       keyframes: {
         shimmer: {
@@ -76,6 +77,10 @@ module.exports = {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0) rotate(-2deg)' },
+          '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 2s linear infinite',
@@ -84,6 +89,7 @@ module.exports = {
         scaleIn: 'scaleIn .2s ease-out both',
         pulseRing: 'pulseRing 1.6s cubic-bezier(0.4,0,0.6,1) infinite',
         marquee: 'marquee 30s linear infinite',
+        float: 'float 5s ease-in-out infinite',
       },
     },
   },

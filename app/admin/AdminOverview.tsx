@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Users, Package, ShoppingBag, DollarSign, AlertTriangle, Store } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import AdminLayout from './AdminLayout';
+import AnimatedNumber from '@/components/AnimatedNumber';
 
 export default function AdminOverview() {
   const [stats, setStats] = useState<any>(null);
@@ -20,14 +21,15 @@ export default function AdminOverview() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold mb-4">Overview</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-        <Tile icon={Users} label="Users" value={stats.users} color="bg-amazon-navylight/10 text-amazon-navylight" />
-        <Tile icon={Store} label="Pending sellers" value={stats.pendingSellers} color="bg-amazon-orange/10 text-amazon-orange" link="/admin/sellers" />
-        <Tile icon={Package} label="Products" value={stats.products} color="bg-amazon-green/10 text-amazon-greenDark" link="/admin/products" />
-        <Tile icon={ShoppingBag} label="Orders" value={stats.orders} color="bg-amazon-prime/10 text-amazon-prime" />
+      <div className="section-kicker">Platform pulse</div>
+      <h1 className="mb-4 mt-1 text-3xl font-black tracking-tight">Overview</h1>
+      <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+        <Tile icon={Users} label="Users" value={<AnimatedNumber value={stats.users} />} color="bg-amazon-navylight/10 text-amazon-navylight" />
+        <Tile icon={Store} label="Pending sellers" value={<AnimatedNumber value={stats.pendingSellers} />} color="bg-amazon-orange/10 text-amazon-orange" link="/admin/sellers" />
+        <Tile icon={Package} label="Products" value={<AnimatedNumber value={stats.products} />} color="bg-amazon-green/10 text-amazon-greenDark" link="/admin/products" />
+        <Tile icon={ShoppingBag} label="Orders" value={<AnimatedNumber value={stats.orders} />} color="bg-amazon-prime/10 text-amazon-prime" />
         <Tile icon={DollarSign} label="Revenue" value={formatPrice(stats.revenue)} color="bg-amazon-yellow/20 text-amazon-text" />
-        <Tile icon={AlertTriangle} label="Low stock" value={stats.lowStock} color="bg-amazon-deal/10 text-amazon-deal" />
+        <Tile icon={AlertTriangle} label="Low stock" value={<AnimatedNumber value={stats.lowStock} />} color="bg-amazon-deal/10 text-amazon-deal" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

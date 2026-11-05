@@ -61,10 +61,10 @@ export default function CategoryView({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
-      <aside className="space-y-4">
+      <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
         <div className="panel p-4">
-          <h3 className="font-bold mb-2">Department</h3>
-          <div className="text-sm font-medium">{title}</div>
+          <div className="section-kicker">Collection</div>
+          <h3 className="mt-1 font-black">{title}</h3>
         </div>
 
         <div className="panel p-4 space-y-2">
@@ -169,8 +169,9 @@ export default function CategoryView({
       </aside>
 
       <div>
-        <div className="panel p-4 mb-3">
-          <h1 className="text-2xl mb-1">{title}</h1>
+        <div className="panel mb-3 p-5">
+          <div className="section-kicker">Curated collection</div>
+          <h1 className="mb-1 mt-1 text-2xl font-black">{title}</h1>
           <div className="text-sm text-amazon-textMuted">
             {products.length.toLocaleString()} result{products.length !== 1 ? 's' : ''}
           </div>

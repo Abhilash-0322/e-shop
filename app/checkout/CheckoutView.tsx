@@ -71,7 +71,7 @@ export default function CheckoutView({
 
   if (!hydrated) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-6">
+      <div className="page-shell">
         <div className="shimmer-bg h-40 rounded-md" />
       </div>
     );
@@ -79,8 +79,8 @@ export default function CheckoutView({
 
   if (items.length === 0 && !placed) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
+      <div className="page-shell">
+        <div className="bento-card p-8 text-center">
           <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
           <Link href="/" className="amazon-link">Continue shopping</Link>
         </div>
@@ -147,8 +147,8 @@ export default function CheckoutView({
 
   if (placed) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center animate-fadeIn">
+      <div className="page-shell">
+        <div className="bento-card animate-fadeIn p-8 text-center">
           <div className="w-16 h-16 mx-auto bg-amazon-green/10 rounded-full flex items-center justify-center mb-4 animate-pulseRing">
             <Check className="w-8 h-8 text-amazon-greenDark" />
           </div>
@@ -178,7 +178,7 @@ export default function CheckoutView({
   const total = +(subtotal - couponDiscount + shipping + giftWrapFee + tax).toFixed(2);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
+    <div className="page-shell">
       <div className="flex items-center justify-between mb-4">
         <Link href="/" className="text-2xl font-extrabold text-amazon-navy">
           halo<span className="text-amazon-orange">zon</span>
@@ -501,7 +501,7 @@ export default function CheckoutView({
         </div>
 
         <aside className="lg:sticky lg:top-32 self-start">
-          <div className="panel p-4">
+          <div className="sticky-action-surface">
             <button onClick={placeOrder} disabled={submitting || step < 3} className="amazon-btn-yellow w-full !text-base !py-2.5 mb-3 disabled:opacity-60">
               {submitting ? 'Placing...' : 'Place your order'}
             </button>

@@ -4,6 +4,7 @@ import { TrendingUp, Package, ShoppingBag, DollarSign, ArrowUpRight, Plus, Spark
 import { formatPrice } from '@/lib/utils';
 import SellerLayout from '../SellerLayout';
 import Sparkline from '@/components/Sparkline';
+import AnimatedNumber from '@/components/AnimatedNumber';
 
 export default function SellerDashboard({
   user,
@@ -20,10 +21,11 @@ export default function SellerDashboard({
 }) {
   return (
     <SellerLayout user={user}>
-      <div className="mb-6 flex justify-between items-start flex-wrap gap-3">
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
-          <p className="text-sm text-amazon-textMuted">Here&apos;s how your store is doing today.</p>
+          <div className="section-kicker">Seller command center</div>
+          <h1 className="mt-1 text-3xl font-black tracking-tight">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
+          <p className="mt-1 text-sm text-amazon-textMuted">Here&apos;s how your store is doing today.</p>
         </div>
         <div className="flex gap-2">
           <Link href="/seller/products/new" className="amazon-btn-yellow !text-sm">
@@ -36,7 +38,7 @@ export default function SellerDashboard({
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard
           icon={DollarSign}
           label="Revenue"
@@ -46,26 +48,26 @@ export default function SellerDashboard({
         <StatCard
           icon={TrendingUp}
           label="Units sold"
-          value={metrics.unitsSold.toLocaleString()}
+          value={<AnimatedNumber value={metrics.unitsSold} />}
           tone="green"
         />
         <StatCard
           icon={ShoppingBag}
           label="Orders"
-          value={metrics.orderCount.toLocaleString()}
+          value={<AnimatedNumber value={metrics.orderCount} />}
           tone="navy"
         />
         <StatCard
           icon={Package}
           label="Active products"
-          value={metrics.productCount.toLocaleString()}
+          value={<AnimatedNumber value={metrics.productCount} />}
           tone="yellow"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         {/* Sales chart */}
-        <div className="panel p-4 lg:col-span-2">
+        <div className="panel p-5 lg:col-span-2">
           <div className="flex justify-between items-center mb-3">
             <div>
               <h2 className="text-lg font-bold">Last 7 days</h2>
@@ -81,7 +83,7 @@ export default function SellerDashboard({
 
         {/* Top products */}
         <div className="panel p-4">
-          <h2 className="text-lg font-bold mb-3">Top sellers</h2>
+          <div className="section-kicker">Velocity</div><h2 className="mb-3 text-lg font-black">Top sellers</h2>
           <div className="space-y-2">
             {topProducts.length === 0 ? (
               <p className="text-sm text-amazon-textMuted text-center py-4">No products yet</p>
@@ -104,7 +106,7 @@ export default function SellerDashboard({
       </div>
 
       {/* Recent orders */}
-      <div className="panel p-4">
+      <div className="panel overflow-hidden p-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-bold">Recent orders</h2>
           <Link href="/seller/orders" className="text-sm text-amazon-link hover:underline">
@@ -117,8 +119,8 @@ export default function SellerDashboard({
             <p>No orders yet. Once customers buy your products, they&apos;ll appear here.</p>
           </div>
         ) : (
-          <table className="w-full text-sm">
-            <thead className="border-b border-amazon-border text-left text-xs text-amazon-textMuted">
+          <table className="data-table">
+            <thead>
               <tr>
                 <th className="py-2">Order</th>
                 <th>Date</th>

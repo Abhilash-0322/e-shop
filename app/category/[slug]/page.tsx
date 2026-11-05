@@ -83,7 +83,7 @@ export default async function CategoryPage({
           { name: title, href: `/category/${cat?.slug || params.slug}` },
         ])}
       />
-      <div className="max-w-screen-xl mx-auto px-4 py-4">
+      <div className="page-shell">
         <div className="text-xs text-amazon-textMuted mb-3">
           <Link href="/" className="amazon-link">Home</Link>
           <span className="mx-1">›</span>

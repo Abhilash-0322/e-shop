@@ -55,28 +55,30 @@ const COLS: { title: string; items: Item[] }[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
+    <footer className="mt-16">
       {/* Back to top */}
       <button
         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white text-sm py-3 transition-colors flex items-center justify-center gap-1"
+        className="flex w-full items-center justify-center gap-2 border-y border-white/10 bg-[#1a1b29] py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/75 transition-colors hover:bg-[#24263a] hover:text-white"
         aria-label="Back to top"
       >
-        <ChevronUp className="w-4 h-4" /> Back to top
+        <ChevronUp className="h-4 w-4 text-amazon-orange" /> Back to top
       </button>
 
       {/* Main 4-col */}
-      <div className="bg-amazon-navy text-white text-sm">
-        <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="bg-amazon-navy text-white">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-6 py-12 text-sm md:grid-cols-4">
           {COLS.map((col) => (
             <div key={col.title}>
-              <h3 className="font-bold mb-3 text-white">{col.title}</h3>
-              <ul className="space-y-1.5 text-white/80">
+              <h3 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white">
+                <span className="h-1.5 w-1.5 rounded-full bg-amazon-orange" />{col.title}
+              </h3>
+              <ul className="space-y-2 text-white/55">
                 {col.items.map((it) => (
                   <li key={it.href + it.label}>
                     <Link
                       href={it.href}
-                      className="hover:underline text-white/80 hover:text-white transition-colors"
+                      className="transition-colors hover:text-amazon-orange"
                     >
                       {it.label}
                     </Link>
@@ -88,26 +90,26 @@ export default function Footer() {
         </div>
 
         {/* Logo divider */}
-        <div className="border-t border-white/10 py-6 flex flex-col items-center gap-4">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-5 border-t border-white/10 px-6 py-8">
           <Link href="/" className="flex items-end" aria-label="halozon home">
-            <span className="text-2xl font-extrabold leading-none">halo</span>
-            <span className="text-2xl font-extrabold leading-none text-amazon-orange">zon</span>
+            <span className="text-3xl font-black leading-none tracking-[-0.08em]">halo</span>
+            <span className="text-3xl font-black leading-none tracking-[-0.08em] text-amazon-orange">zon</span>
             <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
           </Link>
-          <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white flex items-center gap-1">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs">
+            <button className="flex items-center gap-1 rounded-full border border-white/20 px-4 py-2 text-white/70 transition-colors hover:border-white/60 hover:text-white">
               <Globe className="w-3 h-3" /> English
             </button>
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white">$ USD - U.S. Dollar</button>
-            <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white">🇺🇸 United States</button>
+            <button className="rounded-full border border-white/20 px-4 py-2 text-white/70 transition-colors hover:border-white/60 hover:text-white">$ USD · U.S. Dollar</button>
+            <button className="rounded-full border border-white/20 px-4 py-2 text-white/70 transition-colors hover:border-white/60 hover:text-white">United States</button>
           </div>
         </div>
       </div>
 
       {/* Bottom strip */}
-      <div className="bg-amazon-navy/95 text-white/70 text-xs">
-        <div className="max-w-screen-xl mx-auto px-6 py-6">
-          <ul className="flex flex-wrap gap-x-6 gap-y-2 mb-3">
+      <div className="bg-[#0b0c11] text-xs text-white/45">
+        <div className="mx-auto max-w-[1440px] px-6 py-6">
+          <ul className="mb-3 flex flex-wrap gap-x-6 gap-y-2">
             <li><Link href="/conditions" className="hover:underline">Conditions of Use</Link></li>
             <li><Link href="/privacy" className="hover:underline">Privacy Notice</Link></li>
             <li><Link href="/interest-based-ads" className="hover:underline">Interest-Based Ads</Link></li>

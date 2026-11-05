@@ -33,7 +33,7 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
     <div>
       {/* Hero */}
       <div className={`bg-gradient-to-br ${heroBg} text-white`}>
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24 text-center">
+        <div className="page-shell !py-16 text-center md:!py-24">
           {page.hero.eyebrow && (
             <div className="text-xs uppercase tracking-widest text-white/70 mb-3 font-semibold">
               {page.hero.eyebrow}
@@ -51,7 +51,7 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
+      <div className="page-shell grid grid-cols-1 gap-8 lg:grid-cols-[1fr_280px]">
         {/* Body */}
         <div className="space-y-6 text-amazon-text">
           {page.body.map((block, i) => (

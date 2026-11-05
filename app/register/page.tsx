@@ -34,12 +34,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
+    <div className="flex min-h-[80vh] flex-col items-center bg-gradient-to-br from-amazon-bg via-white to-[#e8e5ff] px-4 py-10">
+      <Link href="/" className="mb-5 text-3xl font-black tracking-[-0.08em] text-amazon-navy">
         halo<span className="text-amazon-orange">zon</span>
       </Link>
-      <form onSubmit={submit} className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card space-y-3">
-        <h1 className="text-2xl font-medium">Create account</h1>
+      <form onSubmit={submit} className="w-full max-w-sm space-y-3 rounded-3xl border border-white/80 bg-white/90 p-6 shadow-card backdrop-blur-xl">
+        <div className="section-kicker">Join the orbit</div>
+        <h1 className="text-2xl font-black tracking-tight">Create account</h1>
         <label className="block">
           <span className="text-sm font-bold block mb-1">Your name</span>
           <input

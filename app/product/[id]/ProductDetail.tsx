@@ -87,7 +87,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
+    <div className="page-shell">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <ChevronRight className="w-3 h-3 inline mx-1" />

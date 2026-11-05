@@ -26,7 +26,7 @@ export default async function SearchPage({
     : [];
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
+    <div className="page-shell">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <span className="mx-1">›</span>
@@ -34,8 +34,9 @@ export default async function SearchPage({
       </div>
 
       {q ? (
-        <div className="panel p-4 mb-3">
-          <div className="text-sm">{products.length.toLocaleString()} results for <span className="font-bold">&ldquo;{q}&rdquo;</span></div>
+        <div className="panel mb-3 p-5">
+          <div className="section-kicker">Discovery results</div>
+          <div className="mt-1 text-sm">{products.length.toLocaleString()} results for <span className="font-bold">&ldquo;{q}&rdquo;</span></div>
         </div>
       ) : (
         <div className="panel p-6 text-center text-amazon-textMuted">Type in the search bar to find products.</div>

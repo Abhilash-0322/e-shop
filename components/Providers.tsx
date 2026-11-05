@@ -9,9 +9,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         position="bottom-center"
         toastOptions={{
           style: {
-            background: '#131921',
+            background: '#11121A',
             color: '#fff',
-            borderRadius: 8,
+            border: '1px solid rgba(216, 255, 62, .22)',
+            borderRadius: 16,
             fontSize: 14,
           },
         }}

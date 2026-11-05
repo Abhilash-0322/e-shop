@@ -10,7 +10,7 @@ export default async function DealsPage() {
   await connectDB();
   const deals = serialize(await Product.find({ isDeal: true }).sort({ sold: -1 }).limit(40).select('-reviews -description').lean()) as any;
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
+    <div className="page-shell">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <span className="mx-1">›</span>

@@ -4,70 +4,168 @@
 
 :root {
   color-scheme: light;
+  --ink: #11121a;
+  --ink-soft: #667085;
+  --canvas: #f4f6f8;
+  --surface: rgba(255, 255, 255, 0.82);
+  --line: rgba(17, 18, 26, 0.1);
+  --lime: #d8ff3e;
+  --violet: #7c5cff;
+  --cyan: #34d6de;
+  --pink: #ff5ca8;
 }
 
-html, body {
-  height: 100%;
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  background: #EAEDED;
-  color: #0F1111;
-  font-family: "Amazon Ember", Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(216, 255, 62, 0.12), transparent 25rem),
+    radial-gradient(circle at 94% 14%, rgba(124, 92, 255, 0.13), transparent 30rem),
+    var(--canvas);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
-/* Selection */
-::selection { background: #FFD814; color: #0F1111; }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9ced8;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--ink);
+}
 
 @layer components {
   .amazon-link {
-    @apply text-amazon-link hover:text-amazon-linkHover hover:underline cursor-pointer transition-colors;
+    @apply text-amazon-link hover:text-amazon-linkHover cursor-pointer transition-colors;
   }
+
   .amazon-btn-yellow {
-    @apply bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-text text-sm font-medium rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-text text-sm font-semibold rounded-xl px-4 py-2.5 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
+
   .amazon-btn-orange {
-    @apply bg-amazon-buy hover:bg-amazon-buyHover text-amazon-text text-sm font-medium rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-buy hover:bg-amazon-buyHover text-amazon-text text-sm font-semibold rounded-xl px-4 py-2.5 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
+
   .amazon-btn-primary {
-    @apply bg-amazon-orange hover:bg-amazon-orangelight text-amazon-navy text-sm font-semibold rounded-md px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-orange hover:bg-amazon-orangelight text-amazon-navy text-sm font-semibold rounded-xl px-4 py-2.5 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
+
   .amazon-btn-dark {
-    @apply bg-amazon-navy hover:bg-amazon-navylight text-white text-sm font-medium rounded-md px-4 py-2 transition-all;
+    @apply bg-amazon-navy hover:bg-amazon-navylight text-white text-sm font-semibold rounded-xl px-4 py-2.5 transition-all;
   }
+
   .amazon-input {
-    @apply w-full px-3 py-2 border border-amazon-borderDark rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-amazon-orange focus:border-amazon-orange transition-shadow;
+    @apply w-full px-3 py-2.5 border border-amazon-borderDark rounded-xl text-sm bg-white/80 focus:outline-none focus:ring-2 focus:ring-amazon-orange/30 focus:border-amazon-orange transition-shadow;
   }
+
   .amazon-card {
-    @apply bg-white rounded-md shadow-card overflow-hidden transition-all duration-200;
+    @apply bg-white/90 border border-amazon-border rounded-2xl shadow-card overflow-hidden transition-all duration-200;
   }
+
   .amazon-card-hover {
-    @apply hover:shadow-cardHover hover:-translate-y-0.5;
+    @apply hover:shadow-cardHover hover:-translate-y-1 hover:border-amazon-orange/40;
   }
+
   .panel {
-    @apply bg-white border border-amazon-border rounded-md;
+    @apply bg-white/85 border border-amazon-border rounded-2xl shadow-card;
   }
+
   .chip {
-    @apply inline-flex items-center gap-1 text-xs bg-amazon-bg border border-amazon-border rounded-full px-2 py-0.5;
+    @apply inline-flex items-center gap-1 text-xs bg-amazon-bg border border-amazon-border rounded-full px-2.5 py-1;
   }
+
   .price-strike {
     @apply text-amazon-textMuted text-xs line-through;
   }
+
   .shimmer-bg {
     background: linear-gradient(90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
     background-size: 200% 100%;
   }
+
+  .page-shell {
+    @apply max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8;
+  }
+
+  .section-kicker {
+    @apply text-[11px] uppercase tracking-[0.22em] font-bold text-amazon-textMuted;
+  }
+
+  .bento-card {
+    @apply relative overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/80 shadow-card backdrop-blur-xl;
+  }
+
+  .gradient-border {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(216, 255, 62, 0.7), rgba(124, 92, 255, 0.45), rgba(52, 214, 222, 0.35));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .sticky-action-surface {
+    @apply sticky bottom-4 z-30 rounded-2xl border border-white/80 bg-[#11121a]/95 p-3 text-white shadow-2xl backdrop-blur-xl;
+  }
+
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table thead {
+    @apply border-b border-amazon-border text-left text-[11px] uppercase tracking-[0.12em] text-amazon-textMuted;
+  }
+
+  .data-table tbody tr {
+    @apply border-b border-amazon-border/70 transition-colors hover:bg-amazon-bg/70;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Hide Next dev indicator */
-#__next-build-watcher, nextjs-portal { display: none !important; }
+#__next-build-watcher,
+nextjs-portal {
+  display: none !important;
+}

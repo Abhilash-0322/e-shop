@@ -34,7 +34,8 @@ function SignInForm() {
 
   return (
     <form onSubmit={submit} className="space-y-3">
-      <h1 className="text-3xl font-medium">Sign in</h1>
+      <div className="section-kicker">Welcome back</div>
+      <h1 className="text-3xl font-black tracking-tight">Sign in</h1>
       <label className="block">
         <span className="text-sm font-bold block mb-1">Email or mobile phone number</span>
         <input
@@ -76,17 +77,17 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
+    <div className="flex min-h-[80vh] flex-col items-center bg-gradient-to-br from-amazon-bg via-white to-[#e8e5ff] px-4 py-10">
+      <Link href="/" className="mb-5 text-3xl font-black tracking-[-0.08em] text-amazon-navy">
         halo<span className="text-amazon-orange">zon</span>
       </Link>
-      <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
+      <div className="w-full max-w-sm rounded-3xl border border-white/80 bg-white/90 p-6 shadow-card backdrop-blur-xl">
         <Suspense fallback={<div>Loading…</div>}>
           <SignInForm />
         </Suspense>
       </div>
       <div className="w-full max-w-sm mt-6">
-        <div className="bg-white border border-amazon-border rounded-md p-3 text-center text-xs text-amazon-textMuted">
+        <div className="rounded-2xl border border-white/80 bg-white/70 p-3 text-center text-xs text-amazon-textMuted">
           Buying for work? <span className="amazon-link">Create a free business account</span>
         </div>
       </div>

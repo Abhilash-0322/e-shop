@@ -25,7 +25,7 @@ export default function StoreView({
     <div className="bg-amazon-bg min-h-screen">
       {/* Banner */}
       <div className="bg-gradient-to-r from-amazon-navy via-amazon-navylight to-amazon-orange text-white py-10">
-        <div className="max-w-screen-xl mx-auto px-4 flex items-center gap-4">
+        <div className="page-shell !py-4 flex items-center gap-4">
           <div className="w-20 h-20 bg-white rounded-md flex items-center justify-center">
             <StoreIcon className="w-10 h-10 text-amazon-orange" />
           </div>
@@ -43,7 +43,7 @@ export default function StoreView({
           </div>
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
+      <div className="page-shell grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr]">
         <aside className="panel p-4 self-start">
           <h3 className="font-bold mb-2">About this seller</h3>
           <p className="text-sm text-amazon-text">{store.description}</p>

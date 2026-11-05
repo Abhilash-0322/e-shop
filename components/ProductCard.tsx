@@ -48,11 +48,11 @@ export default function ProductCard({ product, compact }: { product: P; compact?
   return (
     <Link
       href={`/product/${product._id}`}
-      className="amazon-card amazon-card-hover p-3 group flex flex-col h-full relative"
+      className="amazon-card amazon-card-hover group relative flex h-full flex-col p-3"
     >
       {!compact && (
         <label
-          className={`absolute top-1.5 left-1.5 z-10 flex items-center gap-1 text-[10px] bg-white/95 border rounded px-1.5 py-0.5 cursor-pointer transition-all ${
+          className={`absolute left-3 top-3 z-10 flex cursor-pointer items-center gap-1 rounded-full border bg-white/95 px-2 py-1 text-[10px] transition-all ${
             isCompared ? 'border-amazon-orange text-amazon-orange font-medium' : 'border-amazon-border text-amazon-textMuted hover:border-amazon-orange'
           }`}
           onClick={handleCompare}
@@ -66,39 +66,39 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           Compare
         </label>
       )}
-      <div className="relative aspect-square mb-2 bg-white overflow-hidden flex items-center justify-center">
+      <div className="relative mb-3 flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-amazon-bg to-white">
         {product.images?.[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={product.images[0]}
             alt={product.title}
-            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
           <div className="shimmer-bg w-full h-full" />
         )}
         {discount > 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute left-2 top-2 rounded-full bg-amazon-deal px-2 py-1 text-[10px] font-bold text-white">
             -{discount}%
           </span>
         )}
         {product.isDeal && discount === 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute left-2 top-2 rounded-full bg-amazon-deal px-2 py-1 text-[10px] font-bold text-white">
             DEAL
           </span>
         )}
         <button
           onClick={handleWish}
           aria-label="Add to wish list"
-          className={`absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/95 shadow transition-all ${
+          className={`absolute right-2 top-2 rounded-full bg-white/95 p-2 shadow transition-all ${
             isWished ? 'text-amazon-deal scale-110' : 'text-amazon-textMuted hover:text-amazon-deal'
           }`}
         >
           <Heart className={`w-4 h-4 ${isWished ? 'fill-amazon-deal' : ''}`} />
         </button>
         {isLowStock && (
-          <span className="absolute bottom-1 left-1 bg-amazon-deal/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+            <span className="absolute bottom-2 left-2 rounded-full bg-amazon-deal/90 px-2 py-1 text-[10px] font-bold text-white">
             Only {product.stock} left
           </span>
         )}
@@ -108,7 +108,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           <div className="flex items-center gap-1 mb-0.5">
             <div className="flex">
               {stars.map((s, i) => (
-                <span key={i} className="text-amazon-star text-sm leading-none">
+                <span key={i} className="text-amazon-star text-xs leading-none">
                   {s === 'full' ? '★' : s === 'half' ? '★' : '☆'}
                 </span>
               ))}
@@ -116,7 +116,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
             <span className="text-amazon-link text-xs">{(product.ratingCount || 0).toLocaleString()}</span>
           </div>
         ) : null}
-        <div className="text-sm text-amazon-text line-clamp-3 mb-1 group-hover:text-amazon-linkHover transition-colors">
+        <div className="mb-1 line-clamp-3 text-sm text-amazon-text transition-colors group-hover:text-amazon-linkHover">
           {product.title}
         </div>
         <div className="mt-auto">
@@ -136,7 +136,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
               Save {formatPrice((product.listPrice || 0) - product.price)} ({discount}%)
             </div>
           )}
-          {!compact && <div className="chip mt-2 w-fit">FREE delivery</div>}
+          {!compact && <div className="chip mt-2 w-fit border-amazon-green/20 bg-amazon-green/5 text-amazon-greenDark">FREE delivery</div>}
         </div>
       </div>
     </Link>

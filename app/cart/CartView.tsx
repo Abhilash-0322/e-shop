@@ -12,7 +12,7 @@ export default function CartView() {
 
   if (!hydrated) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-6">
+      <div className="page-shell">
         <div className="shimmer-bg h-40 rounded-md" />
       </div>
     );
@@ -20,9 +20,10 @@ export default function CartView() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">Your halozon Cart is empty</h1>
+      <div className="page-shell">
+        <div className="bento-card p-10 text-center">
+          <div className="section-kicker">Your orbit is waiting</div>
+          <h1 className="mb-2 mt-1 text-3xl font-black">Your halozon Cart is empty</h1>
           <Link href="/" className="amazon-link text-sm">
             Shop today&apos;s deals
           </Link>
@@ -36,16 +37,16 @@ export default function CartView() {
   const total = +(subtotal + shipping + tax).toFixed(2);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+    <div className="page-shell">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <div>
-          <div className="bg-white border border-amazon-border rounded-md p-4 mb-3">
+          <div className="bento-card mb-3 p-5">
             <div className="flex items-end justify-between">
-              <h1 className="text-3xl font-bold">Shopping Cart</h1>
+              <div><div className="section-kicker">Ready when you are</div><h1 className="mt-1 text-3xl font-black">Shopping Cart</h1></div>
               <div className="text-sm text-amazon-textMuted">Price</div>
             </div>
           </div>
-          <div className="bg-white border border-amazon-border rounded-md divide-y divide-amazon-border">
+          <div className="bento-card divide-y divide-amazon-border">
             {items.map((it) => (
               <div key={it.productId} className="p-4 flex gap-4">
                 <Link href={`/product/${it.productId}`} className="w-32 h-32 shrink-0 bg-white flex items-center justify-center">
@@ -84,7 +85,7 @@ export default function CartView() {
               </div>
             ))}
           </div>
-          <div className="bg-white border border-amazon-border rounded-md p-3 mt-3 text-right">
+          <div className="bento-card mt-3 p-4 text-right">
             <span className="text-lg">
               Subtotal ({count} item{count > 1 ? 's' : ''}):{' '}
               <span className="font-bold">{formatPrice(subtotal)}</span>
@@ -93,7 +94,7 @@ export default function CartView() {
         </div>
 
         <aside className="lg:sticky lg:top-32 self-start space-y-3">
-          <div className="panel p-4">
+          <div className="sticky-action-surface">
             {shipping === 0 ? (
               <div className="text-sm text-amazon-greenDark mb-2">
                 ✓ Your order qualifies for FREE shipping

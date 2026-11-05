@@ -13,7 +13,7 @@ const TOPICS = [
 
 export default function HelpPage() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-6">
+    <div className="page-shell">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <span className="mx-1">›</span>
