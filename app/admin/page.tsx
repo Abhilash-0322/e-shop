@@ -1,1 +1,46 @@
-'use client';import {useEffect,useState} from 'react';export default function Admin(){const [d,setD]=useState<any>();useEffect(()=>{fetch('/api/admin/stats').then(r=>r.json()).then(setD)},[]);return <div><p className="eyebrow">Operations</p><h1 className="page-title mt-2">Platform overview</h1><div className="grid sm:grid-cols-3 gap-4 mt-8">{[['Users',d?.users],['Products',d?.products],['Orders',d?.orders],['Revenue',d?.revenue],['Pending sellers',d?.pendingSellers],['Low stock',d?.lowStock]].map(([l,v])=><div className="surface p-5" key={l as string}><p className="muted text-sm">{l}</p><b className="text-2xl mt-2 block">{l==='Revenue'?`$${Number(v||0).toFixed(2)}`:v??'—'}</b></div>)}</div></div>}
+'use client';
+
+import {useEffect, useState} from 'react';
+
+export default function Admin() {
+  const [data, setData] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/admin/stats', {signal: controller.signal})
+      .then((response) => response.json())
+      .then((value) => {
+        if (!controller.signal.aborted) setData(value);
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, []);
+
+  const metrics = [
+    ['Users', data?.users],
+    ['Products', data?.products],
+    ['Orders', data?.orders],
+    ['Revenue', data?.revenue],
+    ['Pending sellers', data?.pendingSellers],
+    ['Low stock', data?.lowStock],
+  ];
+
+  return (
+    <div>
+      <p className="eyebrow">Operations</p>
+      <h1 className="page-title mt-2">Platform overview</h1>
+      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        {metrics.map(([label, value]) => (
+          <div className="surface p-5" key={label as string}>
+            <p className="muted text-sm">{label}</p>
+            {loading ? <div className="skeleton mt-3 h-8 w-20" /> : <b className="mt-2 block text-2xl">{label === 'Revenue' ? `$${Number(value || 0).toFixed(2)}` : value ?? '—'}</b>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
