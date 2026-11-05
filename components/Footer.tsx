@@ -55,22 +55,22 @@ const COLS: { title: string; items: Item[] }[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
+    <footer className="mt-16 border-t border-amazon-border">
       {/* Back to top */}
       <button
         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white text-sm py-3 transition-colors flex items-center justify-center gap-1"
+        className="w-full bg-amazon-navylight/80 hover:bg-amazon-navylight text-white text-[11px] uppercase tracking-[.18em] py-4 transition-colors flex items-center justify-center gap-1"
         aria-label="Back to top"
       >
         <ChevronUp className="w-4 h-4" /> Back to top
       </button>
 
       {/* Main 4-col */}
-      <div className="bg-amazon-navy text-white text-sm">
-        <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="bg-amazon-navy text-white text-sm scanline">
+        <div className="max-w-screen-xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
           {COLS.map((col) => (
             <div key={col.title}>
-              <h3 className="font-bold mb-3 text-white">{col.title}</h3>
+              <h3 className="status-kicker mb-3">{col.title}</h3>
               <ul className="space-y-1.5 text-white/80">
                 {col.items.map((it) => (
                   <li key={it.href + it.label}>
@@ -88,11 +88,9 @@ export default function Footer() {
         </div>
 
         {/* Logo divider */}
-        <div className="border-t border-white/10 py-6 flex flex-col items-center gap-4">
+        <div className="border-t border-white/10 py-8 flex flex-col items-center gap-4">
           <Link href="/" className="flex items-end" aria-label="halozon home">
-            <span className="text-2xl font-extrabold leading-none">halo</span>
-            <span className="text-2xl font-extrabold leading-none text-amazon-orange">zon</span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
+            <span className="text-2xl font-black leading-none">hal<span className="text-amazon-orange">ozon</span></span>
           </Link>
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
             <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white flex items-center gap-1">
@@ -105,7 +103,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom strip */}
-      <div className="bg-amazon-navy/95 text-white/70 text-xs">
+      <div className="bg-amazon-navy text-white/50 text-xs">
         <div className="max-w-screen-xl mx-auto px-6 py-6">
           <ul className="flex flex-wrap gap-x-6 gap-y-2 mb-3">
             <li><Link href="/conditions" className="hover:underline">Conditions of Use</Link></li>
@@ -113,7 +111,7 @@ export default function Footer() {
             <li><Link href="/interest-based-ads" className="hover:underline">Interest-Based Ads</Link></li>
             <li><Link href="/help" className="hover:underline">Help</Link></li>
           </ul>
-          <div>© 1996-2026, halozon.com, Inc. or its affiliates. Built with care for a beautiful shopping experience.</div>
+          <div>© 2026 halozon network. Built for high-signal commerce.</div>
         </div>
       </div>
     </footer>

@@ -21,8 +21,9 @@ export default function CartView() {
   if (items.length === 0) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">Your halozon Cart is empty</h1>
+        <div className="panel p-10 text-center">
+          <div className="status-kicker mb-2">cart node / idle</div>
+          <h1 className="text-3xl font-black mb-2">Your cart is empty</h1>
           <Link href="/" className="amazon-link text-sm">
             Shop today&apos;s deals
           </Link>
@@ -39,16 +40,16 @@ export default function CartView() {
     <div className="max-w-screen-xl mx-auto px-4 py-4">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
         <div>
-          <div className="bg-white border border-amazon-border rounded-md p-4 mb-3">
+          <div className="panel p-4 mb-3 border-l-2 border-l-amazon-orange">
             <div className="flex items-end justify-between">
-              <h1 className="text-3xl font-bold">Shopping Cart</h1>
+              <div><div className="status-kicker mb-1">cart node</div><h1 className="text-3xl font-black">Shopping cart</h1></div>
               <div className="text-sm text-amazon-textMuted">Price</div>
             </div>
           </div>
-          <div className="bg-white border border-amazon-border rounded-md divide-y divide-amazon-border">
+          <div className="panel divide-y divide-amazon-border">
             {items.map((it) => (
               <div key={it.productId} className="p-4 flex gap-4">
-                <Link href={`/product/${it.productId}`} className="w-32 h-32 shrink-0 bg-white flex items-center justify-center">
+                <Link href={`/product/${it.productId}`} className="w-32 h-32 shrink-0 bg-amazon-navy rounded border border-amazon-border flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={it.image} alt={it.title} className="max-w-full max-h-full object-contain" />
                 </Link>
@@ -84,7 +85,7 @@ export default function CartView() {
               </div>
             ))}
           </div>
-          <div className="bg-white border border-amazon-border rounded-md p-3 mt-3 text-right">
+          <div className="panel p-3 mt-3 text-right">
             <span className="text-lg">
               Subtotal ({count} item{count > 1 ? 's' : ''}):{' '}
               <span className="font-bold">{formatPrice(subtotal)}</span>

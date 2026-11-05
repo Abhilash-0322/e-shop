@@ -7,39 +7,33 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Authentic Amazon palette
+        // Cyber-clean signal palette. Legacy amazon-* class names are retained
+        // so the existing shopping, auth, seller, and admin contracts stay intact.
         amazon: {
-          // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
-          // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
-          // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
-          // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
-          // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
-          // States
-          deal: '#CC0C39',
-          prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
-          red: '#B12704',
-          // Stars
-          star: '#FFA41C',
+          navy: '#05070b',
+          navylight: '#0c111a',
+          navyxlight: '#172231',
+          orange: '#55f3ff',
+          orangelight: '#9bfbff',
+          orangedark: '#14b8c8',
+          yellow: '#55f3ff',
+          yellowHover: '#9bfbff',
+          buy: '#9a7cff',
+          buyHover: '#b7a4ff',
+          bg: '#070a10',
+          panel: '#0c111a',
+          border: '#253244',
+          borderDark: '#3b4d63',
+          text: '#f2f5f7',
+          textMuted: '#8e9aaa',
+          link: '#55f3ff',
+          linkHover: '#b7a4ff',
+          deal: '#ff5d8f',
+          prime: '#55f3ff',
+          green: '#52e0ae',
+          greenDark: '#52e0ae',
+          red: '#ff789c',
+          star: '#f5d76e',
         },
       },
       fontFamily: {

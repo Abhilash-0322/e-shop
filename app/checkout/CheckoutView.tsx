@@ -80,7 +80,7 @@ export default function CheckoutView({
   if (items.length === 0 && !placed) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
+        <div className="panel p-8 text-center">
           <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
           <Link href="/" className="amazon-link">Continue shopping</Link>
         </div>
@@ -148,7 +148,7 @@ export default function CheckoutView({
   if (placed) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center animate-fadeIn">
+        <div className="panel p-8 text-center animate-fadeIn">
           <div className="w-16 h-16 mx-auto bg-amazon-green/10 rounded-full flex items-center justify-center mb-4 animate-pulseRing">
             <Check className="w-8 h-8 text-amazon-greenDark" />
           </div>
@@ -180,10 +180,10 @@ export default function CheckoutView({
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-4">
       <div className="flex items-center justify-between mb-4">
-        <Link href="/" className="text-2xl font-extrabold text-amazon-navy">
-          halo<span className="text-amazon-orange">zon</span>
+        <Link href="/" className="text-2xl font-black text-white">
+          hal<span className="text-amazon-orange">ozon</span>
         </Link>
-        <div className="text-sm text-amazon-textMuted flex items-center gap-1">
+        <div className="status-kicker flex items-center gap-1">
           <Lock className="w-4 h-4" /> Secure checkout
         </div>
       </div>

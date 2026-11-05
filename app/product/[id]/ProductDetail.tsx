@@ -87,8 +87,8 @@ export default function ProductDetail({ product, related }: { product: P; relate
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
-      <div className="text-xs text-amazon-textMuted mb-3">
+    <div className="max-w-screen-xl mx-auto px-4 py-8">
+      <div className="text-xs text-amazon-textMuted mb-4 uppercase tracking-wider">
         <Link href="/" className="amazon-link">Home</Link>
         <ChevronRight className="w-3 h-3 inline mx-1" />
         {product.categorySlug ? (
@@ -109,7 +109,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`w-12 h-12 border-2 rounded-md overflow-hidden flex items-center justify-center bg-white ${
+                  className={`w-12 h-12 border-2 rounded-md overflow-hidden flex items-center justify-center bg-amazon-panel ${
                     active === i ? 'border-amazon-orange' : 'border-amazon-border hover:border-amazon-orange'
                   }`}
                 >
@@ -120,7 +120,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
             </div>
             <button
               onClick={() => setZoomOpen(true)}
-              className="flex-1 aspect-square bg-white border border-amazon-border rounded-md flex items-center justify-center overflow-hidden group relative cursor-zoom-in"
+              className="flex-1 aspect-square bg-amazon-panel border border-amazon-border rounded-md flex items-center justify-center overflow-hidden group relative cursor-zoom-in"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -137,7 +137,8 @@ export default function ProductDetail({ product, related }: { product: P; relate
 
         {/* Center info */}
         <div className="space-y-3">
-          <h1 className="text-2xl md:text-3xl font-medium leading-tight">{product.title}</h1>
+          <div className="status-kicker mb-2">product node / verified listing</div>
+          <h1 className="text-2xl md:text-4xl font-black leading-tight tracking-tight">{product.title}</h1>
           <Link href="#reviews" className="text-sm amazon-link">
             Visit the {product.brand || 'halozon'} Store
           </Link>
@@ -262,7 +263,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
 
         {/* Buy box */}
         <div className="lg:sticky lg:top-32 self-start">
-          <div className="panel p-4 space-y-3">
+          <div className="panel p-4 space-y-3 border-t-2 border-t-amazon-orange">
             <div className="text-2xl font-medium">
               {formatPrice(product.price)}
               <div className="text-sm text-amazon-link">FREE Returns</div>

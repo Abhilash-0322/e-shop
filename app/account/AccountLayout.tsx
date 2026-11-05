@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Activity, UserRound } from 'lucide-react';
 
 const TABS = [
   { href: '/account', label: 'Your Account' },
@@ -17,17 +18,21 @@ const TABS = [
 export default function AccountLayout({ user, children }: { user: { name: string; email: string }; children: React.ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
-      <aside className="space-y-2">
-        <div className="bg-white border border-amazon-border rounded-md p-4">
-          <div className="font-bold text-lg mb-1">Hello, {user.name}</div>
-          <nav className="mt-2 space-y-1">
+    <div className="max-w-screen-xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+      <aside className="space-y-3">
+        <div className="panel p-4">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-amazon-orange/15 grid place-items-center text-amazon-orange"><UserRound className="w-5 h-5" /></div>
+            <div><div className="status-kicker">Identity node</div><div className="font-bold">{user.name}</div></div>
+          </div>
+          <div className="flex items-center gap-2 text-[11px] text-amazon-green mb-4"><Activity className="w-3 h-3" /> account secure · synced</div>
+          <nav className="space-y-1">
             {TABS.map((t) => (
               <Link
                 key={t.href}
                 href={t.href}
                 className={`block px-2 py-1.5 rounded text-sm ${
-                  pathname === t.href ? 'bg-amazon-orange/10 text-amazon-linkHover font-medium' : 'text-amazon-link hover:bg-amazon-bg'
+                  pathname === t.href ? 'bg-amazon-orange/10 text-amazon-orange font-medium border-l-2 border-amazon-orange' : 'text-amazon-textMuted hover:bg-amazon-bg hover:text-white'
                 }`}
               >
                 {t.label}

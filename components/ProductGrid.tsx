@@ -28,9 +28,10 @@ export default function ProductGrid({
   return (
     <section className="mb-6">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="panel p-4 mb-3 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
+            <div className="status-kicker mb-1">market feed</div>
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
             {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
@@ -42,14 +43,14 @@ export default function ProductGrid({
         <button
           onClick={() => scroll('l')}
           aria-label="Scroll left"
-          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-amazon-panel border border-amazon-border shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => scroll('r')}
           aria-label="Scroll right"
-          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-amazon-panel border border-amazon-border shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronRight className="w-5 h-5" />
         </button>

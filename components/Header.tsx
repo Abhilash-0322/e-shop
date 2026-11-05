@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, MapPin, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, MapPin, ShoppingCart, Menu, X, ChevronDown, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
 
@@ -52,20 +52,19 @@ export default function Header({ user }: { user: User }) {
   return (
     <header className="sticky top-0 z-50">
       {/* Top nav */}
-      <nav className="bg-amazon-navy text-white text-sm">
-        <div className="px-2 py-1.5 flex items-center gap-1">
+      <nav className="bg-amazon-navy/95 backdrop-blur-xl text-white text-sm border-b border-amazon-border">
+        <div className="hidden md:flex items-center justify-between px-4 py-1 border-b border-white/5 text-[10px] uppercase tracking-[.18em] text-amazon-textMuted">
+          <span className="flex items-center gap-2"><Radio className="w-3 h-3 text-amazon-orange animate-pulse" /> Network status: operational</span>
+          <span>Encrypted commerce layer <span className="text-amazon-green">●</span></span>
+        </div>
+        <div className="px-3 py-2 flex items-center gap-2">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-end border border-transparent hover:border-white px-2 py-1.5 transition-all"
+            className="flex items-center gap-2 border border-transparent hover:border-amazon-orange/50 rounded-md px-2 py-1.5 transition-all"
           >
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-white">
-              halo
-            </span>
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-amazon-orange">
-              zon
-            </span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
+            <span className="grid place-items-center w-8 h-8 rounded-md bg-amazon-orange text-amazon-navy font-black">hz</span>
+            <span className="text-xl font-black tracking-tight leading-none text-white">hal<span className="text-amazon-orange">ozon</span></span>
           </Link>
 
           {/* Deliver to */}
@@ -82,10 +81,10 @@ export default function Header({ user }: { user: User }) {
 
           {/* Search */}
           <form onSubmit={submitSearch} className="flex-1 mx-2">
-            <div className="flex rounded-md overflow-hidden h-10 bg-white">
+            <div className="flex rounded-md overflow-hidden h-10 bg-white/95 ring-1 ring-amazon-orange/20 focus-within:ring-2 focus-within:ring-amazon-orange">
               <select
                 aria-label="Search category"
-                className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
+                className="hidden md:block bg-amazon-panel hover:bg-amazon-bg text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
                 defaultValue=""
               >
                 <option value="">All</option>
@@ -98,7 +97,7 @@ export default function Header({ user }: { user: User }) {
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search halozon"
+                placeholder="Search products, categories, signal..."
                 className="flex-1 px-3 text-amazon-text text-sm outline-none"
               />
               <button
@@ -117,7 +116,7 @@ export default function Header({ user }: { user: User }) {
             onMouseEnter={() => setShowAcc(true)}
             onMouseLeave={() => setShowAcc(false)}
           >
-            <button className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5">
+            <button className="flex flex-col items-start border border-transparent hover:border-amazon-orange/50 rounded-md px-2 py-1.5">
               <span className="text-[11px] text-white/80">
                 {user ? `Hello, ${user.name.split(' ')[0]}` : 'Hello, sign in'}
               </span>
@@ -127,7 +126,7 @@ export default function Header({ user }: { user: User }) {
             </button>
             {showAcc && (
               <div className="absolute right-0 top-full pt-1 w-[480px] z-50 animate-slideDown">
-                <div className="bg-white text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
+                <div className="bg-amazon-panel text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
                   {user ? (
                     <>
                       <div className="col-span-2 flex items-center justify-between border-b border-amazon-border pb-3">
@@ -193,7 +192,7 @@ export default function Header({ user }: { user: User }) {
           {/* Returns */}
           <Link
             href="/account/orders"
-            className="hidden md:flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5"
+            className="hidden md:flex flex-col items-start border border-transparent hover:border-amazon-orange/50 rounded-md px-2 py-1.5"
           >
             <span className="text-[11px] text-white/80">Returns</span>
             <span className="font-bold text-sm">& Orders</span>
@@ -202,7 +201,7 @@ export default function Header({ user }: { user: User }) {
           {/* Cart */}
           <Link
             href="/cart"
-            className="relative flex items-end border border-transparent hover:border-white px-2 py-1.5"
+            className="relative flex items-end border border-transparent hover:border-amazon-orange/50 rounded-md px-2 py-1.5"
           >
             <div className="relative">
               <ShoppingCart className="w-8 h-8" />
@@ -216,13 +215,13 @@ export default function Header({ user }: { user: User }) {
 
         {/* Sub-nav */}
         <div className={cn(
-          "bg-amazon-navylight text-white text-sm transition-shadow",
+          "bg-amazon-navylight/90 text-white text-sm transition-shadow border-t border-white/5",
           scrolled && "shadow-header"
         )}>
           <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
             <button
               onClick={() => setShowCat(true)}
-              className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"
+              className="flex items-center gap-1 border border-transparent hover:border-amazon-orange/50 rounded px-2 py-1.5 font-bold whitespace-nowrap"
             >
               <Menu className="w-4 h-4" /> All
             </button>
@@ -230,20 +229,20 @@ export default function Header({ user }: { user: User }) {
               <Link
                 key={c}
                 href={`/category/${encodeURIComponent(c.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'))}`}
-                className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+                className="border border-transparent hover:border-amazon-orange/50 rounded px-2 py-1.5 whitespace-nowrap"
               >
                 {c}
               </Link>
             ))}
             <Link
               href="/deals"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap font-bold text-amazon-orange"
+              className="border border-transparent hover:border-amazon-orange/50 rounded px-2 py-1.5 whitespace-nowrap font-bold text-amazon-orange"
             >
               Today's Deals
             </Link>
             <Link
               href="/prime"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+              className="border border-transparent hover:border-amazon-orange/50 rounded px-2 py-1.5 whitespace-nowrap"
             >
               Prime
             </Link>
@@ -255,8 +254,8 @@ export default function Header({ user }: { user: User }) {
       {showCat && (
         <div className="fixed inset-0 z-[60] flex">
           <div className="absolute inset-0 bg-black/40" onClick={() => setShowCat(false)} />
-          <aside className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl">
-            <div className="bg-amazon-navylight text-white px-5 py-4 flex items-center justify-between">
+          <aside className="relative bg-amazon-panel w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl border-r border-amazon-border">
+            <div className="bg-amazon-navylight text-white px-5 py-4 flex items-center justify-between border-b border-amazon-border">
               <div className="font-bold text-xl flex items-center gap-2">
                 <Menu className="w-5 h-5" /> Shop by Category
               </div>

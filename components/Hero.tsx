@@ -5,31 +5,31 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const SLIDES = [
   {
-    eyebrow: 'Up to 60% off',
-    title: 'A new era of smart home',
-    sub: 'Discover Echo, Fire TV and Ring devices.',
-    bg: 'from-amazon-navy via-amazon-navylight to-amazon-orange/70',
+    eyebrow: 'Signal 01 · up to 60% off',
+    title: 'The network for better things.',
+    sub: 'Curated hardware, everyday systems, and objects worth keeping.',
+    bg: 'from-[#080c14] via-[#121a2b] to-[#163f4a]',
     cta: { href: '/category/electronics', label: 'Shop Electronics' },
   },
   {
-    eyebrow: 'Today only',
-    title: 'Deals of the Day',
-    sub: 'New deals every hour. Refresh often.',
-    bg: 'from-amazon-orange via-amazon-orangedark to-amazon-buy',
+    eyebrow: 'Signal 02 · live drops',
+    title: 'High-signal deals. Zero noise.',
+    sub: 'Fresh price drops routed to your watchlist every hour.',
+    bg: 'from-[#170d32] via-[#30205c] to-[#111827]',
     cta: { href: '/deals', label: 'See today\u2019s deals' },
   },
   {
-    eyebrow: 'Prime exclusive',
-    title: 'Fast, free delivery',
-    sub: 'On millions of items with Prime.',
-    bg: 'from-amazon-prime via-amazon-navylight to-amazon-navy',
+    eyebrow: 'Signal 03 · priority route',
+    title: 'Move at the speed of now.',
+    sub: 'Fast, free delivery on the products your system already trusts.',
+    bg: 'from-[#072c39] via-[#0d5361] to-[#080c14]',
     cta: { href: '/prime', label: 'Try Prime free' },
   },
   {
-    eyebrow: 'Featured',
-    title: 'Books that inspire',
-    sub: 'Bestsellers, indie gems, and more.',
-    bg: 'from-amazon-navy via-emerald-900 to-amazon-navy',
+    eyebrow: 'Signal 04 · human intelligence',
+    title: 'Ideas are still the ultimate upgrade.',
+    sub: 'Bestsellers, indie gems, and deep reads for curious systems.',
+    bg: 'from-[#120d28] via-[#1e423f] to-[#080c14]',
     cta: { href: '/category/books', label: 'Browse books' },
   },
 ];
@@ -42,27 +42,29 @@ export default function Hero() {
   }, []);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
+    <div className="relative w-full h-[430px] md:h-[540px] overflow-hidden scanline border-b border-amazon-border">
       <div
         key={i}
         className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
       />
       {/* Decorative shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
+        <div className="absolute -top-20 -right-20 w-96 h-96 bg-amazon-orange/15 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-buy/20 rounded-full blur-3xl" />
+        <div className="absolute top-12 right-[15%] w-32 h-32 border border-amazon-orange/30 rotate-45" />
+        <div className="absolute bottom-16 right-[22%] h-px w-48 bg-gradient-to-r from-transparent via-amazon-orange to-transparent" />
       </div>
       <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
-        <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
+        <div className="status-kicker mb-4 animate-fadeIn">
           {s.eyebrow}
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-tight">
+        <h1 className="text-4xl md:text-7xl font-black mb-4 animate-fadeIn max-w-3xl leading-[.98] tracking-[-.04em]">
           {s.title}
         </h1>
-        <p className="text-lg md:text-xl mb-6 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
+        <p className="text-base md:text-lg mb-7 animate-fadeIn max-w-xl text-white/70">{s.sub}</p>
         <Link
           href={s.cta.href}
-          className="amazon-btn-yellow w-fit !text-base !px-6 !py-2.5 animate-fadeIn"
+          className="amazon-btn-yellow w-fit !text-sm !px-6 !py-3 animate-fadeIn"
         >
           {s.cta.label}
         </Link>

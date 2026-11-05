@@ -29,12 +29,17 @@ export default async function Home() {
     <div className="min-h-screen pb-8">
       <Hero />
 
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+      <div className="max-w-screen-xl mx-auto px-4 -mt-24 relative z-10 space-y-8">
+        <div className="panel px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3"><span className="status-kicker">live index</span><span className="text-sm text-amazon-textMuted">Curated signals across 14 departments</span></div>
+          <div className="flex items-center gap-4 text-[11px] text-amazon-textMuted uppercase tracking-wider"><span><b className="text-amazon-green">●</b> trusted sellers</span><span><b className="text-amazon-orange">●</b> secure checkout</span></div>
+        </div>
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {safeCategories.slice(0, 4).map((c: any) => (
               <div key={String(c._id)} className="amazon-card p-4">
+                <div className="status-kicker mb-1">channel {String(c.order || 1).padStart(2, '0')}</div>
                 <h3 className="text-lg font-bold mb-2">{c.name}</h3>
                 <div className="grid grid-cols-2 gap-1">
                   {[0, 1, 2, 3].map((k) => (
@@ -57,15 +62,16 @@ export default async function Home() {
         )}
 
         {/* Deals strip */}
-        <ProductGrid products={safeDeals} title="🔥 Today's Deals" subtitle="Limited time offers" />
+        <ProductGrid products={safeDeals} title="Live signal drops" subtitle="Limited windows · refreshed every hour" />
 
         {/* Featured */}
-        <ProductGrid products={safeFeatured} title="Featured Categories" />
+        <ProductGrid products={safeFeatured} title="Featured nodes" subtitle="Selected for quality, utility, and momentum" />
 
         {/* Two-up promo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="amazon-card p-6 bg-gradient-to-br from-amazon-navy to-amazon-navylight text-white">
-            <h3 className="text-xl font-bold mb-1">Sign in for the best experience</h3>
+            <div className="status-kicker mb-2">personal layer</div>
+            <h3 className="text-xl font-bold mb-1">Tune your signal.</h3>
             <p className="text-sm text-white/80 mb-3">Personalized recommendations, faster checkout, and more.</p>
             <Link href="/signin" className="amazon-btn-yellow inline-block">Sign in securely</Link>
             <div className="text-xs text-white/70 mt-3">
@@ -76,7 +82,8 @@ export default async function Home() {
             </div>
           </div>
           <div className="amazon-card p-6">
-            <h3 className="text-xl font-bold mb-2">Top Sellers</h3>
+            <div className="status-kicker mb-2">market index</div>
+            <h3 className="text-xl font-bold mb-2">Top sellers</h3>
             <p className="text-sm text-amazon-textMuted mb-3">Most-loved items by customers</p>
             <div className="grid grid-cols-2 gap-2">
               {safeBestSellers.slice(0, 4).map((p: any) => (
@@ -88,14 +95,15 @@ export default async function Home() {
             </div>
           </div>
           <div className="amazon-card p-6 bg-gradient-to-br from-amazon-orange/20 to-amazon-orangedark/30">
-            <h3 className="text-xl font-bold mb-1">Try halozon Prime</h3>
+            <div className="status-kicker mb-2">priority route</div>
+            <h3 className="text-xl font-bold mb-1">Move faster with Prime</h3>
             <p className="text-sm text-amazon-textMuted mb-3">Fast, free delivery on millions of items.</p>
             <Link href="/prime" className="amazon-btn-primary inline-block">Try Prime free</Link>
             <div className="text-xs text-amazon-textMuted mt-2">Cancel anytime.</div>
           </div>
         </div>
 
-        <ProductGrid products={safeTopRated} title="Highly Rated" subtitle="Top customer reviews" />
+        <ProductGrid products={safeTopRated} title="High-confidence picks" subtitle="Top customer reviews" />
 
         {/* Categories */}
         {safeCategories.length > 0 && (

@@ -52,7 +52,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
     >
       {!compact && (
         <label
-          className={`absolute top-1.5 left-1.5 z-10 flex items-center gap-1 text-[10px] bg-white/95 border rounded px-1.5 py-0.5 cursor-pointer transition-all ${
+          className={`absolute top-1.5 left-1.5 z-10 flex items-center gap-1 text-[10px] bg-amazon-navy/95 border rounded px-1.5 py-0.5 cursor-pointer transition-all ${
             isCompared ? 'border-amazon-orange text-amazon-orange font-medium' : 'border-amazon-border text-amazon-textMuted hover:border-amazon-orange'
           }`}
           onClick={handleCompare}
@@ -66,7 +66,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           Compare
         </label>
       )}
-      <div className="relative aspect-square mb-2 bg-white overflow-hidden flex items-center justify-center">
+      <div className="relative aspect-square mb-3 bg-amazon-navy overflow-hidden flex items-center justify-center rounded border border-amazon-border/60">
         {product.images?.[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -79,19 +79,19 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           <div className="shimmer-bg w-full h-full" />
         )}
         {discount > 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute top-2 left-2 bg-amazon-deal text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">
             -{discount}%
           </span>
         )}
         {product.isDeal && discount === 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute top-2 left-2 bg-amazon-deal text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded">
             DEAL
           </span>
         )}
         <button
           onClick={handleWish}
           aria-label="Add to wish list"
-          className={`absolute top-1.5 right-1.5 p-1.5 rounded-full bg-white/95 shadow transition-all ${
+          className={`absolute top-1.5 right-1.5 p-1.5 rounded-full bg-amazon-panel/95 shadow transition-all ${
             isWished ? 'text-amazon-deal scale-110' : 'text-amazon-textMuted hover:text-amazon-deal'
           }`}
         >
@@ -121,7 +121,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
         </div>
         <div className="mt-auto">
           <div className="flex items-baseline gap-1.5 flex-wrap">
-            <span className="text-xl font-medium text-amazon-text">
+            <span className="text-xl font-semibold text-white">
               {formatPrice(product.price)}
             </span>
             {product.listPrice && product.listPrice > product.price && (
@@ -129,14 +129,14 @@ export default function ProductCard({ product, compact }: { product: P; compact?
             )}
           </div>
           {product.isPrime && (
-            <div className="text-xs text-amazon-link font-semibold mt-0.5">prime</div>
+            <div className="text-[10px] uppercase tracking-wider text-amazon-link font-bold mt-1">priority route</div>
           )}
           {discount > 0 && (
             <div className="text-xs text-amazon-deal font-medium mt-0.5">
               Save {formatPrice((product.listPrice || 0) - product.price)} ({discount}%)
             </div>
           )}
-          {!compact && <div className="chip mt-2 w-fit">FREE delivery</div>}
+          {!compact && <div className="chip mt-2 w-fit text-[10px] uppercase tracking-wider">free delivery</div>}
         </div>
       </div>
     </Link>

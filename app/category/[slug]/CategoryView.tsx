@@ -63,6 +63,7 @@ export default function CategoryView({
     <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
       <aside className="space-y-4">
         <div className="panel p-4">
+          <div className="status-kicker mb-2">channel control</div>
           <h3 className="font-bold mb-2">Department</h3>
           <div className="text-sm font-medium">{title}</div>
         </div>
@@ -169,8 +170,9 @@ export default function CategoryView({
       </aside>
 
       <div>
-        <div className="panel p-4 mb-3">
-          <h1 className="text-2xl mb-1">{title}</h1>
+        <div className="panel p-5 mb-3 border-l-2 border-l-amazon-orange">
+          <div className="status-kicker mb-2">market channel / {slug}</div>
+          <h1 className="text-3xl font-black tracking-tight mb-1">{title}</h1>
           <div className="text-sm text-amazon-textMuted">
             {products.length.toLocaleString()} result{products.length !== 1 ? 's' : ''}
           </div>
