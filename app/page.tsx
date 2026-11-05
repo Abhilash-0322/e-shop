@@ -26,32 +26,33 @@ export default async function Home() {
   const safeCategories = safe(categories);
 
   return (
-    <div className="min-h-screen pb-8">
+    <div className="min-h-screen pb-12">
       <Hero />
 
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 -mt-16 md:-mt-24 relative z-10 space-y-10">
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {safeCategories.slice(0, 4).map((c: any) => (
-              <div key={String(c._id)} className="amazon-card p-4">
-                <h3 className="text-lg font-bold mb-2">{c.name}</h3>
-                <div className="grid grid-cols-2 gap-1">
+              <Link href={`/category/${c.slug}`} key={String(c._id)} className="amazon-card amazon-card-hover p-4 sm:p-5 group">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base font-bold">{c.name}</h3>
+                  <span className="text-amazon-link group-hover:translate-x-1 transition-transform">↗</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
                   {[0, 1, 2, 3].map((k) => (
-                    <div key={k} className="aspect-square bg-amazon-bg rounded overflow-hidden">
+                    <div key={k} className="aspect-square bg-amazon-bg/80 rounded-xl overflow-hidden">
                       {c.image ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={c.image} alt={c.name} className="w-full h-full object-cover" loading="lazy" />
                       ) : (
-                        <div className="w-full h-full shimmer-bg" />
+                        <div className="w-full h-full shimmer-bg animate-shimmer" />
                       )}
                     </div>
                   ))}
                 </div>
-                <Link href={`/category/${c.slug}`} className="amazon-link text-sm mt-2 inline-block">
-                  Shop now
-                </Link>
-              </div>
+                <div className="text-xs text-amazon-textMuted mt-3">Explore the edit</div>
+              </Link>
             ))}
           </div>
         )}
@@ -64,9 +65,13 @@ export default async function Home() {
 
         {/* Two-up promo */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="amazon-card p-6 bg-gradient-to-br from-amazon-navy to-amazon-navylight text-white">
-            <h3 className="text-xl font-bold mb-1">Sign in for the best experience</h3>
-            <p className="text-sm text-white/80 mb-3">Personalized recommendations, faster checkout, and more.</p>
+          <div className="amazon-card p-6 sm:p-7 bg-gradient-to-br from-amazon-navy to-amazon-navylight text-white md:col-span-2 relative overflow-hidden">
+            <div className="absolute -right-12 -top-12 w-44 h-44 rounded-full border border-white/10" />
+            <div className="absolute right-12 bottom-4 w-20 h-20 rounded-full bg-amazon-orange/20 blur-xl" />
+            <div className="relative">
+            <div className="ocean-kicker !text-amazon-orangelight mb-2">Your orbit awaits</div>
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-2">Make your next find feel personal.</h3>
+            <p className="text-sm text-white/70 mb-5 max-w-md">Sign in for recommendations shaped around your taste, faster checkout, and a little less scrolling.</p>
             <Link href="/signin" className="amazon-btn-yellow inline-block">Sign in securely</Link>
             <div className="text-xs text-white/70 mt-3">
               New customer?{' '}
@@ -74,9 +79,11 @@ export default async function Home() {
                 Start here.
               </Link>
             </div>
+            </div>
           </div>
           <div className="amazon-card p-6">
-            <h3 className="text-xl font-bold mb-2">Top Sellers</h3>
+            <div className="ocean-kicker mb-2">Community picks</div>
+            <h3 className="text-xl font-black mb-1">Top Sellers</h3>
             <p className="text-sm text-amazon-textMuted mb-3">Most-loved items by customers</p>
             <div className="grid grid-cols-2 gap-2">
               {safeBestSellers.slice(0, 4).map((p: any) => (
@@ -88,7 +95,8 @@ export default async function Home() {
             </div>
           </div>
           <div className="amazon-card p-6 bg-gradient-to-br from-amazon-orange/20 to-amazon-orangedark/30">
-            <h3 className="text-xl font-bold mb-1">Try halozon Prime</h3>
+            <div className="ocean-kicker mb-2 !text-amazon-linkHover">Less waiting, more living</div>
+            <h3 className="text-xl font-black mb-1">Try halozon+</h3>
             <p className="text-sm text-amazon-textMuted mb-3">Fast, free delivery on millions of items.</p>
             <Link href="/prime" className="amazon-btn-primary inline-block">Try Prime free</Link>
             <div className="text-xs text-amazon-textMuted mt-2">Cancel anytime.</div>
@@ -99,8 +107,14 @@ export default async function Home() {
 
         {/* Categories */}
         {safeCategories.length > 0 && (
-          <section className="panel p-4">
-            <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
+          <section className="panel p-5 sm:p-6">
+            <div className="flex items-end justify-between mb-4">
+              <div>
+                <div className="ocean-kicker mb-1">Choose your depth</div>
+                <h2 className="text-2xl font-black">Shop by Category</h2>
+              </div>
+              <Link href="/search" className="amazon-link text-sm">View all</Link>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
               {safeCategories.map((c: any) => (
                 <CategoryTile key={String(c._id)} name={c.name} image={c.image} slug={c.slug} />
@@ -116,13 +130,16 @@ export default async function Home() {
         <PersonalizedRow />
 
         {/* Bottom info block */}
-        <div className="bg-white border border-amazon-border rounded-md p-6 mt-8 text-center">
-          <div className="text-xs text-amazon-textMuted mb-2">Personalized recommendations</div>
-          <h3 className="text-2xl font-bold mb-2">See more products for your interests</h3>
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#dff6f5] to-[#fff1e9] border border-white rounded-3xl p-8 mt-8 text-center">
+          <div className="absolute -left-12 -bottom-20 w-48 h-48 rounded-full bg-amazon-prime/20 blur-2xl" />
+          <div className="relative">
+          <div className="ocean-kicker mb-2">Personalized recommendations</div>
+          <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-2">See more products for your interests</h3>
           <Link href="/signin" className="amazon-btn-primary inline-block mt-2">Sign in to view</Link>
           <div className="text-xs text-amazon-textMuted mt-3">
             New customer?{' '}
             <Link href="/register" className="amazon-link">Start here.</Link>
+          </div>
           </div>
         </div>
       </div>

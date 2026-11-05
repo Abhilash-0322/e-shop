@@ -4,6 +4,8 @@ import Category from '@/models/Category';
 import { SITE_URL } from '@/lib/seo';
 import { INFO_SLUGS } from '@/lib/infoPages';
 
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap() {
   await connectDB();
   const [products, categories] = await Promise.all([

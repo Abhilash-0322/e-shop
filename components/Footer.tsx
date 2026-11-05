@@ -55,11 +55,11 @@ const COLS: { title: string; items: Item[] }[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
+    <footer className="mt-16">
       {/* Back to top */}
       <button
         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white text-sm py-3 transition-colors flex items-center justify-center gap-1"
+        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white/80 text-xs uppercase tracking-widest py-4 transition-colors flex items-center justify-center gap-1"
         aria-label="Back to top"
       >
         <ChevronUp className="w-4 h-4" /> Back to top
@@ -67,10 +67,10 @@ export default function Footer() {
 
       {/* Main 4-col */}
       <div className="bg-amazon-navy text-white text-sm">
-        <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-screen-xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
           {COLS.map((col) => (
             <div key={col.title}>
-              <h3 className="font-bold mb-3 text-white">{col.title}</h3>
+              <h3 className="font-bold mb-3 text-white tracking-tight">{col.title}</h3>
               <ul className="space-y-1.5 text-white/80">
                 {col.items.map((it) => (
                   <li key={it.href + it.label}>
@@ -88,11 +88,10 @@ export default function Footer() {
         </div>
 
         {/* Logo divider */}
-        <div className="border-t border-white/10 py-6 flex flex-col items-center gap-4">
+        <div className="border-t border-white/10 py-8 flex flex-col items-center gap-4">
           <Link href="/" className="flex items-end" aria-label="halozon home">
-            <span className="text-2xl font-extrabold leading-none">halo</span>
-            <span className="text-2xl font-extrabold leading-none text-amazon-orange">zon</span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
+            <span className="w-8 h-8 rounded-xl bg-amazon-orange text-amazon-navy grid place-items-center text-lg font-black">h</span>
+            <span className="text-2xl font-black tracking-[-.06em] leading-none">halozon</span>
           </Link>
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
             <button className="border border-white/40 rounded px-3 py-1.5 hover:border-white flex items-center gap-1">

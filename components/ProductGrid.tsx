@@ -28,28 +28,29 @@ export default function ProductGrid({
   return (
     <section className="mb-6">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="px-1 pb-3 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
-            {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
+            <div className="ocean-kicker mb-1">Fresh from the current</div>
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-amazon-text">{title}</h2>
+            {subtitle && <p className="text-sm text-amazon-textMuted mt-1">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
             <a href={moreHref} className="amazon-link text-sm">See all offers</a>
           )}
         </div>
       )}
-      <div className="relative panel p-4">
+      <div className="relative panel p-3 sm:p-4">
         <button
           onClick={() => scroll('l')}
           aria-label="Scroll left"
-          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => scroll('r')}
           aria-label="Scroll right"
-          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronRight className="w-5 h-5" />
         </button>

@@ -25,9 +25,14 @@ export default function Header({ user }: { user: User }) {
   const { count } = useCart();
 
   useEffect(() => {
-    fetch('/api/categories').then((r) => r.json()).then((d) => {
-      setCats((d.items || []).map((c: { name: string }) => c.name));
-    }).catch(() => {});
+    const controller = new AbortController();
+    fetch('/api/categories', { signal: controller.signal })
+      .then((r) => r.json())
+      .then((d) => setCats((d.items || []).map((c: { name: string }) => c.name)))
+      .catch((error) => {
+        if (error?.name !== 'AbortError') setCats([]);
+      });
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -51,27 +56,27 @@ export default function Header({ user }: { user: User }) {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top nav */}
-      <nav className="bg-amazon-navy text-white text-sm">
-        <div className="px-2 py-1.5 flex items-center gap-1">
+      <div className="bg-amazon-navy text-white/70 text-[11px] tracking-wide">
+        <div className="max-w-screen-xl mx-auto px-4 py-2 flex items-center justify-between">
+          <span>Curated goods for a more considered everyday</span>
+          <span className="hidden sm:inline">Free delivery over $35 · Carbon-aware shipping</span>
+        </div>
+      </div>
+      <nav className="bg-amazon-navy text-white text-sm shadow-header">
+        <div className="max-w-screen-xl mx-auto px-3 py-2 flex items-center gap-2">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-end border border-transparent hover:border-white px-2 py-1.5 transition-all"
+            className="flex items-center gap-2 border border-transparent hover:border-white/40 rounded-xl px-2 py-2 transition-all shrink-0"
           >
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-white">
-              halo
-            </span>
-            <span className="text-2xl font-extrabold tracking-tight leading-none text-amazon-orange">
-              zon
-            </span>
-            <span className="text-amazon-orange text-xs ml-0.5 leading-none translate-y-[-2px]">.com</span>
+            <span className="w-8 h-8 rounded-xl bg-amazon-orange text-amazon-navy grid place-items-center text-lg font-black">h</span>
+            <span className="hidden sm:inline text-xl font-black tracking-[-.06em] leading-none text-white">halozon</span>
           </Link>
 
           {/* Deliver to */}
           <Link
             href="/account/addresses"
-            className="hidden md:flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5"
+            className="hidden lg:flex items-center gap-1 border border-transparent hover:border-white/40 rounded-xl px-2 py-2"
           >
             <MapPin className="w-5 h-5 text-white/90" />
             <div className="leading-tight">
@@ -82,10 +87,10 @@ export default function Header({ user }: { user: User }) {
 
           {/* Search */}
           <form onSubmit={submitSearch} className="flex-1 mx-2">
-            <div className="flex rounded-md overflow-hidden h-10 bg-white">
+            <div className="flex rounded-xl overflow-hidden h-11 bg-white/95 ring-1 ring-white/10">
               <select
                 aria-label="Search category"
-                className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
+                className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-3 border-r border-amazon-borderDark"
                 defaultValue=""
               >
                 <option value="">All</option>
@@ -117,7 +122,7 @@ export default function Header({ user }: { user: User }) {
             onMouseEnter={() => setShowAcc(true)}
             onMouseLeave={() => setShowAcc(false)}
           >
-            <button className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5">
+            <button className="flex flex-col items-start border border-transparent hover:border-white/40 rounded-xl px-2 py-2">
               <span className="text-[11px] text-white/80">
                 {user ? `Hello, ${user.name.split(' ')[0]}` : 'Hello, sign in'}
               </span>
@@ -126,8 +131,8 @@ export default function Header({ user }: { user: User }) {
               </span>
             </button>
             {showAcc && (
-              <div className="absolute right-0 top-full pt-1 w-[480px] z-50 animate-slideDown">
-                <div className="bg-white text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
+              <div className="absolute right-0 top-full pt-2 w-[min(480px,calc(100vw-1.5rem))] z-50 animate-slideDown">
+                <div className="bg-white text-amazon-text rounded-2xl shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
                   {user ? (
                     <>
                       <div className="col-span-2 flex items-center justify-between border-b border-amazon-border pb-3">
@@ -193,7 +198,7 @@ export default function Header({ user }: { user: User }) {
           {/* Returns */}
           <Link
             href="/account/orders"
-            className="hidden md:flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5"
+            className="hidden md:flex flex-col items-start border border-transparent hover:border-white/40 rounded-xl px-2 py-2"
           >
             <span className="text-[11px] text-white/80">Returns</span>
             <span className="font-bold text-sm">& Orders</span>
@@ -202,7 +207,7 @@ export default function Header({ user }: { user: User }) {
           {/* Cart */}
           <Link
             href="/cart"
-            className="relative flex items-end border border-transparent hover:border-white px-2 py-1.5"
+            className="relative flex items-end border border-transparent hover:border-white/40 rounded-xl px-2 py-2"
           >
             <div className="relative">
               <ShoppingCart className="w-8 h-8" />
@@ -216,13 +221,13 @@ export default function Header({ user }: { user: User }) {
 
         {/* Sub-nav */}
         <div className={cn(
-          "bg-amazon-navylight text-white text-sm transition-shadow",
+          "bg-amazon-navylight/95 text-white text-sm transition-shadow",
           scrolled && "shadow-header"
         )}>
-          <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
+          <div className="max-w-screen-xl mx-auto px-3 py-2 flex items-center gap-1 overflow-x-auto [scrollbar-width:none]">
             <button
               onClick={() => setShowCat(true)}
-              className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"
+              className="flex items-center gap-1 border border-transparent hover:border-white/40 rounded-lg px-2.5 py-1.5 font-bold whitespace-nowrap"
             >
               <Menu className="w-4 h-4" /> All
             </button>
@@ -230,20 +235,20 @@ export default function Header({ user }: { user: User }) {
               <Link
                 key={c}
                 href={`/category/${encodeURIComponent(c.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and'))}`}
-                className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+                className="border border-transparent hover:border-white/40 rounded-lg px-2.5 py-1.5 whitespace-nowrap"
               >
                 {c}
               </Link>
             ))}
             <Link
               href="/deals"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap font-bold text-amazon-orange"
+              className="border border-transparent hover:border-white/40 rounded-lg px-2.5 py-1.5 whitespace-nowrap font-bold text-amazon-orange"
             >
               Today's Deals
             </Link>
             <Link
               href="/prime"
-              className="border border-transparent hover:border-white px-2 py-1.5 whitespace-nowrap"
+              className="border border-transparent hover:border-white/40 rounded-lg px-2.5 py-1.5 whitespace-nowrap"
             >
               Prime
             </Link>
@@ -256,7 +261,7 @@ export default function Header({ user }: { user: User }) {
         <div className="fixed inset-0 z-[60] flex">
           <div className="absolute inset-0 bg-black/40" onClick={() => setShowCat(false)} />
           <aside className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl">
-            <div className="bg-amazon-navylight text-white px-5 py-4 flex items-center justify-between">
+            <div className="bg-amazon-navy text-white px-5 py-4 flex items-center justify-between">
               <div className="font-bold text-xl flex items-center gap-2">
                 <Menu className="w-5 h-5" /> Shop by Category
               </div>
