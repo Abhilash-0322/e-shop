@@ -1,2 +1,14 @@
 import Link from 'next/link';
-export default function CategoryTile({name,image,slug}:{name:string;image?:string;slug:string}){return <Link href={`/category/${slug}`} className="card p-3 group text-center"><div className="aspect-square rounded-xl bg-gradient-to-br from-indigo-50 to-cyan-50 overflow-hidden flex items-center justify-center">{image?<img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform"/>:<span className="text-3xl font-black text-indigo-200">{name[0]}</span>}</div><b className="block text-xs mt-3 group-hover:text-indigo-700">{name}</b></Link>}
+import { ArrowUpRight } from '@/lib/icons';
+
+export default function CategoryTile({ name, image, slug }: { name: string; image?: string; slug: string }) {
+  return (
+    <Link href={`/category/${slug}`} className="card group overflow-hidden p-2">
+      <div className="relative aspect-square overflow-hidden rounded-[.85rem] bg-[#edf1e9]">
+        {image ? <img src={image} alt={name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /> : <span className="flex h-full items-center justify-center text-4xl font-black text-[#c3d39d]">{name[0]}</span>}
+        <span className="absolute right-2 top-2 rounded-full bg-white/85 p-1.5 opacity-0 transition group-hover:opacity-100"><ArrowUpRight className="h-3.5 w-3.5" /></span>
+      </div>
+      <b className="block px-1 pb-1 pt-3 text-xs group-hover:text-[#6d8735]">{name}</b>
+    </Link>
+  );
+}
