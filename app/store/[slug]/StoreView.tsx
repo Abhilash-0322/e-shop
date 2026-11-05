@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Store as StoreIcon, Star, MapPin } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
+import { EmptyState } from '@/components/AccountPrimitives';
 
 export default function StoreView({
   store,
@@ -24,13 +25,14 @@ export default function StoreView({
   return (
     <div className="bg-amazon-bg min-h-screen">
       {/* Banner */}
-      <div className="bg-gradient-to-r from-amazon-navy via-amazon-navylight to-amazon-orange text-white py-10">
+      <div className="bg-gradient-to-br from-amazon-navy via-amazon-navylight to-amazon-orange text-white py-12">
         <div className="max-w-screen-xl mx-auto px-4 flex items-center gap-4">
-          <div className="w-20 h-20 bg-white rounded-md flex items-center justify-center">
+          <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg">
             <StoreIcon className="w-10 h-10 text-amazon-orange" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold">{store.name}</h1>
+            <div className="eyebrow !text-amazon-orangedark mb-1">Independent seller</div>
+            <h1 className="text-3xl font-extrabold tracking-tight">{store.name}</h1>
             <div className="text-sm text-white/80 flex items-center gap-3 mt-1">
               <span className="flex items-center gap-1">
                 <MapPin className="w-3 h-3" /> {store.country}
@@ -43,19 +45,22 @@ export default function StoreView({
           </div>
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4">
+      <div className="max-w-screen-xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-5">
         <aside className="panel p-4 self-start">
+          <div className="eyebrow mb-2">The story</div>
           <h3 className="font-bold mb-2">About this seller</h3>
           <p className="text-sm text-amazon-text">{store.description}</p>
         </aside>
         <div>
-          <div className="text-sm text-amazon-textMuted mb-3">
+          <div className="flex items-end justify-between text-sm text-muted mb-3">
+            <h2 className="text-xl font-bold text-amazon-text">Shop the collection</h2>
             Showing {products?.length || 0} product{(products?.length || 0) !== 1 ? 's' : ''}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
             {(products || []).map((p: any) => (
               <ProductCard key={p._id} product={p} />
             ))}
+            {!products?.length && <div className="col-span-full panel"><EmptyState icon={StoreIcon} title="This store is between collections" description="Check back soon for new products from this seller." action={{ href: '/', label: 'Browse all products' }} /></div>}
           </div>
         </div>
       </div>

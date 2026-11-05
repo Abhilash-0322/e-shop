@@ -26,19 +26,19 @@ export default function ProductGrid({
   }
   if (!products?.length) return null;
   return (
-    <section className="mb-6">
+    <section className="mb-8">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="flex items-end justify-between gap-3 mb-3 px-1">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
-            {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
+            <h2 className="text-2xl font-bold tracking-tight text-amazon-text">{title}</h2>
+            {subtitle && <p className="text-sm text-muted mt-1">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
-            <a href={moreHref} className="amazon-link text-sm">See all offers</a>
+            <a href={moreHref} className="btn-quiet">See all <ChevronRight className="w-4 h-4" /></a>
           )}
         </div>
       )}
-      <div className="relative panel p-4">
+      <div className="relative panel p-3 sm:p-4">
         <button
           onClick={() => scroll('l')}
           aria-label="Scroll left"

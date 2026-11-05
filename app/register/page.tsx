@@ -34,12 +34,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center py-10 px-4">
+      <Link href="/" className="text-3xl font-extrabold mb-5 text-amazon-navy tracking-tight">
         halo<span className="text-amazon-orange">zon</span>
       </Link>
-      <form onSubmit={submit} className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card space-y-3">
-        <h1 className="text-2xl font-medium">Create account</h1>
+      <form onSubmit={submit} className="w-full max-w-[480px] bg-white border border-amazon-border rounded-3xl p-6 sm:p-8 shadow-card space-y-4">
+        <div className="eyebrow">Start your halozon story</div>
+        <h1 className="text-3xl font-bold tracking-tight">Create account</h1>
+        <p className="text-sm text-muted">Save the things you love, keep checkout simple, and make every order easier to follow.</p>
         <label className="block">
           <span className="text-sm font-bold block mb-1">Your name</span>
           <input

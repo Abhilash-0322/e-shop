@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-amazon-bg">
       <div className="bg-amazon-navy text-white">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-screen-xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-1 text-white/80 hover:text-white text-sm">
               <ArrowLeft className="w-4 h-4" /> Back to store
@@ -28,8 +28,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-6">
-        <aside className="bg-white border border-amazon-border rounded-md p-3 self-start space-y-1">
+      <div className="max-w-screen-xl mx-auto px-4 py-7 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6">
+        <aside className="bg-white border border-amazon-border rounded-2xl p-3 self-start space-y-1 shadow-card">
           {TABS.map((t) => {
             const Icon = t.icon;
             const active = pathname === t.href;

@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { AccountPageHeader, EmptyState, Notice } from '@/components/AccountPrimitives';
+import { CreditCard, LockKeyhole } from 'lucide-react';
 
 type P = { brand?: string; cardNumberLast4?: string; expiry?: string; label?: string; isDefault?: boolean };
 
@@ -39,16 +41,17 @@ export default function PaymentView({ initial }: { initial: P[] }) {
   }
 
   return (
-    <div className="bg-white border border-amazon-border rounded-md p-5">
-      <h1 className="text-3xl font-bold mb-1">Payment options</h1>
-      <p className="text-sm text-amazon-textMuted mb-4">Manage your saved cards. Card details are never stored in full.</p>
+    <div>
+      <AccountPageHeader eyebrow="Saved details" title="Payment methods" description="Keep checkout quick with secure payment methods saved to your account." action={{ href: '/checkout', label: 'Go to checkout' }} />
+      <div className="panel p-5">
+      <div className="flex items-center gap-2 mb-5"><div className="w-10 h-10 rounded-xl bg-amazon-green/10 text-amazon-green grid place-items-center"><LockKeyhole className="w-5 h-5" /></div><div><h2 className="text-lg font-bold">Saved cards</h2><p className="text-sm text-muted">Only the last four digits are shown.</p></div></div>
 
       <div className="space-y-3 mb-4">
         {items.map((p, i) => (
-          <div key={i} className="border border-amazon-border rounded-md p-4 flex items-center justify-between">
+          <div key={i} className={`border rounded-2xl p-4 flex items-center justify-between ${p.isDefault ? 'border-amazon-orange bg-amazon-orange/5' : 'border-amazon-border'}`}>
             <div>
               <div className="font-bold">
-                {p.label} {p.isDefault && <span className="chip ml-2">Default</span>}
+                <CreditCard className="w-4 h-4 inline mr-2 text-amazon-orange" />{p.label} {p.isDefault && <span className="status-badge status-warning ml-2">Default</span>}
               </div>
               <div className="text-sm text-amazon-textMuted">
                 {p.brand} ending in {p.cardNumberLast4}
@@ -107,6 +110,9 @@ export default function PaymentView({ initial }: { initial: P[] }) {
           </div>
         </div>
       )}
+      {items.length === 0 && !adding && <EmptyState icon={CreditCard} title="No payment methods saved" description="Add a card when you are ready for a faster checkout. Full card numbers are never stored here." />}
+      </div>
+      <Notice tone="info" icon={LockKeyhole}>Your payment details are encrypted in transit. We only display the last four digits after saving.</Notice>
     </div>
   );
 }

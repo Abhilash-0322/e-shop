@@ -5,6 +5,8 @@ import ReturnRequest from '@/models/ReturnRequest';
 import AccountLayout from '../AccountLayout';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/utils';
+import { AccountPageHeader, EmptyState, StatusBadge } from '@/components/AccountPrimitives';
+import { PackageCheck, RotateCcw } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,29 +18,18 @@ export default async function ReturnsPage() {
     await ReturnRequest.find({ userId: user.id }).sort({ createdAt: -1 }).lean()
   ));
 
-  const statusColor: Record<string, string> = {
-    requested: 'bg-amazon-orange/15 text-amazon-orange',
-    approved: 'bg-amazon-prime/15 text-amazon-prime',
-    rejected: 'bg-amazon-deal/15 text-amazon-deal',
-    received: 'bg-amazon-yellow text-amazon-text',
-    refunded: 'bg-amazon-greenDark/15 text-amazon-greenDark',
-  };
-
   return (
     <AccountLayout user={user}>
-      <div className="bg-white border border-amazon-border rounded-md p-5">
-        <h1 className="text-3xl font-bold mb-1">Your Returns</h1>
-        <p className="text-sm text-amazon-textMuted mb-4">{items.length} return{items.length !== 1 ? 's' : ''}</p>
+      <AccountPageHeader eyebrow="Activity" title="Returns & refunds" description="See the progress of every return and keep your next step clear." action={{ href: '/account/orders', label: 'View orders' }} />
+      <div className="panel p-5">
+        <div className="flex items-center justify-between mb-4"><div><h2 className="text-lg font-bold">Your return activity</h2><p className="text-sm text-muted">{items.length} return{items.length !== 1 ? 's' : ''} in progress or complete</p></div><RotateCcw className="w-6 h-6 text-amazon-orange" /></div>
 
         {items.length === 0 ? (
-          <div className="text-center py-10">
-            <p className="mb-3">No returns yet.</p>
-            <Link href="/account/orders" className="amazon-btn-primary inline-block">View orders</Link>
-          </div>
+          <EmptyState icon={PackageCheck} title="No returns to manage" description="If something does not work out, start a return from a delivered order and we&apos;ll guide you through it." action={{ href: '/account/orders', label: 'View delivered orders' }} />
         ) : (
           <div className="space-y-3">
             {items.map((r: any) => (
-              <div key={r._id} className="border border-amazon-border rounded-md p-4">
+              <div key={r._id} className="border border-amazon-border rounded-2xl p-4">
                 <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
                   <div>
                     <div className="font-bold">RMA: {r.rma}</div>
@@ -46,9 +37,7 @@ export default async function ReturnsPage() {
                       Order {r.orderNumber} · Filed {new Date(r.createdAt).toLocaleDateString()}
                     </div>
                   </div>
-                  <span className={`chip ${statusColor[r.status] || ''}`}>
-                    {r.status.replace(/_/g, ' ')}
-                  </span>
+                  <StatusBadge status={r.status} tone={r.status === 'refunded' ? 'success' : r.status === 'rejected' ? 'danger' : r.status === 'requested' ? 'warning' : 'info'} />
                 </div>
                 <div className="text-sm text-amazon-textMuted">
                   Reason: {r.reason}

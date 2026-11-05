@@ -7,6 +7,7 @@ import AccountLayout from '../../AccountLayout';
 import ReturnModal from '@/components/ReturnModal';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { AccountPageHeader, StatusBadge } from '@/components/AccountPrimitives';
 
 type TrackingEvent = { status: string; label: string; location?: string; at: string };
 
@@ -18,12 +19,10 @@ const STEPS = [
   { id: 'delivered', label: 'Delivered', icon: Home },
 ];
 
-export default function OrderDetail({ order }: { order: any }) {
+export default function OrderDetail({ order, user }: { order: any; user: { name: string; email: string } }) {
   const router = useRouter();
   const [advancing, setAdvancing] = useState(false);
   const [returnOpen, setReturnOpen] = useState(false);
-  const user = { name: 'Customer', email: '' };
-
   const events: TrackingEvent[] = order.trackingEvents || [];
   const statusOrder = ['ordered', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
   const currentStepIdx = statusOrder.indexOf(order.status);
@@ -52,22 +51,15 @@ export default function OrderDetail({ order }: { order: any }) {
 
   return (
     <AccountLayout user={user}>
-      <div className="bg-white border border-amazon-border rounded-md p-5">
+      <div>
         <Link href="/account/orders" className="text-sm text-amazon-link hover:underline flex items-center gap-1 mb-3">
           <ArrowLeft className="w-3 h-3" /> Back to orders
         </Link>
-        <div className="flex items-start justify-between flex-wrap gap-2">
-          <div>
-            <h1 className="text-2xl font-bold">Order #{order.orderNumber}</h1>
-            <p className="text-sm text-amazon-textMuted">
-              Placed on {new Date(order.createdAt).toLocaleString()}
-            </p>
+        <div className="panel p-5">
+          <div className="flex items-start justify-between flex-wrap gap-3">
+            <div><div className="eyebrow mb-2">Order details</div><h1 className="page-title">#{order.orderNumber}</h1><p className="text-sm text-muted mt-2">Placed on {new Date(order.createdAt).toLocaleString()}</p></div>
+            <div className="text-right"><StatusBadge status={order.status} tone={order.status === 'delivered' ? 'success' : order.status === 'cancelled' ? 'danger' : 'info'} /><div className="text-2xl font-bold mt-2">{formatPrice(order.total)}</div><div className="text-xs text-muted">Order total</div></div>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-amazon-textMuted">Total</div>
-            <div className="text-2xl font-bold">{formatPrice(order.total)}</div>
-          </div>
-        </div>
 
         {/* Tracking timeline */}
         <div className="mt-6 panel p-5 bg-amazon-bg/30">
@@ -224,6 +216,7 @@ export default function OrderDetail({ order }: { order: any }) {
             <hr className="my-2 border-amazon-border" />
             <div className="flex justify-between text-lg font-bold"><span>Total:</span><span>{formatPrice(order.total)}</span></div>
           </div>
+        </div>
         </div>
       </div>
 

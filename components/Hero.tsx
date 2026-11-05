@@ -5,30 +5,30 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const SLIDES = [
   {
-    eyebrow: 'Up to 60% off',
-    title: 'A new era of smart home',
-    sub: 'Discover Echo, Fire TV and Ring devices.',
+    eyebrow: 'The thoughtful edit',
+    title: 'Find the things that make your day better.',
+    sub: 'A more considered way to shop useful, joyful, and beautifully made products.',
     bg: 'from-amazon-navy via-amazon-navylight to-amazon-orange/70',
-    cta: { href: '/category/electronics', label: 'Shop Electronics' },
+    cta: { href: '/category/electronics', label: 'Explore the edit' },
   },
   {
-    eyebrow: 'Today only',
-    title: 'Deals of the Day',
-    sub: 'New deals every hour. Refresh often.',
+    eyebrow: 'Small price, big feeling',
+    title: 'Good finds, better prices.',
+    sub: 'Fresh offers selected to help you spend well and discover more.',
     bg: 'from-amazon-orange via-amazon-orangedark to-amazon-buy',
-    cta: { href: '/deals', label: 'See today\u2019s deals' },
+    cta: { href: '/deals', label: 'See today\u2019s picks' },
   },
   {
-    eyebrow: 'Prime exclusive',
-    title: 'Fast, free delivery',
-    sub: 'On millions of items with Prime.',
+    eyebrow: 'More time for what matters',
+    title: 'Fast delivery, less to think about.',
+    sub: 'Get the essentials moving quickly with Prime.',
     bg: 'from-amazon-prime via-amazon-navylight to-amazon-navy',
     cta: { href: '/prime', label: 'Try Prime free' },
   },
   {
-    eyebrow: 'Featured',
-    title: 'Books that inspire',
-    sub: 'Bestsellers, indie gems, and more.',
+    eyebrow: 'Make space for wonder',
+    title: 'Stories for every kind of curious.',
+    sub: 'Bestsellers, indie gems, and the next book you cannot put down.',
     bg: 'from-amazon-navy via-emerald-900 to-amazon-navy',
     cta: { href: '/category/books', label: 'Browse books' },
   },
@@ -42,7 +42,7 @@ export default function Hero() {
   }, []);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
+    <div className="relative w-full h-[390px] md:h-[500px] overflow-hidden">
       <div
         key={i}
         className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
@@ -52,17 +52,17 @@ export default function Hero() {
         <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
       </div>
-      <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
-        <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
+      <div className="relative max-w-[1440px] mx-auto px-6 sm:px-10 h-full flex flex-col justify-center text-white">
+        <div className="text-xs uppercase tracking-[.22em] font-semibold mb-3 animate-fadeIn text-white/75">
           {s.eyebrow}
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-tight">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 animate-fadeIn max-w-2xl leading-[.98] tracking-tight">
           {s.title}
         </h1>
-        <p className="text-lg md:text-xl mb-6 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
+        <p className="text-base md:text-xl mb-7 animate-fadeIn max-w-xl text-white/85 leading-relaxed">{s.sub}</p>
         <Link
           href={s.cta.href}
-          className="amazon-btn-yellow w-fit !text-base !px-6 !py-2.5 animate-fadeIn"
+          className="amazon-btn-yellow w-fit !text-base !px-6 !py-3 animate-fadeIn"
         >
           {s.cta.label}
         </Link>

@@ -3,6 +3,8 @@ import Product from '@/models/Product';
 import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 import { serialize } from '@/lib/serialize';
+import { EmptyState } from '@/components/AccountPrimitives';
+import { SearchX } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +40,7 @@ export default async function SearchPage({
           <div className="text-sm">{products.length.toLocaleString()} results for <span className="font-bold">&ldquo;{q}&rdquo;</span></div>
         </div>
       ) : (
-        <div className="panel p-6 text-center text-amazon-textMuted">Type in the search bar to find products.</div>
+        <div className="panel p-6 text-center text-muted">Type in the search bar to find products.</div>
       )}
 
       {categories.length > 0 && (
@@ -59,6 +61,11 @@ export default async function SearchPage({
           {products.map((p: any) => (
             <ProductCard key={String(p._id)} product={p} />
           ))}
+        </div>
+      )}
+      {q && products.length === 0 && (
+        <div className="panel">
+          <EmptyState icon={SearchX} title={`No results for “${q}”`} description="Try a broader search, check the spelling, or explore one of the categories above." action={{ href: '/', label: 'Return to the store' }} />
         </div>
       )}
     </div>

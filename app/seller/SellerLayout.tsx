@@ -17,14 +17,13 @@ export default function SellerLayout({ user, children }: { user: any; children: 
     <div className="min-h-screen bg-amazon-bg">
       {/* Sub-header */}
       <div className="bg-amazon-navy text-white">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-screen-xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-1 text-white/80 hover:text-white text-sm">
               <ArrowLeft className="w-4 h-4" /> Back to store
             </Link>
             <div className="text-sm">
-              <span className="font-bold">halozon Seller Central</span>
-              <span className="ml-3 text-white/60">{user.sellerProfile?.storeName || user.name}</span>
+              <div><span className="font-bold">halozon Seller Central</span><span className="ml-3 text-white/60">{user.sellerProfile?.storeName || user.name}</span></div>
             </div>
           </div>
           <Link href="/seller/store" className="text-sm text-white/80 hover:text-white">
@@ -33,8 +32,8 @@ export default function SellerLayout({ user, children }: { user: any; children: 
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6">
-        <aside className="space-y-1 bg-white border border-amazon-border rounded-md p-3 self-start">
+      <div className="max-w-screen-xl mx-auto px-4 py-7 grid grid-cols-1 lg:grid-cols-[230px_1fr] gap-6">
+        <aside className="space-y-1 bg-white border border-amazon-border rounded-2xl p-3 self-start shadow-card">
           {TABS.map((t) => {
             const Icon = t.icon;
             const active = pathname === t.href;

@@ -29,7 +29,12 @@ export default async function Home() {
     <div className="min-h-screen pb-8">
       <Hero />
 
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+      <div className="max-w-screen-xl mx-auto px-4 -mt-16 relative z-10 space-y-8">
+        <div className="panel p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+          <div className="flex items-center gap-3"><span className="w-9 h-9 rounded-xl bg-amazon-orange/10 text-amazon-orange grid place-items-center">✦</span><div><div className="font-bold">Picks with a point of view</div><div className="text-xs text-muted">Find something that feels like you.</div></div></div>
+          <div className="flex items-center gap-3"><span className="w-9 h-9 rounded-xl bg-amazon-green/10 text-amazon-green grid place-items-center">✓</span><div><div className="font-bold">Clear, calm checkout</div><div className="text-xs text-muted">Your details, ready when you are.</div></div></div>
+          <div className="flex items-center gap-3"><span className="w-9 h-9 rounded-xl bg-amazon-prime/10 text-amazon-prime grid place-items-center">→</span><div><div className="font-bold">Delivery you can follow</div><div className="text-xs text-muted">See every step, from cart to door.</div></div></div>
+        </div>
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

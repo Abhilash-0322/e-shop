@@ -76,17 +76,23 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center py-10 px-4">
+      <Link href="/" className="text-3xl font-extrabold mb-5 text-amazon-navy tracking-tight">
         halo<span className="text-amazon-orange">zon</span>
       </Link>
-      <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
+      <div className="w-full max-w-[820px] grid md:grid-cols-[.85fr_1fr] bg-white border border-amazon-border rounded-3xl shadow-card overflow-hidden">
+        <div className="hidden md:flex bg-gradient-to-br from-amazon-navy via-amazon-navylight to-amazon-orange p-8 text-white flex-col justify-between">
+          <div><div className="eyebrow !text-amazon-orangedark">Welcome back</div><h2 className="text-3xl font-bold leading-tight mt-2">Your next good find is closer than you think.</h2></div>
+          <p className="text-sm text-white/70">Track deliveries, save favourites, and get recommendations that feel personal.</p>
+        </div>
+        <div className="p-6 sm:p-8">
         <Suspense fallback={<div>Loading…</div>}>
           <SignInForm />
         </Suspense>
+        </div>
       </div>
       <div className="w-full max-w-sm mt-6">
-        <div className="bg-white border border-amazon-border rounded-md p-3 text-center text-xs text-amazon-textMuted">
+        <div className="bg-white/70 border border-amazon-border rounded-2xl p-3 text-center text-xs text-muted">
           Buying for work? <span className="amazon-link">Create a free business account</span>
         </div>
       </div>

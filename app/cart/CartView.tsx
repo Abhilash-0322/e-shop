@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
+import { EmptyState } from '@/components/AccountPrimitives';
+import { ShoppingBag, Sparkles } from 'lucide-react';
 
 export default function CartView() {
   const { items, count, subtotal, update, remove, refresh } = useCart();
@@ -21,12 +23,10 @@ export default function CartView() {
   if (items.length === 0) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">Your halozon Cart is empty</h1>
-          <Link href="/" className="amazon-link text-sm">
-            Shop today&apos;s deals
-          </Link>
+        <div className="panel">
+          <EmptyState icon={ShoppingBag} title="Your cart is waiting for something good" description="Browse today&apos;s edit and save the things you are considering here." action={{ href: '/', label: 'Shop the store' }} />
         </div>
+        <div className="panel p-4 mt-4 flex items-center gap-3 max-w-xl mx-auto"><Sparkles className="w-5 h-5 text-amazon-orange" /><div className="text-sm"><span className="font-bold">Not sure where to start?</span><span className="text-muted ml-1">Explore recommendations curated around your browsing.</span></div><Link href="/account/recommendations" className="amazon-link text-sm ml-auto">See picks</Link></div>
       </div>
     );
   }
@@ -41,8 +41,8 @@ export default function CartView() {
         <div>
           <div className="bg-white border border-amazon-border rounded-md p-4 mb-3">
             <div className="flex items-end justify-between">
-              <h1 className="text-3xl font-bold">Shopping Cart</h1>
-              <div className="text-sm text-amazon-textMuted">Price</div>
+            <div><div className="eyebrow mb-1">Ready when you are</div><h1 className="text-3xl font-bold tracking-tight">Shopping cart</h1></div>
+              <div className="text-sm text-muted">Price</div>
             </div>
           </div>
           <div className="bg-white border border-amazon-border rounded-md divide-y divide-amazon-border">

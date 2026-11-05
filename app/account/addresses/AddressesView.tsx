@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { AccountPageHeader, Notice } from '@/components/AccountPrimitives';
+import { MapPin } from 'lucide-react';
 
 type Address = {
   label?: string;
@@ -50,7 +52,9 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
   }
 
   return (
-    <div className="bg-white border border-amazon-border rounded-md p-5">
+    <div>
+    <AccountPageHeader eyebrow="Saved details" title="Addresses" description="Keep the places you trust close by for a faster, more thoughtful checkout." action={{ href: '/checkout', label: 'Go to checkout' }} />
+    <div className="panel p-5">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h1 className="text-3xl font-bold">Your Addresses</h1>
@@ -109,6 +113,8 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
           </div>
         </div>
       )}
+    </div>
+    <Notice tone="info" icon={MapPin}>Your address details are used only to fulfill orders and are never shown publicly.</Notice>
     </div>
   );
 }

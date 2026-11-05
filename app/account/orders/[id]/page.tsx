@@ -12,5 +12,5 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   await connectDB();
   const order = await Order.findOne({ _id: params.id, userId: user.id }).lean();
   if (!order) redirect('/account/orders');
-  return <OrderDetail order={JSON.parse(JSON.stringify(order))} />;
+  return <OrderDetail order={JSON.parse(JSON.stringify(order))} user={user} />;
 }

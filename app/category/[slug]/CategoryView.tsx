@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
+import { EmptyState } from '@/components/AccountPrimitives';
+import { SearchX } from 'lucide-react';
 
 type Brand = { _id: string; count: number };
 
@@ -170,8 +172,9 @@ export default function CategoryView({
 
       <div>
         <div className="panel p-4 mb-3">
-          <h1 className="text-2xl mb-1">{title}</h1>
-          <div className="text-sm text-amazon-textMuted">
+          <div className="eyebrow mb-1">Explore the collection</div>
+          <h1 className="text-2xl font-bold tracking-tight mb-1">{title}</h1>
+          <div className="text-sm text-muted">
             {products.length.toLocaleString()} result{products.length !== 1 ? 's' : ''}
           </div>
         </div>
@@ -226,9 +229,7 @@ export default function CategoryView({
         </div>
 
         {products.length === 0 && (
-          <div className="panel p-10 text-center text-amazon-textMuted">
-            No products match these filters. Try removing some.
-          </div>
+          <div className="panel"><EmptyState icon={SearchX} title="Nothing matches those filters" description="Try removing a filter or widening your search to see more of the collection." action={{ href: `/category/${slug}`, label: 'Clear filters' }} /></div>
         )}
       </div>
     </div>
