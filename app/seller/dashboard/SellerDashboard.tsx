@@ -22,8 +22,9 @@ export default function SellerDashboard({
     <SellerLayout user={user}>
       <div className="mb-6 flex justify-between items-start flex-wrap gap-3">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
-          <p className="text-sm text-amazon-textMuted">Here&apos;s how your store is doing today.</p>
+          <div className="eyebrow mb-1">Seller OS · today&apos;s signal</div>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
+          <p className="text-sm text-amazon-textMuted mt-1">Here&apos;s how your store is compounding today.</p>
         </div>
         <div className="flex gap-2">
           <Link href="/seller/products/new" className="amazon-btn-yellow !text-sm">
@@ -65,10 +66,11 @@ export default function SellerDashboard({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         {/* Sales chart */}
-        <div className="panel p-4 lg:col-span-2">
+        <div className="panel p-5 lg:col-span-2">
           <div className="flex justify-between items-center mb-3">
             <div>
-              <h2 className="text-lg font-bold">Last 7 days</h2>
+              <div className="eyebrow mb-1">Performance</div>
+              <h2 className="text-lg font-black">Last 7 days</h2>
               <p className="text-xs text-amazon-textMuted">Revenue trend</p>
             </div>
             <div className="text-right">
@@ -80,8 +82,9 @@ export default function SellerDashboard({
         </div>
 
         {/* Top products */}
-        <div className="panel p-4">
-          <h2 className="text-lg font-bold mb-3">Top sellers</h2>
+        <div className="panel p-5">
+          <div className="eyebrow mb-1">Portfolio</div>
+          <h2 className="text-lg font-black mb-3">Top products</h2>
           <div className="space-y-2">
             {topProducts.length === 0 ? (
               <p className="text-sm text-amazon-textMuted text-center py-4">No products yet</p>

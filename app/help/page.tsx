@@ -13,17 +13,19 @@ const TOPICS = [
 
 export default function HelpPage() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-6">
+    <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <span className="mx-1">›</span>
         <span>Customer Service</span>
       </div>
-      <div className="bg-white border border-amazon-border rounded-md p-6 mb-4">
-        <h1 className="text-3xl font-bold mb-2">Hello. How can we help you?</h1>
+      <div className="aurora-surface p-7 md:p-10 mb-6">
+        <div className="eyebrow !text-amazon-orange mb-3">Support, without the runaround</div>
+        <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-3">How can we help you?</h1>
+        <p className="text-white/70 text-sm mb-5 max-w-xl">Search trusted answers for orders, payments, returns, account security, and everything in between.</p>
         <input
           placeholder="Search help topics"
-          className="amazon-input max-w-md"
+          className="amazon-input max-w-xl !bg-white/95"
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

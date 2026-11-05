@@ -7,48 +7,51 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Authentic Amazon palette
+        // Aurora fintech palette. Legacy amazon-* names stay stable so
+        // existing routes preserve their contracts while sharing the new UI.
         amazon: {
-          // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
-          // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
-          // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
-          // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
-          // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
-          // States
-          deal: '#CC0C39',
-          prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
-          red: '#B12704',
-          // Stars
-          star: '#FFA41C',
+          navy: '#07152f',
+          navylight: '#102650',
+          navyxlight: '#1e3a63',
+          orange: '#73e4c2',
+          orangelight: '#b7f4de',
+          orangedark: '#35b994',
+          yellow: '#b7f4de',
+          yellowHover: '#8deac7',
+          buy: '#73e4c2',
+          buyHover: '#35b994',
+          bg: '#eef3fb',
+          panel: '#f8faff',
+          border: '#d9e3f1',
+          borderDark: '#b8c8dc',
+          text: '#101c35',
+          textMuted: '#63728b',
+          link: '#1d5fd1',
+          linkHover: '#0c3e9f',
+          deal: '#d85b78',
+          prime: '#50b8eb',
+          green: '#188b6f',
+          greenDark: '#0d755c',
+          red: '#c94f68',
+          star: '#f3b64c',
+        },
+        aurora: {
+          ink: '#07152f',
+          cyan: '#73e4c2',
+          violet: '#9d8cff',
+          sky: '#50b8eb',
+          mist: '#eef3fb',
+          line: '#d9e3f1',
         },
       },
       fontFamily: {
         amazon: ['"Amazon Ember"', 'Arial', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.04)',
-        cardHover: '0 4px 14px rgba(0,0,0,0.12)',
-        header: '0 2px 4px rgba(0,0,0,0.2)',
+        card: '0 10px 30px rgba(7,21,47,0.06)',
+        cardHover: '0 18px 46px rgba(7,21,47,0.14)',
+        header: '0 12px 30px rgba(7,21,47,0.16)',
+        glow: '0 0 0 1px rgba(115,228,194,.22), 0 14px 40px rgba(44,91,180,.15)',
       },
       keyframes: {
         shimmer: {
@@ -76,6 +79,10 @@ module.exports = {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 2s linear infinite',
@@ -84,6 +91,7 @@ module.exports = {
         scaleIn: 'scaleIn .2s ease-out both',
         pulseRing: 'pulseRing 1.6s cubic-bezier(0.4,0,0.6,1) infinite',
         marquee: 'marquee 30s linear infinite',
+        float: 'float 5s ease-in-out infinite',
       },
     },
   },

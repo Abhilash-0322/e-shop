@@ -28,17 +28,18 @@ export default function ProductGrid({
   return (
     <section className="mb-6">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="p-1 mb-3 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
-            {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
+            <div className="eyebrow mb-1">Curated signal</div>
+            <h2 className="text-2xl font-black tracking-tight text-amazon-text">{title}</h2>
+            {subtitle && <p className="text-sm text-amazon-textMuted mt-1">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
             <a href={moreHref} className="amazon-link text-sm">See all offers</a>
           )}
         </div>
       )}
-      <div className="relative panel p-4">
+      <div className="relative panel p-4 md:p-5">
         <button
           onClick={() => scroll('l')}
           aria-label="Scroll left"

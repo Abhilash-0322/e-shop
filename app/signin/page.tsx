@@ -34,7 +34,8 @@ function SignInForm() {
 
   return (
     <form onSubmit={submit} className="space-y-3">
-      <h1 className="text-3xl font-medium">Sign in</h1>
+      <div className="eyebrow mb-2">Welcome back</div>
+      <h1 className="text-3xl font-black tracking-tight">Sign in to your halozon account</h1>
       <label className="block">
         <span className="text-sm font-bold block mb-1">Email or mobile phone number</span>
         <input
@@ -57,7 +58,7 @@ function SignInForm() {
         <Link href="/forgot-password" className="text-xs amazon-link mt-1 inline-block">Forgot your password?</Link>
       </label>
       <button type="submit" disabled={submitting} className="amazon-btn-yellow w-full !text-sm !py-2 disabled:opacity-60">
-        {submitting ? 'Signing in...' : 'Sign in'}
+        {submitting ? 'Connecting...' : 'Continue securely'}
       </button>
       <p className="text-xs text-amazon-textMuted">
         By continuing, you agree to halozon&apos;s <span className="amazon-link">Conditions of Use</span> and{' '}
@@ -76,11 +77,12 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
-      <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
-        halo<span className="text-amazon-orange">zon</span>
+    <div className="min-h-[80vh] flex flex-col items-center py-12 px-4 bg-[radial-gradient(circle_at_top,#dceafe,transparent_48%)]">
+      <Link href="/" className="flex items-center gap-2 text-xl font-black mb-6 text-amazon-navy">
+        <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-amazon-orange to-amazon-prime flex items-center justify-center">h</span>
+        halozon<span className="text-amazon-orange">.</span>
       </Link>
-      <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
+      <div className="w-full max-w-md bg-white border border-amazon-border rounded-3xl p-7 md:p-8 shadow-card">
         <Suspense fallback={<div>Loading…</div>}>
           <SignInForm />
         </Suspense>

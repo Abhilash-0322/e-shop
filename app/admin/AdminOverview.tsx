@@ -20,7 +20,11 @@ export default function AdminOverview() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold mb-4">Overview</h1>
+      <div className="mb-6">
+        <div className="eyebrow mb-1">Control room · live telemetry</div>
+        <h1 className="text-3xl md:text-4xl font-black tracking-tight">Overview</h1>
+        <p className="text-sm text-amazon-textMuted mt-1">A precise view of marketplace health and trust signals.</p>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         <Tile icon={Users} label="Users" value={stats.users} color="bg-amazon-navylight/10 text-amazon-navylight" />
         <Tile icon={Store} label="Pending sellers" value={stats.pendingSellers} color="bg-amazon-orange/10 text-amazon-orange" link="/admin/sellers" />
@@ -56,8 +60,8 @@ export default function AdminOverview() {
 
 function Tile({ icon: Icon, label, value, color, link }: any) {
   const content = (
-    <div className="panel p-4 h-full">
-      <div className={`w-9 h-9 rounded-md flex items-center justify-center ${color} mb-2`}>
+    <div className="metric-card h-full">
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color} mb-3`}>
         <Icon className="w-4 h-4" />
       </div>
       <div className="text-2xl font-bold">{value}</div>
