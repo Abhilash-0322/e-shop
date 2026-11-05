@@ -1,1 +1,41 @@
-'use client';import {useEffect,useState} from 'react';import Link from 'next/link';import {Calendar,RefreshCw,ShieldCheck,Trash2} from '@/lib/icons';import toast from 'react-hot-toast';export default function Subscriptions(){const [items,setItems]=useState<any[]>([]);const load=()=>fetch('/api/subscriptions').then(r=>r.json()).then(d=>setItems(d.items||[]));useEffect(()=>{load()},[]);async function remove(id:string){const r=await fetch('/api/subscriptions',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptionId:id})});if(r.ok){toast.success('Subscription cancelled');load()}}return <div><p className="eyebrow">Automatic replenishment</p><h1 className="page-title mt-2">Subscriptions</h1><p className="muted mt-3">Keep essentials moving on a schedule you control.</p>{items.length?<div className="grid md:grid-cols-2 gap-5 mt-8">{items.map(x=><div className="surface p-6" key={x._id}><div className="flex justify-between"><span className="pill">{x.status||'Active'}</span><button onClick={()=>remove(x._id)} aria-label="Cancel subscription"><Trash2 className="w-4 h-4 text-rose-500"/></button></div><h2 className="font-black text-xl mt-5">{x.title}</h2><p className="muted text-sm mt-2">Every {x.frequencyMonths} month{x.frequencyMonths===1?'':'s'} · {x.discountPercent}% subscriber saving</p><div className="flex items-center gap-2 text-sm text-indigo-700 font-bold mt-5"><Calendar className="w-4 h-4"/>Next delivery {x.nextDeliveryAt?new Date(x.nextDeliveryAt).toLocaleDateString():'scheduled'}</div></div>)}</div>:<div className="grid md:grid-cols-3 gap-4 mt-8">{[['Save automatically','Choose a cadence that fits your routine.'],['Stay flexible','Cancel any time from this dashboard.'],['Keep control','See your next delivery before it happens.']].map(([t,d])=><div className="card p-6" key={t}><RefreshCw className="w-6 h-6 text-indigo-600"/><h2 className="font-black mt-4">{t}</h2><p className="muted text-sm mt-2">{d}</p></div>)}</div>}<div className="surface p-6 mt-8 flex gap-4 items-center"><ShieldCheck className="w-7 h-7 text-emerald-600"/><p className="text-sm muted">Subscriptions are opt-in and separate from one-time checkout. <Link className="amazon-link" href="/search">Find products to subscribe to.</Link></p></div></div>}
+'use client';
+
+import {useEffect, useState} from 'react';
+import Link from 'next/link';
+import {Calendar, RefreshCw, ShieldCheck, Trash2} from '@/lib/icons';
+import toast from 'react-hot-toast';
+import {PageHeader, StatusBadge} from '@/components/ui';
+
+export default function Subscriptions() {
+  const [items, setItems] = useState<any[]>([]);
+  const load = () => fetch('/api/subscriptions').then(response => response.json()).then(data => setItems(data.items || []));
+  useEffect(() => { load(); }, []);
+
+  async function remove(id: string) {
+    const response = await fetch('/api/subscriptions', {method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({subscriptionId: id})});
+    if (response.ok) { toast.success('Subscription cancelled'); load(); }
+  }
+
+  return (
+    <div>
+      <PageHeader eyebrow="Automatic replenishment" title="Subscriptions" description="Keep essentials moving on a schedule you control." />
+      {items.length ? (
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {items.map(item => (
+            <div className="surface p-6" key={item._id}>
+              <div className="flex justify-between"><StatusBadge value={item.status || 'Active'} /><button type="button" onClick={() => remove(item._id)} aria-label="Cancel subscription" className="rounded-lg p-2 text-rose-500 hover:bg-rose-50"><Trash2 className="h-4 w-4" /></button></div>
+              <h2 className="mt-5 text-xl font-black">{item.title}</h2>
+              <p className="muted mt-2 text-sm">Every {item.frequencyMonths} month{item.frequencyMonths === 1 ? '' : 's'} · {item.discountPercent}% subscriber saving</p>
+              <div className="mt-5 flex items-center gap-2 text-sm font-bold text-brand-700"><Calendar className="h-4 w-4" />Next delivery {item.nextDeliveryAt ? new Date(item.nextDeliveryAt).toLocaleDateString() : 'scheduled'}</div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {[['Save automatically', 'Choose a cadence that fits your routine.'], ['Stay flexible', 'Cancel any time from this dashboard.'], ['Keep control', 'See your next delivery before it happens.']].map(([title, description]) => <div className="card p-6" key={title}><RefreshCw className="h-6 w-6 text-brand-600" /><h2 className="mt-4 font-black">{title}</h2><p className="muted mt-2 text-sm">{description}</p></div>)}
+        </div>
+      )}
+      <div className="surface mt-8 flex items-center gap-4 p-6"><ShieldCheck className="h-7 w-7 shrink-0 text-emerald-600" /><p className="muted text-sm">Subscriptions are opt-in and separate from one-time checkout. <Link className="amazon-link" href="/search">Find products to subscribe to.</Link></p></div>
+    </div>
+  );
+}

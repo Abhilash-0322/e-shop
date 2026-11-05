@@ -1,1 +1,14 @@
-import {CheckCircle2,Lock,ShieldCheck} from '@/lib/icons';export default function Security(){return <div><p className="eyebrow">Protection</p><h1 className="page-title mt-2">Login & security</h1><p className="muted mt-3">Keep your identity, sessions, and shopping history protected.</p><div className="grid md:grid-cols-2 gap-5 mt-8"><div className="surface p-7"><Lock className="w-7 h-7 text-indigo-600"/><h2 className="font-black text-xl mt-5">Password hygiene</h2><p className="muted leading-relaxed mt-2">Use a unique password and never share account credentials with another person.</p><button className="btn btn-soft mt-5">Change password</button></div><div className="surface p-7"><ShieldCheck className="w-7 h-7 text-emerald-600"/><h2 className="font-black text-xl mt-5">Session protection</h2><p className="muted leading-relaxed mt-2">Your authenticated session uses an HTTP-only cookie and expires automatically.</p><div className="flex gap-2 items-center text-sm text-emerald-700 font-bold mt-5"><CheckCircle2 className="w-4 h-4"/>Protected by default</div></div></div></div>}
+import {CheckCircle2, Lock, ShieldCheck} from '@/lib/icons';
+import {PageHeader} from '@/components/ui';
+
+export default function Security() {
+  return (
+    <div>
+      <PageHeader eyebrow="Protection" title="Login & security" description="Keep your identity, sessions, and shopping history protected." />
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
+        <div className="surface p-7"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-100 text-brand-700"><Lock className="h-6 w-6" /></div><h2 className="mt-5 text-xl font-black">Password hygiene</h2><p className="muted mt-2 leading-relaxed">Use a unique password and never share account credentials with another person.</p><button className="btn btn-soft mt-5">Change password</button></div>
+        <div className="surface p-7"><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700"><ShieldCheck className="h-6 w-6" /></div><h2 className="mt-5 text-xl font-black">Session protection</h2><p className="muted mt-2 leading-relaxed">Your authenticated session uses an HTTP-only cookie and expires automatically.</p><div className="mt-5 flex items-center gap-2 text-sm font-bold text-emerald-700"><CheckCircle2 className="h-4 w-4" />Protected by default</div></div>
+      </div>
+    </div>
+  );
+}

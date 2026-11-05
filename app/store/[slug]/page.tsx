@@ -1,1 +1,22 @@
-import {connectDB} from '@/lib/mongodb';import User from '@/models/User';import Product from '@/models/Product';import ProductGrid from '@/components/ProductGrid';export const dynamic='force-dynamic';export default async function Store({params}:{params:{slug:string}}){await connectDB();const u=await User.findOne({'sellerProfile.slug':params.slug}).lean() as any;const p=await Product.find({sellerSlug:params.slug}).select('-description -reviews').lean();return <div className="shell py-12"><div className="rounded-3xl bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-900 text-white p-10"><p className="eyebrow !text-indigo-200">Seller storefront</p><h1 className="text-5xl font-black mt-3">{u?.sellerProfile?.storeName||params.slug}</h1><p className="text-indigo-200 mt-3 max-w-xl">{u?.sellerProfile?.description||'A Halozon seller storefront.'}</p></div><div className="mt-12"><ProductGrid products={JSON.parse(JSON.stringify(p))} title="Store products"/></div></div>}
+import {connectDB} from '@/lib/mongodb';
+import User from '@/models/User';
+import Product from '@/models/Product';
+import ProductGrid from '@/components/ProductGrid';
+import {PageHeader} from '@/components/ui';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Store({params}: {params: {slug: string}}) {
+  await connectDB();
+  const user = await User.findOne({'sellerProfile.slug': params.slug}).lean() as any;
+  const products = await Product.find({sellerSlug: params.slug}).select('-description -reviews').lean();
+  return (
+    <div className="shell py-10 md:py-14">
+      <div className="relative overflow-hidden rounded-[1.75rem] bg-slate-950 p-8 text-white md:p-10">
+        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand-500/25 blur-3xl" />
+        <div className="relative"><PageHeader inverse eyebrow="Seller storefront" title={user?.sellerProfile?.storeName || params.slug} description={user?.sellerProfile?.description || 'A Halozon seller storefront.'} /></div>
+      </div>
+      <div className="mt-12"><ProductGrid products={JSON.parse(JSON.stringify(products))} title="Store products" /></div>
+    </div>
+  );
+}

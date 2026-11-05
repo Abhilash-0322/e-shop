@@ -1,1 +1,21 @@
-import Link from 'next/link';export default function Plus(){return <div><section className="bg-gradient-to-br from-indigo-700 via-violet-600 to-fuchsia-600 text-white"><div className="shell py-24 text-center"><p className="eyebrow !text-indigo-100">Membership</p><h1 className="text-6xl font-black mt-3">Halozon Plus</h1><p className="text-xl text-indigo-100 max-w-2xl mx-auto mt-5">Priority delivery, exclusive drops, and premium support for people who shop with intention.</p><Link className="btn bg-white text-indigo-700 mt-8" href="/register">Start your free trial</Link></div></section><div className="shell py-14 grid md:grid-cols-3 gap-5">{[['Fast delivery','Priority shipping on qualifying products.'],['Member drops','Early access to limited collections.'],['Premium support','A faster path through order questions.']].map(([t,d])=><div className="surface p-7" key={t}><h2 className="font-black text-xl">{t}</h2><p className="muted mt-3">{d}</p></div>)}</div></div>}
+import Link from 'next/link';
+import {Clock, Headphones, Truck} from 'lucide-react';
+import {PageHeader} from '@/components/ui';
+
+export default function Plus() {
+  return (
+    <div>
+      <section className="bg-slate-950 text-white">
+        <div className="shell py-20 md:py-28">
+          <PageHeader inverse eyebrow="Membership" title="Halozon Plus" description="Priority delivery, exclusive drops, and premium support for people who shop with intention." actions={<Link className="btn bg-white text-brand-700" href="/register">Start your free trial</Link>} />
+        </div>
+      </section>
+      <div className="shell grid gap-5 py-14 md:grid-cols-3">
+        {[[Truck, 'Fast delivery', 'Priority shipping on qualifying products.'], [Clock, 'Member drops', 'Early access to limited collections.'], [Headphones, 'Premium support', 'A faster path through order questions.']].map(([Icon, title, description]) => {
+          const Glyph = Icon as typeof Truck;
+          return <div className="surface p-7" key={title as string}><div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-100 text-brand-700"><Glyph className="h-5 w-5" /></div><h2 className="mt-5 text-xl font-black">{title as string}</h2><p className="muted mt-3 leading-relaxed">{description as string}</p></div>;
+        })}
+      </div>
+    </div>
+  );
+}

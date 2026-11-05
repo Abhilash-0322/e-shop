@@ -1,1 +1,18 @@
-import {redirect} from 'next/navigation';import Link from 'next/link';import {getCurrentUser} from '@/lib/auth';import {LayoutDashboard,Users,Package,Store,ArrowLeft} from '@/lib/icons';const nav=[['/admin','Overview',LayoutDashboard],['/admin/users','Users',Users],['/admin/products','Products',Package],['/admin/sellers','Sellers',Store]] as const;export default async function AdminLayout({children}:{children:React.ReactNode}){const u=await getCurrentUser();if(!u||u.role!=='admin')redirect('/');return <div><div className="bg-slate-950 text-white"><div className="shell py-4 flex gap-5"><Link href="/" className="flex gap-2 items-center text-slate-300"><ArrowLeft className="w-4 h-4"/>Storefront</Link><b>Admin console</b></div></div><div className="shell py-8 grid lg:grid-cols-[220px_1fr] gap-8"><aside className="surface p-3 space-y-1 h-fit">{nav.map(([h,l,I])=><Link href={h} key={h} className="flex gap-2 items-center p-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700"><I className="w-4 h-4"/>{l}</Link>)}</aside><div>{children}</div></div></div>}
+import {redirect} from 'next/navigation';
+import {getCurrentUser} from '@/lib/auth';
+import {LayoutDashboard, Package, Store, Users} from '@/lib/icons';
+import WorkspaceShell from '@/components/WorkspaceShell';
+
+const nav = [
+  {href: '/admin', label: 'Overview', icon: <LayoutDashboard className="h-4 w-4" />},
+  {href: '/admin/users', label: 'Users', icon: <Users className="h-4 w-4" />},
+  {href: '/admin/products', label: 'Products', icon: <Package className="h-4 w-4" />},
+  {href: '/admin/sellers', label: 'Sellers', icon: <Store className="h-4 w-4" />},
+  {href: '/admin/reviews', label: 'Reviews', icon: <Package className="h-4 w-4" />},
+];
+
+export default async function AdminLayout({children}: {children: React.ReactNode}) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'admin') redirect('/');
+  return <WorkspaceShell title="Admin console" identity={user.email} links={nav} intro="Monitor marketplace health and keep the community moving.">{children}</WorkspaceShell>;
+}
