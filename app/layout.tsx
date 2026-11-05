@@ -7,5 +7,5 @@ import Providers from '@/components/Providers';
 import CompareBar from '@/components/CompareBar';
 import {getCurrentUser} from '@/lib/auth';
 const inter=Inter({subsets:['latin'],variable:'--font-sans',display:'swap'});
-export const metadata:Metadata={title:'Halozon — commerce, reimagined',description:'A modern marketplace for discovering products from trusted sellers.'};
+export const metadata:Metadata={title:'Halozon — good things, well found',description:'A considered marketplace for discovering products from trusted sellers.'};
 export default async function RootLayout({children}:{children:React.ReactNode}){const user=await getCurrentUser();return <html lang="en"><body className={`${inter.variable}`}><Providers><Header user={user}/><main>{children}</main><Footer/><CompareBar/></Providers></body></html>}
