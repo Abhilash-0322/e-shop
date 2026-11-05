@@ -1,2 +1,95 @@
-'use client';import {useState} from 'react';import {useCart} from '@/hooks/useCart';import {Heart,ShoppingCart,ShieldCheck,Truck,Plus,Minus,Star} from '@/lib/icons';import toast from 'react-hot-toast';import Link from 'next/link';import type {Product} from './ProductCard';import ProductExtras from './ProductExtras';
-export default function ProductView({product}:{product:Product&{description?:string;features?:string[];colors?:string[];sizes?:string[];sellerName?:string}}){const {add}=useCart();const [qty,setQty]=useState(1);const [saved,setSaved]=useState(false);async function addItem(){const ok=await add(product._id,qty);toast[ok?'success':'error'](ok?'Added to cart':'Sign in to add items')}return <div className="shell py-12"><div className="text-sm muted mb-7"><Link href="/" className="amazon-link">Home</Link> / {product.title}</div><div className="grid lg:grid-cols-2 gap-10"><div className="surface p-5"><div className="aspect-square rounded-2xl bg-gradient-to-br from-indigo-50 to-fuchsia-50 flex items-center justify-center"><img src={product.images?.[0]||'/placeholder-product.svg'} alt={product.title} className="max-w-full max-h-full object-contain"/></div><div className="grid grid-cols-4 gap-2 mt-3">{(product.images||[]).slice(0,4).map((src:string)=><div key={src} className="aspect-square rounded-lg border border-slate-200 p-1"><img src={src} alt="" className="w-full h-full object-contain"/></div>)}</div></div><div><p className="eyebrow">{product.brand||'Halozon selection'}</p><h1 className="text-4xl font-black mt-3">{product.title}</h1><div className="flex items-center gap-2 mt-4 text-amber-500"><Star className="w-4 h-4 fill-current"/>{product.rating?.toFixed(1)||'4.5'} <span className="text-slate-500 text-sm">({product.ratingCount||0} reviews)</span></div><div className="flex items-baseline gap-3 mt-6"><b className="text-4xl">${product.price.toFixed(2)}</b>{product.listPrice&&product.listPrice>product.price&&<del className="muted">${product.listPrice.toFixed(2)}</del>}</div><p className="muted leading-relaxed mt-5">{product.description||'A thoughtfully selected product from a trusted Halozon seller.'}</p>{product.features?.length&&<ul className="mt-5 space-y-2 text-sm">{product.features.map(x=><li key={x}>✓ {x}</li>)}</ul>}<div className="flex gap-3 mt-8"><div className="flex items-center border border-slate-300 rounded-xl"><button className="p-3" onClick={()=>setQty(Math.max(1,qty-1))}><Minus className="w-4 h-4"/></button><span className="w-8 text-center font-bold">{qty}</span><button className="p-3" onClick={()=>setQty(qty+1)}><Plus className="w-4 h-4"/></button></div><button onClick={addItem} className="btn btn-primary flex-1"><ShoppingCart className="w-5 h-5"/>Add to cart</button><button onClick={()=>setSaved(v=>!v)} className={`btn btn-soft ${saved?'text-rose-600':''}`}><Heart className={saved?'fill-current':''}/></button></div><div className="grid grid-cols-3 gap-3 mt-8">{[[Truck,'Fast delivery'],[ShieldCheck,'Buyer protected'],[Heart,'Easy returns']].map(([I,l])=>{const Icon=I as any;return <div key={l as string} className="surface p-3 text-center"><Icon className="w-5 h-5 mx-auto text-indigo-600"/><small className="block mt-2">{l}</small></div>})}</div></div></div><ProductExtras productId={product._id}/></div>}
+'use client';
+
+import Link from 'next/link';
+import {useState} from 'react';
+import {Heart, Minus, Plus, ShieldCheck, ShoppingCart, Star, Truck} from '@/lib/icons';
+import {useCart} from '@/hooks/useCart';
+import toast from 'react-hot-toast';
+import type {Product} from './ProductCard';
+import ProductExtras from './ProductExtras';
+
+type ProductDetails = Product & {
+  description?: string;
+  features?: string[];
+  colors?: string[];
+  sizes?: string[];
+  sellerName?: string;
+};
+
+const assurances = [
+  {Icon: Truck, label: 'Fast delivery'},
+  {Icon: ShieldCheck, label: 'Buyer protected'},
+  {Icon: Heart, label: 'Easy returns'},
+];
+
+export default function ProductView({product}: {product: ProductDetails}) {
+  const {add} = useCart();
+  const [qty, setQty] = useState(1);
+  const [saved, setSaved] = useState(false);
+
+  async function addItem() {
+    const ok = await add(product._id, qty);
+    toast[ok ? 'success' : 'error'](ok ? 'Added to cart' : 'Sign in to add items');
+  }
+
+  return (
+    <div className="shell py-12">
+      <nav className="mb-7 text-sm muted" aria-label="Breadcrumb">
+        <Link href="/" className="amazon-link">Home</Link>
+        <span aria-hidden="true"> / </span>
+        <span aria-current="page">{product.title}</span>
+      </nav>
+      <div className="grid gap-10 lg:grid-cols-2">
+        <div className="surface p-5">
+          <div className="flex aspect-square items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-50 to-cyan-50">
+            <img src={product.images?.[0] || '/placeholder-product.svg'} alt={product.title} className="max-h-full max-w-full object-contain" />
+          </div>
+          {product.images?.length ? (
+            <div className="mt-3 grid grid-cols-4 gap-2" aria-label="Product images">
+              {product.images.slice(0, 4).map((src, index) => (
+                <div key={src} className="aspect-square rounded-lg border border-slate-200 p-1">
+                  <img src={src} alt={`${product.title}, view ${index + 1}`} className="h-full w-full object-contain" />
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <div>
+          <p className="eyebrow">{product.brand || 'Halozon selection'}</p>
+          <h1 className="mt-3 text-4xl font-black">{product.title}</h1>
+          <div className="mt-4 flex items-center gap-2 text-amber-700">
+            <Star className="h-4 w-4 fill-current" aria-hidden="true" />
+            <span>{product.rating?.toFixed(1) || '4.5'}</span>
+            <span className="text-sm text-slate-600">({product.ratingCount || 0} reviews)</span>
+          </div>
+          <div className="mt-6 flex items-baseline gap-3">
+            <b className="text-4xl">${product.price.toFixed(2)}</b>
+            {product.listPrice && product.listPrice > product.price && <del className="muted">${product.listPrice.toFixed(2)}</del>}
+          </div>
+          <p className="mt-5 leading-relaxed muted">{product.description || 'A thoughtfully selected product from a trusted Halozon seller.'}</p>
+          {product.features?.length ? <ul className="mt-5 space-y-2 text-sm" aria-label="Product features">{product.features.map((feature) => <li key={feature}><span className="mr-2 text-emerald-700" aria-hidden="true">✓</span>{feature}</li>)}</ul> : null}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <fieldset className="flex items-center rounded-xl border border-slate-300">
+              <legend className="sr-only">Quantity</legend>
+              <button type="button" className="flex min-h-11 min-w-11 items-center justify-center rounded-l-xl p-3 hover:bg-slate-100" onClick={() => setQty(Math.max(1, qty - 1))} aria-label="Decrease quantity" disabled={qty === 1}>
+                <Minus className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <output className="w-10 text-center font-bold" aria-label={`Quantity ${qty}`} aria-live="polite">{qty}</output>
+              <button type="button" className="flex min-h-11 min-w-11 items-center justify-center rounded-r-xl p-3 hover:bg-slate-100" onClick={() => setQty(qty + 1)} aria-label="Increase quantity">
+                <Plus className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </fieldset>
+            <button type="button" onClick={addItem} className="btn btn-primary min-w-40 flex-1"><ShoppingCart className="h-5 w-5" aria-hidden="true" /> Add to cart</button>
+            <button type="button" onClick={() => setSaved((value) => !value)} className={`btn btn-soft ${saved ? 'text-rose-700' : ''}`} aria-label={saved ? 'Remove product from wishlist' : 'Save product to wishlist'} aria-pressed={saved}>
+              <Heart className={saved ? 'fill-current' : ''} aria-hidden="true" />
+            </button>
+          </div>
+          <ul className="mt-8 grid grid-cols-3 gap-3" aria-label="Purchase assurances">
+            {assurances.map(({Icon, label}) => <li key={label} className="surface p-3 text-center"><Icon className="mx-auto h-5 w-5 text-indigo-700" aria-hidden="true" /><small className="mt-2 block">{label}</small></li>)}
+          </ul>
+        </div>
+      </div>
+      <ProductExtras productId={product._id} />
+    </div>
+  );
+}

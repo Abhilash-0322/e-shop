@@ -1,2 +1,53 @@
-'use client';import {useEffect,useState} from 'react';import {useSearchParams} from 'next/navigation';import {Check,Minus} from '@/lib/icons';
-export default function Compare(){const sp=useSearchParams();const [items,setItems]=useState<any[]>([]);useEffect(()=>{const ids=(sp.get('ids')||'').split(',').filter(Boolean);if(ids.length>1)fetch('/api/compare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids})}).then(r=>r.json()).then(d=>setItems(d.items||[]))},[sp]);const rows:[string,string][]=[['Price','price'],['Brand','brand'],['Rating','rating'],['Plus delivery','plus'],['Stock','stock']];return <div className="shell py-12"><p className="eyebrow">Decision tool</p><h1 className="page-title mt-2">Compare products</h1>{items.length<2?<div className="surface p-10 mt-8 muted">Select at least two products from a product card to compare them.</div>:<div className="surface overflow-auto mt-8"><table className="w-full min-w-[620px] text-sm"><thead><tr><th className="p-5 text-left">Specification</th>{items.map(x=><th className="p-5 text-left" key={x._id}>{x.title}</th>)}</tr></thead><tbody>{rows.map(([label,key])=><tr className="border-t" key={key}><th className="p-5 text-left bg-slate-50">{label}</th>{items.map(x=><td className="p-5" key={x._id}>{key==='plus'?(x.isPrime?<Check className="text-emerald-600"/>:<Minus className="text-slate-400"/>):key==='price'?`$${x.price}`:String(x[key]??'—')}</td>)}</tr>)}</tbody></table></div>}</div>}
+'use client';
+
+import {useEffect, useState} from 'react';
+import {useSearchParams} from 'next/navigation';
+import {Check, Minus} from '@/lib/icons';
+
+export default function Compare() {
+  const searchParams = useSearchParams();
+  const [items, setItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    const ids = (searchParams.get('ids') || '').split(',').filter(Boolean);
+    if (ids.length > 1) fetch('/api/compare', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ids})}).then((response) => response.json()).then((data) => setItems(data.items || []));
+  }, [searchParams]);
+
+  const rows: [string, string][] = [['Price', 'price'], ['Brand', 'brand'], ['Rating', 'rating'], ['Plus delivery', 'plus'], ['Stock', 'stock']];
+
+  return (
+    <div className="shell py-12">
+      <p className="eyebrow">Decision tool</p>
+      <h1 className="page-title mt-2">Compare products</h1>
+      {items.length < 2 ? (
+        <div className="surface mt-8 p-10 muted" role="status">Select at least two products from a product card to compare them.</div>
+      ) : (
+        <div className="surface table-wrap mt-8">
+          <table className="w-full text-sm">
+            <caption className="sr-only">Product comparison</caption>
+            <thead>
+              <tr>
+                <th scope="col" className="p-5 text-left">Specification</th>
+                {items.map((item) => <th scope="col" className="p-5 text-left" key={item._id}>{item.title}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(([label, key]) => (
+                <tr className="border-t" key={key}>
+                  <th scope="row" className="bg-slate-50 p-5 text-left">{label}</th>
+                  {items.map((item) => (
+                    <td className="p-5" key={item._id}>
+                      {key === 'plus'
+                        ? item.isPrime ? <><Check className="inline text-emerald-700" aria-hidden="true" /><span className="sr-only">Included</span></> : <><Minus className="inline text-slate-500" aria-hidden="true" /><span className="sr-only">Not included</span></>
+                        : key === 'price' ? `$${item.price}` : String(item[key] ?? '—')}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

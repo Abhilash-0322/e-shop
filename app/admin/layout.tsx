@@ -1,1 +1,32 @@
-import {redirect} from 'next/navigation';import Link from 'next/link';import {getCurrentUser} from '@/lib/auth';import {LayoutDashboard,Users,Package,Store,ArrowLeft} from '@/lib/icons';const nav=[['/admin','Overview',LayoutDashboard],['/admin/users','Users',Users],['/admin/products','Products',Package],['/admin/sellers','Sellers',Store]] as const;export default async function AdminLayout({children}:{children:React.ReactNode}){const u=await getCurrentUser();if(!u||u.role!=='admin')redirect('/');return <div><div className="bg-slate-950 text-white"><div className="shell py-4 flex gap-5"><Link href="/" className="flex gap-2 items-center text-slate-300"><ArrowLeft className="w-4 h-4"/>Storefront</Link><b>Admin console</b></div></div><div className="shell py-8 grid lg:grid-cols-[220px_1fr] gap-8"><aside className="surface p-3 space-y-1 h-fit">{nav.map(([h,l,I])=><Link href={h} key={h} className="flex gap-2 items-center p-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700"><I className="w-4 h-4"/>{l}</Link>)}</aside><div>{children}</div></div></div>}
+import {redirect} from 'next/navigation';
+import Link from 'next/link';
+import {getCurrentUser} from '@/lib/auth';
+import {ArrowLeft, LayoutDashboard, Package, Store, Users} from '@/lib/icons';
+
+const nav = [['/admin', 'Overview', LayoutDashboard], ['/admin/users', 'Users', Users], ['/admin/products', 'Products', Package], ['/admin/sellers', 'Sellers', Store]] as const;
+
+export default async function AdminLayout({children}: {children: React.ReactNode}) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'admin') redirect('/');
+
+  return (
+    <div>
+      <div className="bg-slate-950 text-white">
+        <div className="shell flex flex-wrap items-center gap-5 py-4">
+          <Link href="/" className="flex min-h-11 items-center gap-2 rounded text-slate-200"><ArrowLeft className="h-4 w-4" aria-hidden="true" />Storefront</Link>
+          <b>Admin console</b>
+        </div>
+      </div>
+      <div className="shell grid gap-8 py-8 lg:grid-cols-[220px_1fr]">
+        <aside className="surface h-fit p-3" aria-label="Administration navigation">
+          <nav>
+            <ul className="space-y-1">
+              {nav.map(([href, label, Icon]) => <li key={href}><Link href={href} className="flex min-h-11 items-center gap-2 rounded-xl p-3 text-sm font-bold text-slate-700 hover:bg-indigo-50 hover:text-indigo-800"><Icon className="h-4 w-4" aria-hidden="true" />{label}</Link></li>)}
+            </ul>
+          </nav>
+        </aside>
+        <div className="min-w-0">{children}</div>
+      </div>
+    </div>
+  );
+}
