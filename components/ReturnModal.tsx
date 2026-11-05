@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X, RotateCcw } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 const REASONS = [
   'Damaged on arrival',
@@ -27,6 +28,14 @@ export default function ReturnModal({
   const [overallReason, setOverallReason] = useState('');
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !submitting) onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onClose, submitting]);
 
   function toggle(idx: number, item: any) {
     setSelected((prev) => {
@@ -78,10 +87,10 @@ export default function ReturnModal({
   }
 
   return (
-    <div className="fixed inset-0 z-[80] bg-black/50 flex items-center justify-center p-4 animate-fadeIn" onClick={onClose}>
-      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[80] bg-black/50 flex items-center justify-center p-4 animate-fadeIn" onClick={() => !submitting && onClose()} role="presentation">
+      <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="return-modal-title">
         <div className="flex justify-between items-center p-5 border-b border-amazon-border">
-          <h2 className="text-xl font-bold flex items-center gap-2">
+          <h2 id="return-modal-title" className="text-xl font-bold flex items-center gap-2">
             <RotateCcw className="w-5 h-5 text-amazon-orange" /> Return items
           </h2>
           <button onClick={onClose} className="p-1 hover:bg-amazon-bg rounded">
@@ -89,6 +98,9 @@ export default function ReturnModal({
           </button>
         </div>
         <div className="p-5 space-y-4">
+          <SafetyNotice title="Return expectations" tone="info">
+            Returns can be started for delivered orders. Choose the exact items and reason; support will review the request and show the refund amount in Your Returns.
+          </SafetyNotice>
           <label className="block">
             <span className="text-sm font-bold block mb-1">Reason for return *</span>
             <select

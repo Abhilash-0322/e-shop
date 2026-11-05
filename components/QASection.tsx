@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, ThumbsUp, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 type Answer = { userName?: string; body: string; helpful?: number; isSeller?: boolean; isAsker?: boolean; createdAt?: string };
 type Question = { _id: string; body: string; helpful: number; answers: Answer[]; answerCount: number; userName?: string; createdAt?: string };
@@ -14,18 +15,22 @@ export default function QASection({ productId }: { productId: string }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [replyMap, setReplyMap] = useState<Record<string, string>>({});
 
-  async function refresh() {
+  async function refresh(signal?: AbortSignal) {
     setLoading(true);
     try {
-      const r = await fetch(`/api/products/${productId}/questions`);
+      const r = await fetch(`/api/products/${productId}/questions`, { signal });
       const d = await r.json();
-      setItems(d.items || []);
+      if (!signal?.aborted) setItems(d.items || []);
+    } catch (error: any) {
+      if (error.name !== 'AbortError' && !signal?.aborted) toast.error('Questions could not be loaded');
     } finally {
-      setLoading(false);
+      if (!signal?.aborted) setLoading(false);
     }
   }
   useEffect(() => {
-    refresh();
+    const controller = new AbortController();
+    refresh(controller.signal);
+    return () => controller.abort();
   }, [productId]);
 
   async function ask(e: React.FormEvent) {
@@ -80,6 +85,7 @@ export default function QASection({ productId }: { productId: string }) {
           <Plus className="w-3 h-3 inline mr-1" /> Ask a question
         </button>
       </div>
+      <div className="mb-4"><SafetyNotice title="Questions are visible to the community" tone="info">Keep questions and answers factual and respectful. Report a concern to support so it can be reviewed.</SafetyNotice></div>
 
       {asking && (
         <form onSubmit={ask} className="mb-4 border border-amazon-border rounded-md p-3 bg-amazon-bg/30">

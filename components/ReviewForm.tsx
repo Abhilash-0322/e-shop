@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Star, Upload, X, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -18,14 +18,25 @@ export default function ReviewForm({ productId, onSubmitted }: Props) {
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const previewsRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    previewsRef.current = previews;
+  }, [previews]);
+  useEffect(() => () => {
+    previewsRef.current.forEach((src) => URL.revokeObjectURL(src));
+  }, []);
 
   function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const list = Array.from(e.target.files || []).slice(0, 4);
+    previewsRef.current.forEach((src) => URL.revokeObjectURL(src));
     setFiles(list);
     setPreviews(list.map((f) => URL.createObjectURL(f)));
   }
 
   function removeImage(i: number) {
+    const removed = previews[i];
+    if (removed) URL.revokeObjectURL(removed);
     setFiles((prev) => prev.filter((_, j) => j !== i));
     setPreviews((prev) => prev.filter((_, j) => j !== i));
   }
@@ -57,6 +68,7 @@ export default function ReviewForm({ productId, onSubmitted }: Props) {
       setTitle('');
       setBody('');
       setFiles([]);
+      previewsRef.current.forEach((src) => URL.revokeObjectURL(src));
       setPreviews([]);
       onSubmitted?.();
       router.refresh();

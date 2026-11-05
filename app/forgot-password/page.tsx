@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Check, Loader2 } from 'lucide-react';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -37,6 +38,9 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
         {!sent ? (
           <form onSubmit={submit} className="space-y-3">
+            <SafetyNotice title="Recovery is private by default" tone="info">
+              We show the same confirmation whether or not an account exists. Never forward your reset link or share it with another person.
+            </SafetyNotice>
             <h1 className="text-2xl font-medium">Forgot password?</h1>
             <p className="text-sm text-amazon-textMuted">
               Enter the email associated with your account. We&apos;ll send you a link to reset your password.

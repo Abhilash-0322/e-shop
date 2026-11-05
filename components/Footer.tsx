@@ -46,6 +46,8 @@ const COLS: { title: string; items: Item[] }[] = [
       { label: 'Your Orders', href: '/account/orders' },
       { label: 'Shipping Rates & Policies', href: '/info/shipping-policies' },
       { label: 'Returns', href: '/account/returns' },
+      { label: 'Security Center', href: '/security' },
+      { label: 'Report a safety concern', href: '/help#report' },
       { label: 'Manage Subscriptions', href: '/account/subscriptions' },
       { label: 'Help', href: '/help' },
       { label: 'Accessibility', href: '/info/accessibility' },
@@ -110,6 +112,7 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2 mb-3">
             <li><Link href="/conditions" className="hover:underline">Conditions of Use</Link></li>
             <li><Link href="/privacy" className="hover:underline">Privacy Notice</Link></li>
+            <li><Link href="/security" className="hover:underline">Security Center</Link></li>
             <li><Link href="/interest-based-ads" className="hover:underline">Interest-Based Ads</Link></li>
             <li><Link href="/help" className="hover:underline">Help</Link></li>
           </ul>

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
+import TrustBadge from '@/components/TrustBadge';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function CartView() {
   const { items, count, subtotal, update, remove, refresh } = useCart();
@@ -45,6 +47,11 @@ export default function CartView() {
               <div className="text-sm text-amazon-textMuted">Price</div>
             </div>
           </div>
+          <div className="flex flex-wrap gap-2 mb-3">
+            <TrustBadge kind="delivery" />
+            <TrustBadge kind="returns" />
+            <TrustBadge kind="secure" />
+          </div>
           <div className="bg-white border border-amazon-border rounded-md divide-y divide-amazon-border">
             {items.map((it) => (
               <div key={it.productId} className="p-4 flex gap-4">
@@ -59,8 +66,8 @@ export default function CartView() {
                   {it.isPrime && (
                     <div className="text-xs text-amazon-link font-semibold mt-1">prime</div>
                   )}
-                  <div className="text-xs text-amazon-greenDark font-medium mt-1">In Stock</div>
-                  <div className="text-xs text-amazon-textMuted">Eligible for FREE Shipping</div>
+                  <div className="text-xs text-amazon-greenDark font-medium mt-1">In stock · quantity checked at checkout</div>
+                  <div className="text-xs text-amazon-textMuted">Delivery estimate shown before payment</div>
                   <div className="flex items-center gap-3 mt-3">
                     <div className="inline-flex items-center border border-amazon-borderDark rounded-md">
                       <button onClick={() => update(it.productId, Math.max(0, it.qty - 1))} className="px-2 py-1 hover:bg-amazon-bg">
@@ -104,7 +111,7 @@ export default function CartView() {
               </div>
             )}
             <div className="text-sm text-amazon-textMuted mb-2">
-              Choose a payment method below to complete checkout.
+              Choose a payment method at secure checkout. You can review the total before placing your order.
             </div>
             <Link
               href="/checkout"
@@ -117,6 +124,9 @@ export default function CartView() {
               <Link href="/" className="amazon-link text-sm">Continue shopping</Link>
             </div>
           </div>
+          <SafetyNotice title="Need help before buying?" href="/help#contact" linkLabel="Contact support">
+            We can help with delivery questions, returns, or a concern about a seller.
+          </SafetyNotice>
         </aside>
       </div>
     </div>

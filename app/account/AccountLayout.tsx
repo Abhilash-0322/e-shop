@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ShieldCheck } from 'lucide-react';
 
 const TABS = [
   { href: '/account', label: 'Your Account' },
@@ -34,6 +35,14 @@ export default function AccountLayout({ user, children }: { user: { name: string
               </Link>
             ))}
           </nav>
+          <div className="border-t border-amazon-border mt-3 pt-3">
+            <Link href="/security" className="flex items-center gap-2 px-2 py-1.5 rounded text-sm text-amazon-link hover:bg-amazon-bg">
+              <ShieldCheck className="w-4 h-4" /> Security Center
+            </Link>
+            <Link href="/help#contact" className="block px-2 py-1.5 rounded text-sm text-amazon-link hover:bg-amazon-bg">
+              Contact support
+            </Link>
+          </div>
         </div>
       </aside>
       <div>{children}</div>

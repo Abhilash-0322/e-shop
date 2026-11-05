@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import TrustBadge from '@/components/TrustBadge';
 
 export default function PrimePage() {
   return (
@@ -12,11 +13,16 @@ export default function PrimePage() {
           <Link href="/register" className="amazon-btn-yellow inline-block mt-6 !text-base !px-8 !py-3">
             Start your free trial
           </Link>
+          <div className="flex flex-wrap justify-center gap-2 mt-5">
+            <TrustBadge kind="delivery" compact />
+            <TrustBadge kind="returns" compact />
+            <span className="rounded-full bg-white/15 px-2 py-0.5 text-[11px] font-semibold">Cancel anytime</span>
+          </div>
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { t: 'FREE Fast Delivery', d: 'Get FREE One-Day, Same-Day, and Two-Day delivery on eligible items.' },
+          { t: 'FREE Fast Delivery', d: 'Get FREE One-Day, Same-Day, and Two-Day delivery on eligible items. The final estimate appears before payment.' },
           { t: 'Prime Video', d: 'Watch thousands of movies and TV shows, including award-winning halozon Originals.' },
           { t: 'Prime Music', d: 'Stream over 100 million songs, ad-free, with unlimited skips.' },
         ].map((f) => (

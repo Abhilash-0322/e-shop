@@ -1,20 +1,20 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Pause, Play, ShieldCheck } from 'lucide-react';
 
 const SLIDES = [
   {
     eyebrow: 'Up to 60% off',
     title: 'A new era of smart home',
-    sub: 'Discover Echo, Fire TV and Ring devices.',
+    sub: 'Discover smart home products with verified seller details and clear delivery estimates.',
     bg: 'from-amazon-navy via-amazon-navylight to-amazon-orange/70',
     cta: { href: '/category/electronics', label: 'Shop Electronics' },
   },
   {
     eyebrow: 'Today only',
     title: 'Deals of the Day',
-    sub: 'New deals every hour. Refresh often.',
+    sub: 'New deals every hour, with stock signals and returns shown before you decide.',
     bg: 'from-amazon-orange via-amazon-orangedark to-amazon-buy',
     cta: { href: '/deals', label: 'See today\u2019s deals' },
   },
@@ -36,13 +36,21 @@ const SLIDES = [
 
 export default function Hero() {
   const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
   useEffect(() => {
+    if (paused) return;
     const t = setInterval(() => setI((v) => (v + 1) % SLIDES.length), 6000);
     return () => clearInterval(t);
-  }, []);
+  }, [paused]);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
+    <section
+      className="relative w-full h-[420px] md:h-[520px] overflow-hidden"
+      aria-roledescription="carousel"
+      aria-label="Featured shopping highlights"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div
         key={i}
         className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
@@ -53,6 +61,9 @@ export default function Hero() {
         <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
       </div>
       <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold text-white/80 mb-4">
+          <ShieldCheck className="w-4 h-4 text-amazon-orange" aria-hidden="true" /> Shop with clear, honest signals
+        </div>
         <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
           {s.eyebrow}
         </div>
@@ -82,18 +93,27 @@ export default function Hero() {
       >
         <ChevronRight className="w-6 h-6" />
       </button>
+      <button
+        onClick={() => setPaused((value) => !value)}
+        aria-label={paused ? 'Resume featured highlights' : 'Pause featured highlights'}
+        className="absolute right-14 bottom-4 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white"
+      >
+        {paused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+      </button>
       {/* Dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {SLIDES.map((_, k) => (
           <button
             key={k}
             onClick={() => setI(k)}
+            aria-label={`Show highlight ${k + 1}`}
+            aria-current={k === i ? 'true' : undefined}
             className={`h-2 rounded-full transition-all ${k === i ? 'w-8 bg-white' : 'w-2 bg-white/50'}`}
           />
         ))}
       </div>
       {/* Fade strip */}
       <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent to-amazon-bg" />
-    </div>
+    </section>
   );
 }

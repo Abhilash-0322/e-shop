@@ -5,23 +5,33 @@ import { Search, Trash2 } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import AdminLayout from '../AdminLayout';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function AdminProducts() {
   const [items, setItems] = useState<any[]>([]);
   const [q, setQ] = useState('');
   const [loading, setLoading] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
 
-  async function refresh() {
+  async function refresh(signal?: AbortSignal) {
     setLoading(true);
-    const r = await fetch(`/api/admin/products?q=${encodeURIComponent(q)}`);
-    const d = await r.json();
-    setItems(d.items || []);
-    setLoading(false);
+    try {
+      const r = await fetch(`/api/admin/products?q=${encodeURIComponent(q)}`, { signal });
+      const d = await r.json();
+      if (!signal?.aborted) setItems(d.items || []);
+    } catch {
+      if (!signal?.aborted) toast.error('Products could not be loaded');
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
   }
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    refresh(controller.signal);
+    return () => controller.abort();
+  }, []);
 
   async function del(id: string, title: string) {
-    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
     const r = await fetch('/api/admin/products', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -29,6 +39,7 @@ export default function AdminProducts() {
     });
     if (r.ok) {
       toast.success('Deleted');
+      setDeleteTarget(null);
       refresh();
     } else toast.error('Failed');
   }
@@ -46,7 +57,7 @@ export default function AdminProducts() {
           onKeyDown={(e) => e.key === 'Enter' && refresh()}
         />
       </div>
-      <button onClick={refresh} className="amazon-btn-dark !text-xs mb-4">Search</button>
+      <button onClick={() => refresh()} className="amazon-btn-dark !text-xs mb-4">Search</button>
 
       <div className="bg-white border border-amazon-border rounded-md overflow-x-auto">
         <table className="w-full text-sm">
@@ -77,7 +88,7 @@ export default function AdminProducts() {
                 <td className="p-3">{formatPrice(p.price)}</td>
                 <td className="p-3">{p.stock}</td>
                 <td className="p-3">
-                  <button onClick={() => del(p._id, p.title)} className="text-xs text-amazon-deal hover:underline flex items-center gap-1">
+                  <button onClick={() => setDeleteTarget(p)} className="text-xs text-amazon-deal hover:underline flex items-center gap-1">
                     <Trash2 className="w-3 h-3" /> Delete
                   </button>
                 </td>
@@ -89,6 +100,14 @@ export default function AdminProducts() {
           </tbody>
         </table>
       </div>
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete this product?"
+        description={deleteTarget ? `“${deleteTarget.title}” will be removed from the catalog and will no longer be available to shoppers. This action cannot be undone.` : ''}
+        confirmLabel="Delete product"
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => deleteTarget ? del(deleteTarget._id, deleteTarget.title) : undefined}
+      />
     </AdminLayout>
   );
 }

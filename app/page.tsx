@@ -6,6 +6,7 @@ import ProductGrid from '@/components/ProductGrid';
 import CategoryTile from '@/components/CategoryTile';
 import PersonalizedRow from '@/components/PersonalizedRow';
 import Link from 'next/link';
+import TrustBadge from '@/components/TrustBadge';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,6 +31,22 @@ export default async function Home() {
       <Hero />
 
       <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+        <section className="amazon-card p-5 md:p-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="text-xs uppercase tracking-widest text-amazon-orange font-bold mb-1">Shop with confidence</div>
+              <h2 className="text-2xl font-bold">The important details are easy to find</h2>
+              <p className="text-sm text-amazon-textMuted mt-1">Seller identity, delivery estimates, payment safety, and returns stay close to the decision.</p>
+            </div>
+            <Link href="/security" className="amazon-btn-dark whitespace-nowrap">See our safety standards</Link>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-4">
+            <TrustBadge kind="verified" />
+            <TrustBadge kind="secure" />
+            <TrustBadge kind="delivery" />
+            <TrustBadge kind="returns" />
+          </div>
+        </section>
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

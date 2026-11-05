@@ -4,19 +4,30 @@ import Link from 'next/link';
 import { Check, X, ExternalLink } from 'lucide-react';
 import AdminLayout from '../AdminLayout';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function AdminSellers() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [revokeTarget, setRevokeTarget] = useState<any | null>(null);
 
-  async function refresh() {
+  async function refresh(signal?: AbortSignal) {
     setLoading(true);
-    const r = await fetch('/api/admin/sellers');
-    const d = await r.json();
-    setItems(d.items || []);
-    setLoading(false);
+    try {
+      const r = await fetch('/api/admin/sellers', { signal });
+      const d = await r.json();
+      if (!signal?.aborted) setItems(d.items || []);
+    } catch {
+      if (!signal?.aborted) toast.error('Seller applications could not be loaded');
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
   }
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    refresh(controller.signal);
+    return () => controller.abort();
+  }, []);
 
   async function setApproved(userId: string, approved: boolean) {
     const r = await fetch('/api/admin/sellers', {
@@ -26,6 +37,7 @@ export default function AdminSellers() {
     });
     if (r.ok) {
       toast.success(approved ? 'Approved' : 'Revoked');
+      setRevokeTarget(null);
       refresh();
     } else toast.error('Failed');
   }
@@ -71,7 +83,7 @@ export default function AdminSellers() {
                   <div className="flex gap-2">
                     {sp.approved ? (
                       <button
-                        onClick={() => setApproved(u._id, false)}
+                        onClick={() => setRevokeTarget(u)}
                         className="amazon-btn-dark !text-xs"
                       >
                         <X className="w-3 h-3 inline mr-1" /> Revoke
@@ -91,6 +103,14 @@ export default function AdminSellers() {
           })}
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(revokeTarget)}
+        title="Revoke this seller approval?"
+        description={revokeTarget ? `Customers will no longer see “${revokeTarget.sellerProfile?.storeName || revokeTarget.name}” as an approved seller. You can approve the seller again after review.` : ''}
+        confirmLabel="Revoke approval"
+        onCancel={() => setRevokeTarget(null)}
+        onConfirm={() => revokeTarget ? setApproved(revokeTarget._id, false) : undefined}
+      />
     </AdminLayout>
   );
 }

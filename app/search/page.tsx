@@ -3,6 +3,7 @@ import Product from '@/models/Product';
 import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 import { serialize } from '@/lib/serialize';
+import TrustBadge from '@/components/TrustBadge';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,6 +37,11 @@ export default async function SearchPage({
       {q ? (
         <div className="panel p-4 mb-3">
           <div className="text-sm">{products.length.toLocaleString()} results for <span className="font-bold">&ldquo;{q}&rdquo;</span></div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            <TrustBadge kind="verified" compact />
+            <TrustBadge kind="delivery" compact />
+            <TrustBadge kind="returns" compact />
+          </div>
         </div>
       ) : (
         <div className="panel p-6 text-center text-amazon-textMuted">Type in the search bar to find products.</div>
@@ -59,6 +65,16 @@ export default async function SearchPage({
           {products.map((p: any) => (
             <ProductCard key={String(p._id)} product={p} />
           ))}
+        </div>
+      )}
+      {q && products.length === 0 && (
+        <div className="panel p-8 text-center">
+          <h2 className="text-xl font-bold mb-2">No exact matches yet</h2>
+          <p className="text-sm text-amazon-textMuted mb-4">Try a shorter search, browse a suggested category, or ask support for help finding a safe alternative.</p>
+          <div className="flex justify-center gap-2 flex-wrap">
+            <Link href="/" className="amazon-btn-yellow !text-xs">Browse all products</Link>
+            <Link href="/help#contact" className="amazon-btn-dark !text-xs">Contact support</Link>
+          </div>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Calendar, Trash2, Clock } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 const FREQ_LABELS: Record<number, string> = {
   1: 'Monthly',
@@ -14,9 +15,9 @@ const FREQ_LABELS: Record<number, string> = {
 
 export default function SubscriptionsView({ initial }: { initial: any[] }) {
   const [items, setItems] = useState(initial);
+  const [cancelTarget, setCancelTarget] = useState<any | null>(null);
 
   async function cancel(id: string) {
-    if (!confirm('Cancel this subscription?')) return;
     const r = await fetch('/api/subscriptions', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -25,6 +26,7 @@ export default function SubscriptionsView({ initial }: { initial: any[] }) {
     if (r.ok) {
       toast.success('Subscription cancelled');
       setItems((prev) => prev.filter((i) => i._id !== id));
+      setCancelTarget(null);
     } else {
       toast.error('Failed to cancel');
     }
@@ -36,6 +38,9 @@ export default function SubscriptionsView({ initial }: { initial: any[] }) {
       <p className="text-sm text-amazon-textMuted mb-4">
         Manage Subscribe & Save deliveries. Cancel anytime.
       </p>
+      <div className="bg-amazon-bg border border-amazon-border rounded-lg p-3 text-xs text-amazon-textMuted mb-4">
+        Cancelling stops future deliveries. Already delivered orders and refunds are handled separately in Your Orders.
+      </div>
 
       {items.length === 0 ? (
         <div className="text-center py-10">
@@ -80,7 +85,7 @@ export default function SubscriptionsView({ initial }: { initial: any[] }) {
                     View product
                   </Link>
                   <button
-                    onClick={() => cancel(s._id)}
+                    onClick={() => setCancelTarget(s)}
                     className="text-xs text-amazon-deal hover:underline flex items-center justify-center gap-1"
                   >
                     <Trash2 className="w-3 h-3" /> Cancel
@@ -91,6 +96,14 @@ export default function SubscriptionsView({ initial }: { initial: any[] }) {
           })}
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(cancelTarget)}
+        title="Cancel this subscription?"
+        description={cancelTarget ? `Future ${FREQ_LABELS[cancelTarget.frequencyMonths] || ''} deliveries of “${cancelTarget.title}” will stop. This cannot be undone from this page.` : ''}
+        confirmLabel="Cancel subscription"
+        onCancel={() => setCancelTarget(null)}
+        onConfirm={() => cancel(cancelTarget?._id)}
+      />
     </div>
   );
 }

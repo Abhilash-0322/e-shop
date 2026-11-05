@@ -18,19 +18,23 @@ function VerifyForm() {
       setError('No token provided');
       return;
     }
-    fetch(`/api/auth/verify-email?token=${encodeURIComponent(token)}`)
+    const controller = new AbortController();
+    fetch(`/api/auth/verify-email?token=${encodeURIComponent(token)}`, { signal: controller.signal })
       .then((r) => r.json().then((d) => ({ ok: r.ok, d })))
       .then(({ ok, d }) => {
+        if (controller.signal.aborted) return;
         if (ok) setState('success');
         else {
           setState('error');
           setError(d.error || 'Verification failed');
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error.name === 'AbortError' || controller.signal.aborted) return;
         setState('error');
         setError('Network error');
       });
+    return () => controller.abort();
   }, [token]);
 
   return (

@@ -9,6 +9,7 @@ export default function NotFound() {
         Sorry, we couldn&apos;t find the page you were looking for.
       </p>
       <Link href="/" className="amazon-btn-primary inline-block">Go to home</Link>
+      <Link href="/help#contact" className="amazon-link inline-block ml-3 text-sm">Contact support</Link>
     </div>
   );
 }

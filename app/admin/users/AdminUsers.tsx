@@ -3,20 +3,31 @@ import { useEffect, useState } from 'react';
 import { Search, Ban, CheckCircle2, Shield } from 'lucide-react';
 import AdminLayout from '../AdminLayout';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function AdminUsers() {
   const [items, setItems] = useState<any[]>([]);
   const [q, setQ] = useState('');
   const [loading, setLoading] = useState(true);
+  const [banTarget, setBanTarget] = useState<any | null>(null);
 
-  async function refresh() {
+  async function refresh(signal?: AbortSignal) {
     setLoading(true);
-    const r = await fetch(`/api/admin/users?q=${encodeURIComponent(q)}`);
-    const d = await r.json();
-    setItems(d.items || []);
-    setLoading(false);
+    try {
+      const r = await fetch(`/api/admin/users?q=${encodeURIComponent(q)}`, { signal });
+      const d = await r.json();
+      if (!signal?.aborted) setItems(d.items || []);
+    } catch {
+      if (!signal?.aborted) toast.error('Users could not be loaded');
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
   }
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    refresh(controller.signal);
+    return () => controller.abort();
+  }, []);
 
   async function toggleBan(u: any) {
     const r = await fetch('/api/admin/users', {
@@ -26,6 +37,7 @@ export default function AdminUsers() {
     });
     if (r.ok) {
       toast.success(u.banned ? 'User unbanned' : 'User banned');
+      setBanTarget(null);
       refresh();
     } else toast.error('Failed');
   }
@@ -55,7 +67,7 @@ export default function AdminUsers() {
           onKeyDown={(e) => e.key === 'Enter' && refresh()}
         />
       </div>
-      <button onClick={refresh} className="amazon-btn-dark !text-xs mb-4">Search</button>
+      <button onClick={() => refresh()} className="amazon-btn-dark !text-xs mb-4">Search</button>
 
       <div className="bg-white border border-amazon-border rounded-md overflow-x-auto">
         <table className="w-full text-sm">
@@ -96,7 +108,7 @@ export default function AdminUsers() {
                 </td>
                 <td className="p-3">
                   <button
-                    onClick={() => toggleBan(u)}
+                    onClick={() => u.banned ? toggleBan(u) : setBanTarget(u)}
                     className={`text-xs flex items-center gap-1 ${u.banned ? 'text-amazon-greenDark hover:underline' : 'text-amazon-deal hover:underline'}`}
                   >
                     {u.banned ? <><CheckCircle2 className="w-3 h-3" /> Unban</> : <><Ban className="w-3 h-3" /> Ban</>}
@@ -110,6 +122,14 @@ export default function AdminUsers() {
           </tbody>
         </table>
       </div>
+      <ConfirmDialog
+        open={Boolean(banTarget)}
+        title="Ban this account?"
+        description={banTarget ? `${banTarget.name} will lose access to the marketplace until an administrator unbans the account. Review the account history before continuing.` : ''}
+        confirmLabel="Ban account"
+        onCancel={() => setBanTarget(null)}
+        onConfirm={() => banTarget ? toggleBan(banTarget) : undefined}
+      />
     </AdminLayout>
   );
 }

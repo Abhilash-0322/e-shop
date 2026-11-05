@@ -3,6 +3,7 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Check, X, Loader2 } from 'lucide-react';
+import SafetyNotice from '@/components/SafetyNotice';
 
 function ResetForm() {
   const sp = useSearchParams();
@@ -60,6 +61,9 @@ function ResetForm() {
 
   return (
     <form onSubmit={submit} className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card space-y-3">
+      <SafetyNotice title="Choose a unique password" tone="info">
+        Do not reuse an old password. After resetting, sign in again and review your recent orders.
+      </SafetyNotice>
       <h1 className="text-2xl font-medium">Reset your password</h1>
       <label className="block">
         <span className="text-sm font-bold block mb-1">New password</span>
@@ -70,7 +74,7 @@ function ResetForm() {
         <span className="text-sm font-bold block mb-1">Confirm password</span>
         <input type="password" className="amazon-input" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
       </label>
-      {error && <div className="text-sm text-amazon-deal">{error}</div>}
+      {error && <div className="text-sm text-amazon-deal" role="alert">{error}</div>}
       <button type="submit" disabled={submitting} className="amazon-btn-yellow w-full !text-sm !py-2 disabled:opacity-60">
         {submitting ? (
           <span className="flex items-center gap-1 justify-center"><Loader2 className="w-3 h-3 animate-spin" /> Resetting…</span>

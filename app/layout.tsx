@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Providers from '@/components/Providers';
 import CompareBar from '@/components/CompareBar';
 import Seo from '@/components/Seo';
+import TrustRail from '@/components/TrustRail';
 import { getCurrentUser } from '@/lib/auth';
 import { organizationJsonLd, SITE_URL, SITE_NAME } from '@/lib/seo';
 
@@ -35,8 +36,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en">
       <body className="min-h-screen flex flex-col">
         <Providers>
+          <a href="#main-content" className="skip-link">Skip to main content</a>
           <Header user={user} />
-          <main className="flex-1">{children}</main>
+          <TrustRail />
+          <main id="main-content" className="flex-1">{children}</main>
           <Footer />
           <CompareBar />
         </Providers>

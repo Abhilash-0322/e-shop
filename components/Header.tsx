@@ -21,13 +21,22 @@ export default function Header({ user }: { user: User }) {
   const [showCat, setShowCat] = useState(false);
   const [showAcc, setShowAcc] = useState(false);
   const [cats, setCats] = useState<string[]>([]);
+  const [catsLoading, setCatsLoading] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const { count } = useCart();
 
   useEffect(() => {
-    fetch('/api/categories').then((r) => r.json()).then((d) => {
-      setCats((d.items || []).map((c: { name: string }) => c.name));
-    }).catch(() => {});
+    const controller = new AbortController();
+    fetch('/api/categories', { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error('Categories unavailable')))
+      .then((d) => setCats((d.items || []).map((c: { name: string }) => c.name)))
+      .catch((error) => {
+        if (error.name !== 'AbortError') setCats([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setCatsLoading(false);
+      });
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -117,7 +126,12 @@ export default function Header({ user }: { user: User }) {
             onMouseEnter={() => setShowAcc(true)}
             onMouseLeave={() => setShowAcc(false)}
           >
-            <button className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5">
+            <button
+              className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5"
+              aria-expanded={showAcc}
+              aria-haspopup="menu"
+              onClick={() => setShowAcc((value) => !value)}
+            >
               <span className="text-[11px] text-white/80">
                 {user ? `Hello, ${user.name.split(' ')[0]}` : 'Hello, sign in'}
               </span>
@@ -127,7 +141,7 @@ export default function Header({ user }: { user: User }) {
             </button>
             {showAcc && (
               <div className="absolute right-0 top-full pt-1 w-[480px] z-50 animate-slideDown">
-                <div className="bg-white text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
+                <div role="menu" className="bg-white text-amazon-text rounded-md shadow-2xl border border-amazon-border p-5 grid grid-cols-2 gap-5">
                   {user ? (
                     <>
                       <div className="col-span-2 flex items-center justify-between border-b border-amazon-border pb-3">
@@ -156,6 +170,7 @@ export default function Header({ user }: { user: User }) {
                           <li><Link className="amazon-link" href="/category/electronics">Electronics</Link></li>
                           <li><Link className="amazon-link" href="/category/books">Books</Link></li>
                           <li><Link className="amazon-link" href="/help">Customer Service</Link></li>
+                          <li><Link className="amazon-link" href="/security">Security center</Link></li>
                           <li><Link className="amazon-link" href="/prime">Prime</Link></li>
                         </ul>
                       </div>
@@ -222,9 +237,11 @@ export default function Header({ user }: { user: User }) {
           <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
             <button
               onClick={() => setShowCat(true)}
+              aria-expanded={showCat}
+              aria-controls="category-drawer"
               className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"
             >
-              <Menu className="w-4 h-4" /> All
+              <Menu className="w-4 h-4" /> {catsLoading ? 'Shop' : 'All'}
             </button>
             {(cats.length ? cats : CATS).slice(0, 14).map((c) => (
               <Link
@@ -255,7 +272,7 @@ export default function Header({ user }: { user: User }) {
       {showCat && (
         <div className="fixed inset-0 z-[60] flex">
           <div className="absolute inset-0 bg-black/40" onClick={() => setShowCat(false)} />
-          <aside className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl">
+          <aside id="category-drawer" className="relative bg-white w-[360px] max-w-[90vw] h-full overflow-y-auto animate-slideDown shadow-2xl" aria-label="Shop by category">
             <div className="bg-amazon-navylight text-white px-5 py-4 flex items-center justify-between">
               <div className="font-bold text-xl flex items-center gap-2">
                 <Menu className="w-5 h-5" /> Shop by Category

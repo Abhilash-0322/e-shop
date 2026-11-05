@@ -4,6 +4,7 @@ import { Heart, GitCompare } from 'lucide-react';
 import { formatPrice, calcDiscount, starArray } from '@/lib/utils';
 import { useWishlist } from '@/hooks/useWishlist';
 import { useCompare } from '@/hooks/useCompare';
+import TrustBadge from '@/components/TrustBadge';
 import toast from 'react-hot-toast';
 
 type P = {
@@ -20,6 +21,10 @@ type P = {
   isDeal?: boolean;
   stock?: number;
   lowStockThreshold?: number;
+  sellerName?: string;
+  sellerId?: string;
+  fastShipping?: boolean;
+  freeShipping?: boolean;
 };
 
 export default function ProductCard({ product, compact }: { product: P; compact?: boolean }) {
@@ -119,6 +124,10 @@ export default function ProductCard({ product, compact }: { product: P; compact?
         <div className="text-sm text-amazon-text line-clamp-3 mb-1 group-hover:text-amazon-linkHover transition-colors">
           {product.title}
         </div>
+        <div className="flex items-center gap-1.5 flex-wrap min-h-5 mb-1">
+          {product.sellerId && <TrustBadge kind="verified" compact />}
+          {product.fastShipping && <span className="text-[11px] text-amazon-link font-semibold">Fast delivery</span>}
+        </div>
         <div className="mt-auto">
           <div className="flex items-baseline gap-1.5 flex-wrap">
             <span className="text-xl font-medium text-amazon-text">
@@ -136,7 +145,12 @@ export default function ProductCard({ product, compact }: { product: P; compact?
               Save {formatPrice((product.listPrice || 0) - product.price)} ({discount}%)
             </div>
           )}
-          {!compact && <div className="chip mt-2 w-fit">FREE delivery</div>}
+          {!compact && (
+            <div className="flex items-center gap-1.5 flex-wrap mt-2">
+              <div className="chip w-fit">{product.freeShipping === false ? 'Delivery calculated at checkout' : 'FREE delivery'}</div>
+              <span className="text-[11px] text-amazon-textMuted">30-day returns</span>
+            </div>
+          )}
         </div>
       </div>
     </Link>

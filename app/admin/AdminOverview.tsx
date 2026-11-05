@@ -4,23 +4,31 @@ import Link from 'next/link';
 import { Users, Package, ShoppingBag, DollarSign, AlertTriangle, Store } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import AdminLayout from './AdminLayout';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function AdminOverview() {
   const [stats, setStats] = useState<any>(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/admin/stats')
-      .then((r) => r.json())
-      .then(setStats);
+    const controller = new AbortController();
+    fetch('/api/admin/stats', { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error('Could not load stats')))
+      .then((data) => !controller.signal.aborted && setStats(data))
+      .catch((e) => e.name !== 'AbortError' && !controller.signal.aborted && setError('Dashboard data could not be loaded.'));
+    return () => controller.abort();
   }, []);
 
   if (!stats) {
-    return <AdminLayout><div className="shimmer-bg h-40 rounded-md" /></AdminLayout>;
+    return <AdminLayout>{error ? <SafetyNotice title="Dashboard unavailable" tone="warning">{error} Refresh to try again.</SafetyNotice> : <div className="shimmer-bg h-40 rounded-md" />}</AdminLayout>;
   }
 
   return (
     <AdminLayout>
       <h1 className="text-3xl font-bold mb-4">Overview</h1>
+      <SafetyNotice title="Trust & safety queue" tone="info">
+        Review seller applications, user status, products, and community reviews before changing a public-facing state. Destructive actions require confirmation.
+      </SafetyNotice>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         <Tile icon={Users} label="Users" value={stats.users} color="bg-amazon-navylight/10 text-amazon-navylight" />
         <Tile icon={Store} label="Pending sellers" value={stats.pendingSellers} color="bg-amazon-orange/10 text-amazon-orange" link="/admin/sellers" />

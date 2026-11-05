@@ -5,16 +5,18 @@ import { Plus, Edit, Trash2, Search, Package } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 import SellerLayout from '../SellerLayout';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function SellerProducts({ user, products }: { user: any; products: any[] }) {
   const [q, setQ] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
   const filtered = products.filter((p) => !q || p.title.toLowerCase().includes(q.toLowerCase()));
 
   async function del(id: string, title: string) {
-    if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
     const r = await fetch(`/api/seller/products/${id}`, { method: 'DELETE' });
     if (r.ok) {
       toast.success('Product deleted');
+      setDeleteTarget(null);
       window.location.reload();
     } else {
       toast.error('Failed to delete');
@@ -92,7 +94,7 @@ export default function SellerProducts({ user, products }: { user: any; products
                       <Link href={`/seller/products/${p._id}`} className="text-xs text-amazon-link hover:underline flex items-center gap-1">
                         <Edit className="w-3 h-3" /> Edit
                       </Link>
-                      <button onClick={() => del(p._id, p.title)} className="text-xs text-amazon-deal hover:underline flex items-center gap-1">
+                      <button onClick={() => setDeleteTarget({ id: p._id, title: p.title })} className="text-xs text-amazon-deal hover:underline flex items-center gap-1">
                         <Trash2 className="w-3 h-3" /> Delete
                       </button>
                     </div>
@@ -103,6 +105,14 @@ export default function SellerProducts({ user, products }: { user: any; products
           </table>
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete this product?"
+        description={deleteTarget ? `“${deleteTarget.title}” will be removed from your catalog. This action cannot be undone.` : ''}
+        confirmLabel="Delete product"
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => deleteTarget ? del(deleteTarget.id, deleteTarget.title) : undefined}
+      />
     </SellerLayout>
   );
 }

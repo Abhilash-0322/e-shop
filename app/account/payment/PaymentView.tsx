@@ -1,12 +1,15 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import SafetyNotice from '@/components/SafetyNotice';
 
 type P = { brand?: string; cardNumberLast4?: string; expiry?: string; label?: string; isDefault?: boolean };
 
 export default function PaymentView({ initial }: { initial: P[] }) {
   const [items, setItems] = useState<P[]>(initial);
   const [adding, setAdding] = useState(false);
+  const [removeIndex, setRemoveIndex] = useState<number | null>(null);
   const [form, setForm] = useState({ brand: 'Visa', cardNumber: '', expiry: '', label: 'Personal', isDefault: false });
 
   async function save() {
@@ -34,6 +37,7 @@ export default function PaymentView({ initial }: { initial: P[] }) {
     const d = await r.json();
     if (r.ok) {
       setItems(d.paymentMethods);
+      setRemoveIndex(null);
       toast.success('Removed');
     }
   }
@@ -42,6 +46,7 @@ export default function PaymentView({ initial }: { initial: P[] }) {
     <div className="bg-white border border-amazon-border rounded-md p-5">
       <h1 className="text-3xl font-bold mb-1">Payment options</h1>
       <p className="text-sm text-amazon-textMuted mb-4">Manage your saved cards. Card details are never stored in full.</p>
+      <div className="mb-4"><SafetyNotice title="Payment details stay private" tone="info">Only the last four digits are displayed after a card is saved. Remove a card if you no longer control it.</SafetyNotice></div>
 
       <div className="space-y-3 mb-4">
         {items.map((p, i) => (
@@ -55,7 +60,7 @@ export default function PaymentView({ initial }: { initial: P[] }) {
                 {p.expiry && <span className="ml-2">· exp {p.expiry}</span>}
               </div>
             </div>
-            <button onClick={() => del(i)} className="amazon-link text-sm">Remove</button>
+            <button onClick={() => setRemoveIndex(i)} className="amazon-link text-sm">Remove</button>
           </div>
         ))}
       </div>
@@ -107,6 +112,14 @@ export default function PaymentView({ initial }: { initial: P[] }) {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={removeIndex !== null}
+        title="Remove this payment method?"
+        description={removeIndex !== null ? `The saved ${items[removeIndex]?.brand || 'card'} ending in ${items[removeIndex]?.cardNumberLast4 || ''} will be removed from your account. Existing orders are not changed.` : ''}
+        confirmLabel="Remove card"
+        onCancel={() => setRemoveIndex(null)}
+        onConfirm={() => removeIndex !== null ? del(removeIndex) : undefined}
+      />
     </div>
   );
 }

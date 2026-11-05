@@ -3,6 +3,7 @@ import Product from '@/models/Product';
 import ProductCard from '@/components/ProductCard';
 import Link from 'next/link';
 import { serialize } from '@/lib/serialize';
+import TrustBadge from '@/components/TrustBadge';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,6 +20,11 @@ export default async function DealsPage() {
       <div className="bg-gradient-to-r from-amazon-deal to-red-700 text-white rounded-md p-6 mb-4">
         <h1 className="text-3xl font-bold mb-1">Today&apos;s Deals</h1>
         <p className="text-white/90">All discounts updated daily. New deals every hour.</p>
+        <div className="flex flex-wrap gap-2 mt-4">
+          <TrustBadge kind="delivery" compact />
+          <TrustBadge kind="returns" compact />
+          <span className="rounded-full bg-white/15 px-2 py-0.5 text-[11px] font-semibold">Stock can change quickly</span>
+        </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
         {deals.map((p: any) => <ProductCard key={String(p._id)} product={p} />)}

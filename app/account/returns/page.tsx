@@ -5,6 +5,8 @@ import ReturnRequest from '@/models/ReturnRequest';
 import AccountLayout from '../AccountLayout';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/utils';
+import StatusTimeline from '@/components/StatusTimeline';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +30,12 @@ export default async function ReturnsPage() {
     <AccountLayout user={user}>
       <div className="bg-white border border-amazon-border rounded-md p-5">
         <h1 className="text-3xl font-bold mb-1">Your Returns</h1>
-        <p className="text-sm text-amazon-textMuted mb-4">{items.length} return{items.length !== 1 ? 's' : ''}</p>
+        <p className="text-sm text-amazon-textMuted mb-4">{items.length} return{items.length !== 1 ? 's' : ''} · We’ll keep the next step visible here</p>
+        <div className="mb-4">
+          <SafetyNotice title="Refund timing, clearly stated" tone="info">
+            A return starts as Requested. After review, we’ll show whether it is approved, received, or refunded. Refund totals are based on the items you selected.
+          </SafetyNotice>
+        </div>
 
         {items.length === 0 ? (
           <div className="text-center py-10">
@@ -52,6 +59,13 @@ export default async function ReturnsPage() {
                 </div>
                 <div className="text-sm text-amazon-textMuted">
                   Reason: {r.reason}
+                </div>
+                <div className="mt-4 mb-4">
+                  <StatusTimeline steps={[
+                    { label: 'Requested', detail: new Date(r.createdAt).toLocaleDateString(), state: ['requested', 'approved', 'received', 'refunded'].includes(r.status) ? 'complete' : 'current' },
+                    { label: 'Review', detail: r.status === 'rejected' ? 'Needs attention' : 'We review the request', state: r.status === 'requested' ? 'current' : r.status === 'rejected' ? 'upcoming' : 'complete' },
+                    { label: 'Refunded', detail: r.refundAmount ? formatPrice(r.refundAmount) : 'After approval', state: r.status === 'refunded' ? 'complete' : 'upcoming' },
+                  ]} />
                 </div>
                 <div className="flex gap-2 mt-3 flex-wrap">
                   {r.items.map((it: any, i: number) => (

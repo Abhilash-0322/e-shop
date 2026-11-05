@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
+import TrustBadge from '@/components/TrustBadge';
 
 type Brand = { _id: string; count: number };
 
@@ -18,11 +19,15 @@ export default function CategoryView({
   searchParams: { [k: string]: string | undefined };
 }) {
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [brandsLoading, setBrandsLoading] = useState(true);
   useEffect(() => {
-    fetch(`/api/products/brands?category=${encodeURIComponent(slug)}`)
-      .then((r) => r.json())
-      .then((d) => setBrands(d.items || []))
-      .catch(() => {});
+    const controller = new AbortController();
+    fetch(`/api/products/brands?category=${encodeURIComponent(slug)}`, { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error('Brands unavailable')))
+      .then((d) => !controller.signal.aborted && setBrands(d.items || []))
+      .catch(() => {})
+      .finally(() => !controller.signal.aborted && setBrandsLoading(false));
+    return () => controller.abort();
   }, [slug]);
 
   const activeBrands = (searchParams.brand ? searchParams.brand.split(',') : []).filter(Boolean);
@@ -84,7 +89,9 @@ export default function CategoryView({
           })}
         </div>
 
-        {brands.length > 0 && (
+        {brandsLoading ? (
+          <div className="panel p-4 text-xs text-amazon-textMuted">Loading brand filters…</div>
+        ) : brands.length > 0 && (
           <div className="panel p-4 space-y-2">
             <h3 className="font-bold">Brand</h3>
             <div className="space-y-1 max-h-48 overflow-y-auto">
@@ -173,6 +180,11 @@ export default function CategoryView({
           <h1 className="text-2xl mb-1">{title}</h1>
           <div className="text-sm text-amazon-textMuted">
             {products.length.toLocaleString()} result{products.length !== 1 ? 's' : ''}
+          </div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            <TrustBadge kind="delivery" compact />
+            <TrustBadge kind="returns" compact />
+            {products.some((product: any) => product.sellerId) && <TrustBadge kind="verified" compact />}
           </div>
         </div>
 

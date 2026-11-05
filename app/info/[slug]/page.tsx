@@ -4,6 +4,8 @@ import { connectDB } from '@/lib/mongodb';
 import Product from '@/models/Product';
 import { INFO_PAGES, isValidSlug, type InfoPage, type InfoBlock } from '@/lib/infoPages';
 import { serialize } from '@/lib/serialize';
+import TrustBadge from '@/components/TrustBadge';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,6 +71,14 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
 
         {/* Sidebar */}
         <aside className="space-y-4 self-start">
+          <div className="panel p-4">
+            <h3 className="font-bold mb-3">Shopping with confidence</h3>
+            <div className="flex flex-wrap gap-2">
+              <TrustBadge kind="secure" compact />
+              <TrustBadge kind="delivery" compact />
+              <TrustBadge kind="returns" compact />
+            </div>
+          </div>
           {page.related && page.related.length > 0 && (
             <div className="panel p-4">
               <h3 className="font-bold mb-2">Related</h3>
@@ -96,6 +106,9 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
               ))}
             </div>
           </div>
+          <SafetyNotice title="Need a clear next step?" href="/help#contact" linkLabel="Contact support">
+            Our support team can help with account, order, privacy, or safety questions.
+          </SafetyNotice>
         </aside>
       </div>
     </div>

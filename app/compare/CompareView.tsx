@@ -5,6 +5,7 @@ import { formatPrice, calcDiscount, starArray } from '@/lib/utils';
 import { useCompare } from '@/hooks/useCompare';
 import { useCart } from '@/hooks/useCart';
 import toast from 'react-hot-toast';
+import TrustBadge from '@/components/TrustBadge';
 
 type P = {
   _id: string;
@@ -23,6 +24,7 @@ type P = {
   sizes?: string[];
   seller?: string;
   categorySlug?: string;
+  sellerId?: string;
 };
 
 const ROWS: { label: string; render: (p: P) => React.ReactNode }[] = [
@@ -49,6 +51,7 @@ const ROWS: { label: string; render: (p: P) => React.ReactNode }[] = [
   { label: 'Colors', render: (p) => p.colors && p.colors.length ? <span className="text-sm">{p.colors.length} option{p.colors.length !== 1 ? 's' : ''}</span> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
   { label: 'Sizes', render: (p) => p.sizes && p.sizes.length ? <span className="text-sm">{p.sizes.length} option{p.sizes.length !== 1 ? 's' : ''}</span> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
   { label: 'Seller', render: (p) => <span className="text-sm">{p.seller || 'halozon.com'}</span> },
+  { label: 'Seller verification', render: (p) => p.sellerId ? <TrustBadge kind="verified" compact /> : <span className="text-xs text-amazon-textMuted">Marketplace seller details</span> },
   { label: 'Category', render: (p) => p.categorySlug ? <span className="capitalize text-sm">{p.categorySlug.replace(/-/g, ' ')}</span> : <Minus className="w-4 h-4 text-amazon-textMuted" /> },
 ];
 
@@ -82,6 +85,11 @@ export default function CompareView({ products, requestedIds }: { products: P[];
         </Link>
       </div>
       <h1 className="text-2xl font-bold mb-4">Compare products ({products.length})</h1>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <TrustBadge kind="delivery" compact />
+        <TrustBadge kind="returns" compact />
+        <span className="text-xs text-amazon-textMuted self-center">Compare trust signals before price.</span>
+      </div>
 
       <div className="border border-amazon-border rounded-md overflow-x-auto">
         <table className="w-full text-center">

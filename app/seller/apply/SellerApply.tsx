@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Store, Check, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function SellerApply({ user }: { user: any }) {
   const router = useRouter();
@@ -116,6 +117,9 @@ export default function SellerApply({ user }: { user: any }) {
           {step === 2 && (
             <div className="space-y-4">
               <h2 className="text-xl font-bold">Set up payouts</h2>
+              <SafetyNotice title="Your payout details are sensitive" tone="info">
+                Use an email and payout method you control. halozon support will never ask you to send your password or one-time code.
+              </SafetyNotice>
               <p className="text-sm text-amazon-textMuted">
                 Where should we send your earnings? (Demo: this is mocked — no real payouts will be made.)
               </p>
@@ -137,7 +141,7 @@ export default function SellerApply({ user }: { user: any }) {
                 />
               </label>
               <div className="bg-amazon-yellow/20 border border-amazon-yellow rounded-md p-3 text-xs">
-                <b>Demo mode:</b> For this preview, your seller account will be auto-approved so you can explore the dashboard immediately.
+                <b>Application status:</b> In this preview, you can choose the demo approval path below. In a live marketplace, seller details are reviewed before a store is visible.
               </div>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={form.autoApprove} onChange={(e) => setForm({ ...form, autoApprove: e.target.checked })} />

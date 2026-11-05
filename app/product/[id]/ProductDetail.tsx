@@ -15,6 +15,8 @@ import BundleWidget from '@/components/BundleWidget';
 import LiveViewers from '@/components/LiveViewers';
 import SubscribeSave from '@/components/SubscribeSave';
 import StockAlert from '@/components/StockAlert';
+import TrustBadge from '@/components/TrustBadge';
+import SafetyNotice from '@/components/SafetyNotice';
 import toast from 'react-hot-toast';
 
 type P = {
@@ -40,6 +42,9 @@ type P = {
   lowStockThreshold?: number;
   freeShipping?: boolean;
   fastShipping?: boolean;
+  sellerId?: string;
+  sellerName?: string;
+  sellerSlug?: string;
 };
 
 export default function ProductDetail({ product, related }: { product: P; related: any[] }) {
@@ -49,6 +54,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
   const [size, setSize] = useState<string | null>(product.sizes?.[0] || null);
   const [tab, setTab] = useState<'description' | 'reviews' | 'qa'>('description');
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [voting, setVoting] = useState<string | null>(null);
   const { add } = useCart();
   const { has, toggle } = useWishlist();
 
@@ -78,12 +84,20 @@ export default function ProductDetail({ product, related }: { product: P; relate
   }
 
   async function voteHelpful(rid: string) {
-    const r = await fetch(`/api/products/${product._id}/reviews/${rid}/helpful`, { method: 'POST' });
-    if (r.ok) {
-      const d = await r.json();
-      if (d.alreadyVoted) toast('You already marked this helpful');
-      else toast.success('Thanks for the feedback');
-    } else toast.error('Sign in to vote');
+    if (voting) return;
+    setVoting(rid);
+    try {
+      const r = await fetch(`/api/products/${product._id}/reviews/${rid}/helpful`, { method: 'POST' });
+      if (r.ok) {
+        const d = await r.json();
+        if (d.alreadyVoted) toast('You already marked this helpful');
+        else toast.success('Thanks for the feedback');
+      } else toast.error('Sign in to vote');
+    } catch {
+      toast.error('Could not save your feedback');
+    } finally {
+      setVoting(null);
+    }
   }
 
   return (
@@ -138,16 +152,24 @@ export default function ProductDetail({ product, related }: { product: P; relate
         {/* Center info */}
         <div className="space-y-3">
           <h1 className="text-2xl md:text-3xl font-medium leading-tight">{product.title}</h1>
-          <Link href="#reviews" className="text-sm amazon-link">
-            Visit the {product.brand || 'halozon'} Store
-          </Link>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link href={product.sellerSlug ? `/store/${product.sellerSlug}` : '#reviews'} className="text-sm amazon-link">
+              Visit the {product.brand || 'halozon'} Store
+            </Link>
+            {product.sellerId && <TrustBadge kind="verified" compact />}
+          </div>
           {(product as any).sellerId && (
             <div className="text-xs text-amazon-textMuted">
               Sold by{' '}
-              <Link href={`/store/${(product as any).sellerSlug || ''}`} className="text-amazon-link hover:underline">
-                {(product as any).sellerName || product.seller}
+              <Link href={`/store/${product.sellerSlug || ''}`} className="text-amazon-link hover:underline">
+                {product.sellerName || product.seller}
               </Link>
             </div>
+          )}
+          {product.sellerId && (
+            <p className="text-xs text-amazon-greenDark">
+              This seller has an approved store profile. Keep payments and messages on halozon.
+            </p>
           )}
           <div className="flex items-center gap-3 pt-1">
             <span className="text-base font-medium">{Number(product.rating || 0).toFixed(1)}</span>
@@ -191,10 +213,10 @@ export default function ProductDetail({ product, related }: { product: P; relate
             <div className="border-b border-amazon-border pb-3">
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-bold text-amazon-prime">prime</span>
-                <span className="text-amazon-text">FREE delivery <b>Tomorrow</b></span>
+                <span className="text-amazon-text">Delivery estimate shown before payment</span>
               </div>
               <div className="text-xs text-amazon-textMuted mt-1">
-                Order within <span className="text-amazon-greenDark font-medium">3 hrs 27 mins</span>.
+                Tracking becomes available after your order ships.
               </div>
             </div>
           )}
@@ -269,9 +291,10 @@ export default function ProductDetail({ product, related }: { product: P; relate
             </div>
             <div className="text-sm">
               <div>
-                <b>FREE delivery</b> <span className="text-amazon-textMuted">Tomorrow</span>
+                <b>{product.freeShipping === false ? 'Delivery' : 'FREE delivery'}</b>{' '}
+                <span className="text-amazon-textMuted">Estimate shown at checkout</span>
               </div>
-              <div className="text-xs text-amazon-textMuted">Order within 3 hrs 27 mins.</div>
+              <div className="text-xs text-amazon-textMuted">Trackable once shipped.</div>
             </div>
             <div className="text-sm">
               <MapPin className="w-4 h-4 inline mr-1 text-amazon-link" />
@@ -330,12 +353,17 @@ export default function ProductDetail({ product, related }: { product: P; relate
             </div>
             <div className="flex items-start gap-2">
               <Shield className="w-4 h-4 text-amazon-link shrink-0" />
-              <span>Secure transaction</span>
+              <span>Secure transaction · never pay outside halozon</span>
             </div>
             <div className="pt-2 border-t border-amazon-border">
               <span>Ships from and sold by </span>
               <span className="amazon-link">{product.seller || 'halozon.com'}</span>
             </div>
+          </div>
+          <div className="mt-3">
+            <SafetyNotice title="Shop with confidence" tone="info">
+              Your order is covered by halozon support. If an item is not as described or does not arrive, start with your order details and we’ll help.
+            </SafetyNotice>
           </div>
         </div>
       </div>
@@ -373,6 +401,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
             <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6">
               <div>
                 <h3 className="text-xl font-bold">Customer reviews</h3>
+                <div className="my-3"><TrustBadge kind="moderated" /></div>
                 <div className="flex items-center gap-2 my-2">
                   <StarRating rating={product.rating || 0} count={product.ratingCount} />
                 </div>
@@ -428,10 +457,12 @@ export default function ProductDetail({ product, related }: { product: P; relate
                     <div className="mt-2 flex items-center gap-3">
                       <button
                         onClick={() => voteHelpful(r._id)}
+                        disabled={voting === r._id}
                         className="text-xs text-amazon-link hover:text-amazon-linkHover border border-amazon-border rounded-md px-3 py-1 hover:bg-amazon-bg"
                       >
-                        Helpful ({r.helpful || 0})
+                        {voting === r._id ? 'Saving…' : `Helpful (${r.helpful || 0})`}
                       </button>
+                      <span className="text-[11px] text-amazon-textMuted">Report concerns through support</span>
                     </div>
                   </div>
                 ))}

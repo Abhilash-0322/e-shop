@@ -7,6 +7,7 @@ import AccountLayout from '../../AccountLayout';
 import ReturnModal from '@/components/ReturnModal';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 type TrackingEvent = { status: string; label: string; location?: string; at: string };
 
@@ -68,10 +69,15 @@ export default function OrderDetail({ order }: { order: any }) {
             <div className="text-2xl font-bold">{formatPrice(order.total)}</div>
           </div>
         </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          <span className="chip !bg-amazon-green/10 !text-amazon-greenDark">Order protected</span>
+          <span className="chip">Keep this order number for support</span>
+        </div>
 
         {/* Tracking timeline */}
         <div className="mt-6 panel p-5 bg-amazon-bg/30">
-          <h3 className="font-bold mb-4">Shipment status</h3>
+          <h3 className="font-bold mb-1">Shipment status</h3>
+          <p className="text-xs text-amazon-textMuted mb-4" aria-live="polite">Current status: {order.status.replace(/_/g, ' ')}</p>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-4">
             {STEPS.map((s, idx) => {
               const state = stepState(idx);
@@ -158,6 +164,7 @@ export default function OrderDetail({ order }: { order: any }) {
           </div>
           <div className="panel p-4">
             <h4 className="font-bold mb-2">Payment</h4>
+            <div className="text-xs text-amazon-greenDark mb-2">Secure payment · only the last four digits are shown</div>
             <div className="text-sm">
               {order.paymentMethod?.brand} ending in {order.paymentMethod?.last4}
             </div>
@@ -202,13 +209,18 @@ export default function OrderDetail({ order }: { order: any }) {
           <div className="mt-6 panel p-4 border-l-4 border-amazon-orange">
             <h3 className="font-bold mb-1">Need to return items?</h3>
             <p className="text-sm text-amazon-textMuted mb-3">
-              You can return items within 30 days of delivery.
+              Start with the exact items and reason. We’ll show the request status and refund amount in Your Returns.
             </p>
             <button onClick={() => setReturnOpen(true)} className="amazon-btn-dark !text-xs">
               <RotateCcw className="w-3 h-3 inline mr-1" /> Return items
             </button>
           </div>
         )}
+        <div className="mt-4">
+          <SafetyNotice title="Need help with this order?" href="/help#contact" linkLabel="Contact support">
+            Include order #{order.orderNumber} so support can help with delivery, payment, a seller concern, or a return.
+          </SafetyNotice>
+        </div>
 
         {/* Order summary */}
         <div className="mt-6 panel p-4 bg-amazon-bg/30">

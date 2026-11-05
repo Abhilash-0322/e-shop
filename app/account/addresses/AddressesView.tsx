@@ -1,6 +1,8 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
+import SafetyNotice from '@/components/SafetyNotice';
 
 type Address = {
   label?: string;
@@ -18,6 +20,7 @@ type Address = {
 export default function AddressesView({ initialAddresses }: { initialAddresses: Address[] }) {
   const [addrs, setAddrs] = useState<Address[]>(initialAddresses);
   const [adding, setAdding] = useState(false);
+  const [removeIndex, setRemoveIndex] = useState<number | null>(null);
   const empty = { fullName: '', street: '', apt: '', city: '', state: '', zip: '', country: 'United States', phone: '', label: 'Home', isDefault: false };
   const [form, setForm] = useState<Address>(empty);
 
@@ -45,6 +48,7 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
     const d = await r.json();
     if (r.ok) {
       setAddrs(d.addresses);
+      setRemoveIndex(null);
       toast.success('Removed');
     }
   }
@@ -58,6 +62,7 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
         </div>
         <button onClick={() => setAdding(true)} className="amazon-btn-yellow !text-xs">+ Add address</button>
       </div>
+      <div className="mb-4"><SafetyNotice title="Use an address you trust" tone="info">Check the destination before placing an order. Your default address is used to prefill checkout and can be changed before payment.</SafetyNotice></div>
 
       {addrs.length === 0 && !adding && (
         <p className="text-sm text-amazon-textMuted">No saved addresses yet.</p>
@@ -72,7 +77,7 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
               </div>
               <div className="space-x-3 text-xs">
                 <button onClick={() => { setForm(a); setAdding(true); }} className="amazon-link">Edit</button>
-                <button onClick={() => del(i)} className="amazon-link">Remove</button>
+                <button onClick={() => setRemoveIndex(i)} className="amazon-link">Remove</button>
               </div>
             </div>
             <div className="text-sm text-amazon-text">
@@ -109,6 +114,14 @@ export default function AddressesView({ initialAddresses }: { initialAddresses: 
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={removeIndex !== null}
+        title="Remove this address?"
+        description={removeIndex !== null ? `The ${addrs[removeIndex]?.label || 'saved'} address will be removed. Existing orders and their delivery addresses are not changed.` : ''}
+        confirmLabel="Remove address"
+        onCancel={() => setRemoveIndex(null)}
+        onConfirm={() => removeIndex !== null ? del(removeIndex) : undefined}
+      />
     </div>
   );
 }

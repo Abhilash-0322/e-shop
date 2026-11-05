@@ -3,20 +3,32 @@ import { useEffect, useState } from 'react';
 import { formatPrice } from '@/lib/utils';
 import SellerLayout from '../SellerLayout';
 import { Search } from 'lucide-react';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function SellerOrders({ user }: { user: any }) {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/seller/orders')
-      .then((r) => r.json())
+    const controller = new AbortController();
+    setError('');
+    fetch('/api/seller/orders', { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error('Could not load orders')))
       .then((d) => {
-        setItems(d.items || []);
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setItems(d.items || []);
+          setLoading(false);
+        }
       })
-      .catch(() => setLoading(false));
+      .catch((e) => {
+        if (e.name !== 'AbortError' && !controller.signal.aborted) {
+          setError('Orders could not be loaded. Try again.');
+          setLoading(false);
+        }
+      });
+    return () => controller.abort();
   }, []);
 
   const filtered = items.filter((o) => !q || o.orderNumber.toLowerCase().includes(q.toLowerCase()));
@@ -33,6 +45,7 @@ export default function SellerOrders({ user }: { user: any }) {
           <input className="amazon-input pl-8" placeholder="Search order #" value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
       </div>
+      {error && <SafetyNotice title="We couldn’t load your orders" tone="warning">{error} Refresh the page to try again.</SafetyNotice>}
 
       {loading ? (
         <div className="shimmer-bg h-40 rounded-md" />

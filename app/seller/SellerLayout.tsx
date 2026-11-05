@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Package, ShoppingBag, BarChart3, Store, ArrowLeft } from 'lucide-react';
+import TrustBadge from '@/components/TrustBadge';
 
 const TABS = [
   { href: '/seller/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -26,6 +27,7 @@ export default function SellerLayout({ user, children }: { user: any; children: 
               <span className="font-bold">halozon Seller Central</span>
               <span className="ml-3 text-white/60">{user.sellerProfile?.storeName || user.name}</span>
             </div>
+            {user.sellerProfile?.approved && <TrustBadge kind="verified" compact />}
           </div>
           <Link href="/seller/store" className="text-sm text-white/80 hover:text-white">
             View public store
@@ -52,7 +54,7 @@ export default function SellerLayout({ user, children }: { user: any; children: 
             );
           })}
         </aside>
-        <div>{children}</div>
+        <div className="min-w-0">{children}</div>
       </div>
     </div>
   );

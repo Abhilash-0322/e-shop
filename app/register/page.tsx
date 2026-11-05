@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,6 +40,9 @@ export default function RegisterPage() {
         halo<span className="text-amazon-orange">zon</span>
       </Link>
       <form onSubmit={submit} className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card space-y-3">
+        <SafetyNotice title="Create a safer account" tone="info">
+          Use a unique password you do not reuse elsewhere. You can review privacy and security choices at any time.
+        </SafetyNotice>
         <h1 className="text-2xl font-medium">Create account</h1>
         <label className="block">
           <span className="text-sm font-bold block mb-1">Your name</span>
@@ -76,8 +80,8 @@ export default function RegisterPage() {
         </button>
         <p className="text-xs text-amazon-textMuted">
           By creating an account, you agree to halozon&apos;s{' '}
-          <span className="amazon-link">Conditions of Use</span> and{' '}
-          <span className="amazon-link">Privacy Notice</span>.
+          <Link href="/conditions" className="amazon-link">Conditions of Use</Link> and{' '}
+          <Link href="/privacy" className="amazon-link">Privacy Notice</Link>.
         </p>
         <hr className="my-3 border-amazon-border" />
         <div className="text-sm">

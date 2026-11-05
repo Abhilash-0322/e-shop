@@ -3,6 +3,7 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 function SignInForm() {
   const router = useRouter();
@@ -34,6 +35,9 @@ function SignInForm() {
 
   return (
     <form onSubmit={submit} className="space-y-3">
+      <SafetyNotice title="Sign in safely" tone="info">
+        Check that you are on halozon before entering your password. We will never ask for your password or one-time code by email.
+      </SafetyNotice>
       <h1 className="text-3xl font-medium">Sign in</h1>
       <label className="block">
         <span className="text-sm font-bold block mb-1">Email or mobile phone number</span>
@@ -60,8 +64,8 @@ function SignInForm() {
         {submitting ? 'Signing in...' : 'Sign in'}
       </button>
       <p className="text-xs text-amazon-textMuted">
-        By continuing, you agree to halozon&apos;s <span className="amazon-link">Conditions of Use</span> and{' '}
-        <span className="amazon-link">Privacy Notice</span>.
+        By continuing, you agree to halozon&apos;s <Link href="/conditions" className="amazon-link">Conditions of Use</Link> and{' '}
+        <Link href="/privacy" className="amazon-link">Privacy Notice</Link>.
       </p>
       <div className="relative my-4">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-amazon-border" /></div>

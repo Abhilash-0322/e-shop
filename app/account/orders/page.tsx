@@ -6,6 +6,7 @@ import AccountLayout from '../AccountLayout';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/utils';
 import { serialize } from '@/lib/serialize';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,7 +20,8 @@ export default async function OrdersPage() {
     <AccountLayout user={user}>
       <div className="bg-white border border-amazon-border rounded-md p-5">
         <h1 className="text-3xl font-bold mb-1">Your Orders</h1>
-        <p className="text-sm text-amazon-textMuted mb-4">{orders.length} order{orders.length !== 1 ? 's' : ''} placed</p>
+        <p className="text-sm text-amazon-textMuted mb-4">{orders.length} order{orders.length !== 1 ? 's' : ''} placed · status and delivery estimates live here</p>
+        <div className="mb-4"><SafetyNotice title="Your order history is your support record" tone="info">Open an order for shipment updates, payment details, return eligibility, and a direct path to help.</SafetyNotice></div>
 
         {orders.length === 0 ? (
           <div className="text-center py-10">

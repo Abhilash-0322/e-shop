@@ -6,6 +6,8 @@ import { formatPrice } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import TrustBadge from '@/components/TrustBadge';
+import SafetyNotice from '@/components/SafetyNotice';
 
 type User = { id: string; name: string; email: string };
 type Address = {
@@ -186,6 +188,11 @@ export default function CheckoutView({
         <div className="text-sm text-amazon-textMuted flex items-center gap-1">
           <Lock className="w-4 h-4" /> Secure checkout
         </div>
+      </div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <TrustBadge kind="secure" />
+        <TrustBadge kind="delivery" />
+        <TrustBadge kind="returns" />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
         <div className="space-y-4">
@@ -386,6 +393,9 @@ export default function CheckoutView({
           {step === 2 && (
             <div className="panel p-5">
               <h2 className="text-xl font-bold mb-3">Payment method</h2>
+              <SafetyNotice title="Your payment stays protected" tone="info">
+                Use a payment method you control. halozon will never ask for your password, one-time code, or payment details by email or phone.
+              </SafetyNotice>
               {savedPayments.length > 0 && (
                 <div className="mb-4 space-y-2">
                   {savedPayments.map((p, i) => (
@@ -432,6 +442,9 @@ export default function CheckoutView({
                   <input className="amazon-input" placeholder="12/29" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
                 </Field>
               </div>
+              <p className="text-xs text-amazon-textMuted mt-3 flex items-center gap-1">
+                <Lock className="w-3.5 h-3.5" /> Payment details are sent only when you place the order.
+              </p>
               <div className="mt-5 flex justify-between">
                 <button onClick={() => setStep(1)} className="text-sm text-amazon-link hover:underline">
                   ← Back
@@ -444,6 +457,9 @@ export default function CheckoutView({
           {step === 3 && (
             <div className="panel p-5 space-y-4">
               <h2 className="text-xl font-bold">Review your order</h2>
+              <SafetyNotice title="Review before you place your order" tone="success">
+                Confirm the delivery address, payment method, and total. Your final delivery estimate and return options remain available from Your Orders.
+              </SafetyNotice>
               <div className="border-t border-b border-amazon-border divide-y divide-amazon-border">
                 {items.map((it, i) => (
                   <div key={it.productId} className="py-3 flex gap-3">

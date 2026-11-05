@@ -4,14 +4,18 @@ import Link from 'next/link';
 import { ExternalLink, Store, CheckCircle2 } from 'lucide-react';
 import SellerLayout from '../SellerLayout';
 import toast from 'react-hot-toast';
+import SafetyNotice from '@/components/SafetyNotice';
 
 export default function SellerStore({ user }: { user: any }) {
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/api/seller/apply')
-      .then((r) => r.json())
-      .then((d) => setProfile(d.profile));
+    const controller = new AbortController();
+    fetch('/api/seller/apply', { signal: controller.signal })
+      .then((r) => r.ok ? r.json() : Promise.reject(new Error('Could not load store profile')))
+      .then((d) => !controller.signal.aborted && setProfile(d.profile))
+      .catch(() => {});
+    return () => controller.abort();
   }, []);
 
   if (!profile) {
@@ -38,9 +42,9 @@ export default function SellerStore({ user }: { user: any }) {
           </span>
         </div>
       ) : (
-        <div className="mb-4 bg-amazon-yellow/20 border border-amazon-yellow rounded-md p-3 text-sm">
-          ⏳ Your application is <b>pending review</b>. Once an admin approves, your store will be visible to customers.
-        </div>
+        <SafetyNotice title="Your store is pending review" tone="warning">
+          Customers cannot discover this store until the application is approved. Keep your profile and payout information accurate; support can answer questions while you wait.
+        </SafetyNotice>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

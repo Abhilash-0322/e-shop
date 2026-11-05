@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-  background: #EAEDED;
+  background: #f4f6f6;
   color: #0F1111;
   font-family: "Amazon Ember", Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -19,6 +19,34 @@ body {
 }
 
 * { box-sizing: border-box; }
+
+*:focus-visible {
+  outline: 3px solid #ff9900;
+  outline-offset: 2px;
+}
+
+button, a, input, select, textarea {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: 150ms;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: #ffffff;
+  color: #131921;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 24px rgba(19, 25, 33, 0.24);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -46,16 +74,16 @@ body {
     @apply bg-amazon-navy hover:bg-amazon-navylight text-white text-sm font-medium rounded-md px-4 py-2 transition-all;
   }
   .amazon-input {
-    @apply w-full px-3 py-2 border border-amazon-borderDark rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-amazon-orange focus:border-amazon-orange transition-shadow;
+    @apply w-full px-3 py-2 border border-amazon-borderDark rounded-md text-sm focus:ring-2 focus:ring-amazon-orange focus:border-amazon-orange transition-shadow;
   }
   .amazon-card {
-    @apply bg-white rounded-md shadow-card overflow-hidden transition-all duration-200;
+    @apply bg-white rounded-xl shadow-card overflow-hidden transition-all duration-200;
   }
   .amazon-card-hover {
     @apply hover:shadow-cardHover hover:-translate-y-0.5;
   }
   .panel {
-    @apply bg-white border border-amazon-border rounded-md;
+    @apply bg-white border border-amazon-border rounded-xl;
   }
   .chip {
     @apply inline-flex items-center gap-1 text-xs bg-amazon-bg border border-amazon-border rounded-full px-2 py-0.5;

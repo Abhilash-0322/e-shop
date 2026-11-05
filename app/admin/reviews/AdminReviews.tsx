@@ -4,22 +4,32 @@ import { Trash2 } from 'lucide-react';
 import StarRating from '@/components/StarRating';
 import AdminLayout from '../AdminLayout';
 import toast from 'react-hot-toast';
+import ConfirmDialog from '@/components/ConfirmDialog';
 
 export default function AdminReviews() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
 
-  async function refresh() {
+  async function refresh(signal?: AbortSignal) {
     setLoading(true);
-    const r = await fetch('/api/admin/reviews');
-    const d = await r.json();
-    setItems(d.items || []);
-    setLoading(false);
+    try {
+      const r = await fetch('/api/admin/reviews', { signal });
+      const d = await r.json();
+      if (!signal?.aborted) setItems(d.items || []);
+    } catch {
+      if (!signal?.aborted) toast.error('Reviews could not be loaded');
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
   }
-  useEffect(() => { refresh(); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    refresh(controller.signal);
+    return () => controller.abort();
+  }, []);
 
   async function del(productId: string, reviewId: string) {
-    if (!confirm('Delete this review?')) return;
     const r = await fetch('/api/admin/reviews', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -27,6 +37,7 @@ export default function AdminReviews() {
     });
     if (r.ok) {
       toast.success('Deleted');
+      setDeleteTarget(null);
       refresh();
     } else toast.error('Failed');
   }
@@ -58,7 +69,7 @@ export default function AdminReviews() {
                   <p className="text-sm mt-1">{r.body}</p>
                 </div>
                 <button
-                  onClick={() => del(r.productId, r.reviewId)}
+                  onClick={() => setDeleteTarget(r)}
                   className="text-xs text-amazon-deal hover:underline flex items-center gap-1"
                 >
                   <Trash2 className="w-3 h-3" /> Delete
@@ -68,6 +79,14 @@ export default function AdminReviews() {
           ))}
         </div>
       )}
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Remove this review?"
+        description={deleteTarget ? `This removes the review by ${deleteTarget.userName} from “${deleteTarget.productTitle}” and recalculates its rating. This action cannot be undone.` : ''}
+        confirmLabel="Remove review"
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={() => deleteTarget ? del(deleteTarget.productId, deleteTarget.reviewId) : undefined}
+      />
     </AdminLayout>
   );
 }
