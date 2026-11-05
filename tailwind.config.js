@@ -10,33 +10,33 @@ module.exports = {
         // Authentic Amazon palette
         amazon: {
           // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
+          navy: '#102331',
+          navylight: '#193747',
+          navyxlight: '#315368',
           // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
+          orange: '#F5A623',
+          orangelight: '#FFC15A',
+          orangedark: '#FFD38A',
           // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
+          yellow: '#FFD769',
+          yellowHover: '#FFC94A',
+          buy: '#FFB545',
+          buyHover: '#F39A22',
           // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
+          bg: '#F5F3EE',
+          panel: '#FBFAF8',
+          border: '#D8DEE2',
+          borderDark: '#AEB9C0',
           // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
+          text: '#17212B',
+          textMuted: '#66737D',
+          link: '#087F6C',
+          linkHover: '#056354',
           // States
           deal: '#CC0C39',
           prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
+          green: '#087F6C',
+          greenDark: '#056B5A',
           red: '#B12704',
           // Stars
           star: '#FFA41C',

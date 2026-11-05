@@ -17,7 +17,7 @@ export default function SellerLayout({ user, children }: { user: any; children: 
     <div className="min-h-screen bg-amazon-bg">
       {/* Sub-header */}
       <div className="bg-amazon-navy text-white">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="confidence-shell py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-1 text-white/80 hover:text-white text-sm">
               <ArrowLeft className="w-4 h-4" /> Back to store
@@ -33,8 +33,8 @@ export default function SellerLayout({ user, children }: { user: any; children: 
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6">
-        <aside className="space-y-1 bg-white border border-amazon-border rounded-md p-3 self-start">
+      <div className="confidence-shell py-6 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6">
+        <aside className="panel space-y-1 p-3 self-start lg:sticky lg:top-28">
           {TABS.map((t) => {
             const Icon = t.icon;
             const active = pathname === t.href;
@@ -43,7 +43,7 @@ export default function SellerLayout({ user, children }: { user: any; children: 
                 key={t.href}
                 href={t.href}
                 className={`flex items-center gap-2 px-3 py-2 rounded text-sm ${
-                  active ? 'bg-amazon-orange/10 text-amazon-linkHover font-bold' : 'text-amazon-text hover:bg-amazon-bg'
+                  active ? 'bg-amazon-orange/15 text-amazon-linkHover font-bold' : 'text-amazon-text hover:bg-amazon-bg'
                 }`}
               >
                 <Icon className="w-4 h-4" />

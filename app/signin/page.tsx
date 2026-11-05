@@ -34,7 +34,8 @@ function SignInForm() {
 
   return (
     <form onSubmit={submit} className="space-y-3">
-      <h1 className="text-3xl font-medium">Sign in</h1>
+      <p className="section-kicker">Welcome back</p>
+      <h1 className="mt-1 text-3xl font-bold">Sign in securely</h1>
       <label className="block">
         <span className="text-sm font-bold block mb-1">Email or mobile phone number</span>
         <input
@@ -59,7 +60,7 @@ function SignInForm() {
       <button type="submit" disabled={submitting} className="amazon-btn-yellow w-full !text-sm !py-2 disabled:opacity-60">
         {submitting ? 'Signing in...' : 'Sign in'}
       </button>
-      <p className="text-xs text-amazon-textMuted">
+      <p className="text-xs leading-relaxed text-amazon-textMuted">
         By continuing, you agree to halozon&apos;s <span className="amazon-link">Conditions of Use</span> and{' '}
         <span className="amazon-link">Privacy Notice</span>.
       </p>
@@ -76,17 +77,18 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center py-8 px-4">
+    <div className="min-h-[80vh] flex flex-col items-center py-10 px-4">
       <Link href="/" className="text-3xl font-extrabold mb-4 text-amazon-navy">
         halo<span className="text-amazon-orange">zon</span>
       </Link>
-      <div className="w-full max-w-sm bg-white border border-amazon-border rounded-md p-5 shadow-card">
+      <div className="w-full max-w-sm panel p-6 sm:p-7">
         <Suspense fallback={<div>Loading…</div>}>
           <SignInForm />
         </Suspense>
       </div>
       <div className="w-full max-w-sm mt-6">
-        <div className="bg-white border border-amazon-border rounded-md p-3 text-center text-xs text-amazon-textMuted">
+        <div className="panel p-4 text-center text-xs text-amazon-textMuted">
+          <b className="text-amazon-text">A safer checkout starts here.</b><br />
           Buying for work? <span className="amazon-link">Create a free business account</span>
         </div>
       </div>

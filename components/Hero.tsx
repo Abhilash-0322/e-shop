@@ -69,6 +69,7 @@ export default function Hero() {
       </div>
       {/* Arrows */}
       <button
+        type="button"
         onClick={() => setI((v) => (v - 1 + SLIDES.length) % SLIDES.length)}
         aria-label="Previous slide"
         className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white"
@@ -76,6 +77,7 @@ export default function Hero() {
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button
+        type="button"
         onClick={() => setI((v) => (v + 1) % SLIDES.length)}
         aria-label="Next slide"
         className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur text-white"
@@ -87,7 +89,10 @@ export default function Hero() {
         {SLIDES.map((_, k) => (
           <button
             key={k}
+            type="button"
             onClick={() => setI(k)}
+            aria-label={`Show slide ${k + 1}: ${SLIDES[k].title}`}
+            aria-current={k === i ? 'true' : undefined}
             className={`h-2 rounded-full transition-all ${k === i ? 'w-8 bg-white' : 'w-2 bg-white/50'}`}
           />
         ))}

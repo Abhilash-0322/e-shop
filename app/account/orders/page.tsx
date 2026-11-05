@@ -17,8 +17,9 @@ export default async function OrdersPage() {
 
   return (
     <AccountLayout user={user}>
-      <div className="bg-white border border-amazon-border rounded-md p-5">
-        <h1 className="text-3xl font-bold mb-1">Your Orders</h1>
+      <div className="panel p-5 sm:p-7">
+        <p className="section-kicker">Your history</p>
+        <h1 className="mt-1 text-3xl font-bold mb-1">Your Orders</h1>
         <p className="text-sm text-amazon-textMuted mb-4">{orders.length} order{orders.length !== 1 ? 's' : ''} placed</p>
 
         {orders.length === 0 ? (
@@ -29,7 +30,7 @@ export default async function OrdersPage() {
         ) : (
           <div className="space-y-4">
             {orders.map((o: any) => (
-              <div key={String(o._id)} className="border border-amazon-border rounded-md overflow-hidden">
+              <div key={String(o._id)} className="overflow-hidden rounded-2xl border border-amazon-border">
                 <div className="bg-amazon-bg px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                   <div>
                     <div className="text-amazon-textMuted">ORDER PLACED</div>
@@ -61,7 +62,9 @@ export default async function OrdersPage() {
                         <div className="text-sm font-bold mt-1">{formatPrice(it.price * it.qty)}</div>
                         <div className="mt-2 text-sm">
                           <span className="text-amazon-greenDark font-medium">
-                            {o.status === 'delivered' ? 'Delivered' : o.status === 'shipped' ? 'Shipped' : o.status === 'cancelled' ? 'Cancelled' : 'Processing'}
+                            <span className="status-pill bg-amazon-green/10 text-amazon-greenDark">
+                              {o.status === 'delivered' ? 'Delivered' : o.status === 'shipped' ? 'Shipped' : o.status === 'cancelled' ? 'Cancelled' : 'Processing'}
+                            </span>
                           </span>
                           {o.deliveryEta && (
                             <span className="text-amazon-textMuted ml-2">

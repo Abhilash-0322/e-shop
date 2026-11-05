@@ -50,10 +50,10 @@ export default function Header({ user }: { user: User }) {
   }
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 shadow-header">
       {/* Top nav */}
       <nav className="bg-amazon-navy text-white text-sm">
-        <div className="px-2 py-1.5 flex items-center gap-1">
+        <div className="max-w-[1560px] mx-auto px-3 lg:px-5 py-2 flex items-center gap-1">
           {/* Logo */}
           <Link
             href="/"
@@ -82,7 +82,7 @@ export default function Header({ user }: { user: User }) {
 
           {/* Search */}
           <form onSubmit={submitSearch} className="flex-1 mx-2">
-            <div className="flex rounded-md overflow-hidden h-10 bg-white">
+            <div className="flex rounded-xl overflow-hidden h-11 bg-white ring-1 ring-white/10 focus-within:ring-2 focus-within:ring-amazon-orange">
               <select
                 aria-label="Search category"
                 className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
@@ -98,7 +98,7 @@ export default function Header({ user }: { user: User }) {
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search halozon"
+                placeholder="Search products, brands, and more"
                 className="flex-1 px-3 text-amazon-text text-sm outline-none"
               />
               <button
@@ -117,7 +117,13 @@ export default function Header({ user }: { user: User }) {
             onMouseEnter={() => setShowAcc(true)}
             onMouseLeave={() => setShowAcc(false)}
           >
-            <button className="flex flex-col items-start border border-transparent hover:border-white px-2 py-1.5">
+            <button
+              type="button"
+              aria-expanded={showAcc}
+              aria-haspopup="menu"
+              onClick={() => setShowAcc((open) => !open)}
+              className="flex flex-col items-start border border-transparent hover:border-white rounded-lg px-2 py-1.5"
+            >
               <span className="text-[11px] text-white/80">
                 {user ? `Hello, ${user.name.split(' ')[0]}` : 'Hello, sign in'}
               </span>
@@ -221,7 +227,9 @@ export default function Header({ user }: { user: User }) {
         )}>
           <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
             <button
+              type="button"
               onClick={() => setShowCat(true)}
+              aria-label="Open shop by category"
               className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"
             >
               <Menu className="w-4 h-4" /> All
@@ -260,7 +268,9 @@ export default function Header({ user }: { user: User }) {
               <div className="font-bold text-xl flex items-center gap-2">
                 <Menu className="w-5 h-5" /> Shop by Category
               </div>
-              <button onClick={() => setShowCat(false)}><X className="w-5 h-5" /></button>
+              <button type="button" onClick={() => setShowCat(false)} aria-label="Close categories">
+                <X className="w-5 h-5" />
+              </button>
             </div>
             <div className="p-2">
               {(cats.length ? cats : CATS).map((c) => (

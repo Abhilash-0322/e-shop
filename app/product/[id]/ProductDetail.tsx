@@ -87,7 +87,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4">
+    <div className="confidence-shell py-5 sm:py-8">
       <div className="text-xs text-amazon-textMuted mb-3">
         <Link href="/" className="amazon-link">Home</Link>
         <ChevronRight className="w-3 h-3 inline mx-1" />
@@ -269,9 +269,9 @@ export default function ProductDetail({ product, related }: { product: P; relate
             </div>
             <div className="text-sm">
               <div>
-                <b>FREE delivery</b> <span className="text-amazon-textMuted">Tomorrow</span>
+                <b>Delivery promise</b> <span className="text-amazon-textMuted">in 2–5 days</span>
               </div>
-              <div className="text-xs text-amazon-textMuted">Order within 3 hrs 27 mins.</div>
+              <div className="text-xs text-amazon-textMuted">We’ll confirm the exact date at checkout.</div>
             </div>
             <div className="text-sm">
               <MapPin className="w-4 h-4 inline mr-1 text-amazon-link" />
@@ -284,7 +284,7 @@ export default function ProductDetail({ product, related }: { product: P; relate
             <div>
               <div className="text-sm mb-1">Quantity:</div>
               <div className="inline-flex items-center border border-amazon-borderDark rounded-md">
-                <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="px-2 py-1 hover:bg-amazon-bg">
+                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity" className="px-2 py-1 hover:bg-amazon-bg">
                   <Minus className="w-3 h-3" />
                 </button>
                 <select
@@ -296,16 +296,16 @@ export default function ProductDetail({ product, related }: { product: P; relate
                     <option key={i} value={i + 1}>{i + 1}</option>
                   ))}
                 </select>
-                <button onClick={() => setQty((q) => q + 1)} className="px-2 py-1 hover:bg-amazon-bg">
+                <button type="button" onClick={() => setQty((q) => Math.min(product.stock || 10, q + 1))} aria-label="Increase quantity" className="px-2 py-1 hover:bg-amazon-bg">
                   <Plus className="w-3 h-3" />
                 </button>
               </div>
             </div>
 
-            <button onClick={handleAdd} className="amazon-btn-yellow w-full !text-sm !py-2">
+            <button onClick={handleAdd} disabled={product.stock === 0} className="amazon-btn-yellow w-full !text-sm !py-2">
               Add to Cart
             </button>
-            <button onClick={handleBuyNow} className="amazon-btn-orange w-full !text-sm !py-2">
+            <button onClick={handleBuyNow} disabled={product.stock === 0} className="amazon-btn-orange w-full !text-sm !py-2">
               Buy Now
             </button>
             <button

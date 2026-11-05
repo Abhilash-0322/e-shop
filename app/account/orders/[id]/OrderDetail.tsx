@@ -52,25 +52,27 @@ export default function OrderDetail({ order }: { order: any }) {
 
   return (
     <AccountLayout user={user}>
-      <div className="bg-white border border-amazon-border rounded-md p-5">
+      <div className="panel p-5 sm:p-7">
         <Link href="/account/orders" className="text-sm text-amazon-link hover:underline flex items-center gap-1 mb-3">
           <ArrowLeft className="w-3 h-3" /> Back to orders
         </Link>
         <div className="flex items-start justify-between flex-wrap gap-2">
           <div>
-            <h1 className="text-2xl font-bold">Order #{order.orderNumber}</h1>
+            <p className="section-kicker">Order tracking</p>
+            <h1 className="mt-1 text-2xl font-bold">Order #{order.orderNumber}</h1>
             <p className="text-sm text-amazon-textMuted">
               Placed on {new Date(order.createdAt).toLocaleString()}
             </p>
           </div>
-          <div className="text-right">
+            <div className="text-right">
+            <span className="status-pill bg-amazon-green/10 text-amazon-greenDark capitalize">{String(order.status || 'processing').replace(/_/g, ' ')}</span>
             <div className="text-sm text-amazon-textMuted">Total</div>
             <div className="text-2xl font-bold">{formatPrice(order.total)}</div>
           </div>
         </div>
 
         {/* Tracking timeline */}
-        <div className="mt-6 panel p-5 bg-amazon-bg/30">
+        <div className="mt-6 rounded-2xl border border-amazon-border bg-amazon-bg/45 p-5">
           <h3 className="font-bold mb-4">Shipment status</h3>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-4">
             {STEPS.map((s, idx) => {
@@ -110,6 +112,7 @@ export default function OrderDetail({ order }: { order: any }) {
 
           {/* Events list */}
           <div className="space-y-2 text-sm border-t border-amazon-border pt-3 mt-4">
+            {events.length === 0 && <p className="text-amazon-textMuted">Tracking updates will appear here as your order moves.</p>}
             {events.map((e, i) => (
               <div key={i} className="flex justify-between">
                 <div>
@@ -176,7 +179,7 @@ export default function OrderDetail({ order }: { order: any }) {
         </div>
 
         {/* Items */}
-        <div className="mt-6">
+        <div className="mt-6 rounded-2xl border border-amazon-border bg-white p-5">
           <h3 className="font-bold mb-3">Items in this order</h3>
           <div className="border-t border-amazon-border divide-y divide-amazon-border">
             {order.items.map((it: any, i: number) => (
@@ -211,7 +214,7 @@ export default function OrderDetail({ order }: { order: any }) {
         )}
 
         {/* Order summary */}
-        <div className="mt-6 panel p-4 bg-amazon-bg/30">
+        <div className="mt-6 rounded-2xl border border-amazon-border bg-amazon-bg/45 p-4">
           <h3 className="font-bold mb-2">Order summary</h3>
           <div className="text-sm space-y-1">
             <div className="flex justify-between"><span>Items:</span><span>{formatPrice(order.itemsTotal)}</span></div>

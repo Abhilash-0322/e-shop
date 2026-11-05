@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/utils';
 import { useCart } from '@/hooks/useCart';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import CheckoutExperience from './CheckoutExperience';
 
 type User = { id: string; name: string; email: string };
 type Address = {
@@ -15,7 +16,7 @@ type Address = {
 };
 type Payment = { brand?: string; cardNumberLast4?: string; expiry?: string; label?: string; isDefault?: boolean };
 
-export default function CheckoutView({
+function LegacyCheckoutView({
   user,
   savedAddresses,
   savedPayments,
@@ -549,3 +550,5 @@ function Row({ label, value, highlight }: { label: string; value: string; highli
     </div>
   );
 }
+
+export default CheckoutExperience;

@@ -26,10 +26,24 @@ export default async function Home() {
   const safeCategories = safe(categories);
 
   return (
-    <div className="min-h-screen pb-8">
+    <div className="min-h-screen pb-10">
       <Hero />
 
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+      <div className="confidence-shell -mt-20 sm:-mt-28 relative z-10 space-y-6">
+        <section className="panel grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 sm:p-5" aria-label="Shopping confidence">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl" aria-hidden="true">✦</span>
+            <div><p className="font-bold">Delivery you can plan around</p><p className="text-xs text-amazon-textMuted">Clear promises before checkout.</p></div>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-2xl" aria-hidden="true">↺</span>
+            <div><p className="font-bold">Easy returns</p><p className="text-xs text-amazon-textMuted">Change your mind? We’ll help.</p></div>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-2xl" aria-hidden="true">✓</span>
+            <div><p className="font-bold">Secure by design</p><p className="text-xs text-amazon-textMuted">Protected payment and tracking.</p></div>
+          </div>
+        </section>
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
