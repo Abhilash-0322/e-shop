@@ -9,16 +9,21 @@ export async function GET() {
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   await connectDB();
-  const [users, products, orders, pendingSellers] = await Promise.all([
+  const [users, products, orders, pendingSellers, lowStockItems] = await Promise.all([
     User.countDocuments({}),
     Product.countDocuments({}),
     Order.countDocuments({}),
     User.countDocuments({ 'sellerProfile.approved': false, 'sellerProfile.appliedAt': { $exists: true } }),
+    Product.find({ stock: { $lte: 5 } })
+      .select('title stock lowStockThreshold price seller sellerName images updatedAt')
+      .sort({ stock: 1, updatedAt: -1 })
+      .limit(8)
+      .lean(),
   ]);
   const totalRevenue = await Order.aggregate([
     { $group: { _id: null, total: { $sum: '$total' } } },
   ]);
-  const lowStock = await Product.countDocuments({ stock: { $lte: 5, $gt: 0 } });
+  const lowStock = await Product.countDocuments({ stock: { $lte: 5 } });
   return NextResponse.json({
     users,
     products,
@@ -26,5 +31,6 @@ export async function GET() {
     pendingSellers,
     revenue: totalRevenue[0]?.total || 0,
     lowStock,
+    lowStockItems: JSON.parse(JSON.stringify(lowStockItems)),
   });
 }

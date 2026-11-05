@@ -1,1 +1,5 @@
-import AdminList from '@/components/AdminList';export default function Products(){return <AdminList title="Products" endpoint="/api/admin/products"/>}
+import AdminTable from '@/components/AdminTable';
+
+export default function Products() {
+  return <AdminTable resource="products" endpoint="/api/admin/products" />;
+}

@@ -1,1 +1,5 @@
-import AdminList from '@/components/AdminList';export default function Reviews(){return <AdminList title="Reviews" endpoint="/api/admin/reviews"/>}
+import AdminTable from '@/components/AdminTable';
+
+export default function Reviews() {
+  return <AdminTable resource="reviews" endpoint="/api/admin/reviews" />;
+}
