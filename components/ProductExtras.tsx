@@ -1,2 +1,98 @@
-'use client';import {useEffect,useState} from 'react';import toast from 'react-hot-toast';import {Bell,Check,MessageCircle,Send,ThumbsUp} from 'lucide-react';
-export default function ProductExtras({productId}:{productId:string}){const [reviews,setReviews]=useState<any[]>([]);const [questions,setQuestions]=useState<any[]>([]);const [review,setReview]=useState({rating:5,title:'',body:''});const [question,setQuestion]=useState('');const [email,setEmail]=useState('');const [busy,setBusy]=useState(false);useEffect(()=>{const c=new AbortController();fetch(`/api/products/${productId}`,{signal:c.signal}).then(r=>r.json()).then(d=>{if(!c.signal.aborted)setReviews(d.product?.reviews||[])}).catch(()=>{});fetch(`/api/products/${productId}/questions`,{signal:c.signal}).then(r=>r.json()).then(d=>{if(!c.signal.aborted)setQuestions(d.items||[])}).catch(()=>{});return()=>c.abort()},[productId]);async function postReview(e:React.FormEvent){e.preventDefault();setBusy(true);try{const r=await fetch(`/api/products/${productId}/review`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(review)});const d=await r.json();if(!r.ok)throw Error(d.error);toast.success('Review submitted');setReview({rating:5,title:'',body:''})}catch(e:any){toast.error(e.message||'Sign in to review')}finally{setBusy(false)}}async function postQuestion(e:React.FormEvent){e.preventDefault();const r=await fetch(`/api/products/${productId}/questions`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({body:question})});if(r.ok){setQuestion('');toast.success('Question posted')}else toast.error('Sign in to ask a question')}async function alertStock(e:React.FormEvent){e.preventDefault();const r=await fetch('/api/stock-alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,productId})});toast[r.ok?'success':'error'](r.ok?'We will email you when it is back':'Could not create alert')}return <section className="mt-12 space-y-6"><div className="grid lg:grid-cols-2 gap-6"><form onSubmit={postReview} className="surface p-6"><p className="eyebrow">Community</p><h2 className="text-2xl font-black mt-2">Share your take</h2><select className="input mt-5" value={review.rating} onChange={e=>setReview({...review,rating:Number(e.target.value)})}>{[5,4,3,2,1].map(x=><option key={x} value={x}>{x} stars</option>)}</select><input className="input mt-3" placeholder="Review title" value={review.title} onChange={e=>setReview({...review,title:e.target.value})}/><textarea required minLength={4} className="input mt-3 min-h-28" placeholder="What should shoppers know?" value={review.body} onChange={e=>setReview({...review,body:e.target.value})}/><button disabled={busy} className="btn btn-primary mt-3">{busy?'Sending...':'Publish review'}<Send className="w-4 h-4"/></button></form><div className="surface p-6"><p className="eyebrow">Questions</p><h2 className="text-2xl font-black mt-2">Ask the community</h2><form onSubmit={postQuestion} className="flex gap-2 mt-5"><input required minLength={5} className="input" placeholder="Ask a question" value={question} onChange={e=>setQuestion(e.target.value)}/><button className="btn btn-dark"><Send className="w-4 h-4"/></button></form><div className="space-y-3 mt-5">{questions.slice(0,4).map(q=><div className="border-t pt-3" key={q._id}><b className="text-sm"><MessageCircle className="inline w-4 h-4 mr-1 text-indigo-600"/>{q.body}</b><p className="text-xs muted mt-2">{q.answers?.length||0} answers · {q.helpful||0} found helpful</p></div>)}{!questions.length&&<p className="muted text-sm">Be the first to ask.</p>}</div></div></div><div className="surface p-6"><p className="eyebrow">Reviews</p><h2 className="text-2xl font-black mt-2">What shoppers say</h2><div className="grid md:grid-cols-2 gap-4 mt-5">{reviews.slice(0,6).map(r=><article className="rounded-xl bg-slate-50 p-4" key={r._id||r.body}><div className="text-amber-500">{'★'.repeat(r.rating||5)}</div><b className="block mt-2">{r.title||'Verified experience'}</b><p className="text-sm text-slate-600 mt-2">{r.body}</p><small className="muted block mt-3">{r.userName||'Halozon shopper'} {r.verifiedBuyer&&<Check className="inline w-3 h-3 text-emerald-600"/>}</small></article>)}</div></div><form onSubmit={alertStock} className="surface p-6 flex flex-col sm:flex-row gap-3 sm:items-end"><div className="flex-1"><p className="font-black"><Bell className="inline w-4 h-4 text-indigo-600 mr-1"/>Want a restock alert?</p><input required type="email" className="input mt-3" placeholder="Your email" value={email} onChange={e=>setEmail(e.target.value)}/></div><button className="btn btn-soft">Notify me</button></form></section>}
+'use client';
+
+import {useEffect, useState} from 'react';
+import toast from 'react-hot-toast';
+import {Check, MessageCircle, Send} from 'lucide-react';
+import FormField, {fieldA11y} from './FormField';
+
+export default function ProductExtras({productId}: {productId: string}) {
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [review, setReview] = useState({rating: 5, title: '', body: ''});
+  const [question, setQuestion] = useState('');
+  const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`/api/products/${productId}`, {signal: controller.signal}).then((response) => response.json()).then((data) => {
+      if (!controller.signal.aborted) setReviews(data.product?.reviews || []);
+    }).catch(() => {});
+    fetch(`/api/products/${productId}/questions`, {signal: controller.signal}).then((response) => response.json()).then((data) => {
+      if (!controller.signal.aborted) setQuestions(data.items || []);
+    }).catch(() => {});
+    return () => controller.abort();
+  }, [productId]);
+
+  async function postReview(event: React.FormEvent) {
+    event.preventDefault();
+    if (review.body.trim().length < 4) {
+      setErrors({reviewBody: 'Add at least a few words about your experience.'});
+      return;
+    }
+    setErrors({});
+    setBusy(true);
+    try {
+      const response = await fetch(`/api/products/${productId}/review`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(review)});
+      const data = await response.json();
+      if (!response.ok) {
+        setErrors({review: data.error || 'Sign in to review this product.'});
+        return;
+      }
+      toast.success('Review submitted');
+      setReview({rating: 5, title: '', body: ''});
+    } catch {
+      setErrors({review: 'The service is unavailable. Try again shortly.'});
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function postQuestion(event: React.FormEvent) {
+    event.preventDefault();
+    if (question.trim().length < 5) {
+      setErrors({question: 'Ask a question with at least five characters.'});
+      return;
+    }
+    const response = await fetch(`/api/products/${productId}/questions`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({body: question})});
+    if (response.ok) {
+      setQuestion('');
+      setErrors({});
+      toast.success('Question posted');
+    } else setErrors({question: 'Sign in to ask a question.'});
+  }
+
+  async function alertStock(event: React.FormEvent) {
+    event.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors({stockEmail: 'Enter a valid email address.'});
+      return;
+    }
+    const response = await fetch('/api/stock-alerts', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, productId})});
+    if (response.ok) {
+      setErrors({});
+      toast.success('We will email you when it is back');
+    } else setErrors({stockEmail: 'Could not create the alert. Try again.'});
+  }
+
+  return <section className="mt-12 space-y-6">
+    <div className="grid min-w-0 gap-6 lg:grid-cols-2">
+      <form onSubmit={postReview} noValidate className="surface min-w-0 p-5 sm:p-6">
+        <p className="eyebrow">Community</p><h2 className="mt-2 text-2xl font-black">Share your take</h2>
+        {errors.review && <p className="error-text mt-3 rounded bg-rose-50 p-2" role="alert">{errors.review}</p>}
+        <FormField id="review-rating" label="Rating"><select id="review-rating" className="input" value={review.rating} onChange={(event) => setReview({...review, rating: Number(event.target.value)})}>{[5, 4, 3, 2, 1].map((value) => <option key={value} value={value}>{value} stars</option>)}</select></FormField>
+        <div className="mt-3"><FormField id="review-title" label="Review title"><input id="review-title" className="input" placeholder="A short summary" value={review.title} onChange={(event) => setReview({...review, title: event.target.value})}/></FormField></div>
+        <div className="mt-3"><FormField id="review-body" label="Your review" error={errors.reviewBody}><textarea {...fieldA11y('review-body', errors.reviewBody)} required minLength={4} className="input min-h-28" placeholder="What should shoppers know?" value={review.body} onChange={(event) => {setReview({...review, body: event.target.value}); setErrors((current) => ({...current, reviewBody: ''}))}}/></FormField></div>
+        <button disabled={busy} className="btn btn-primary mt-3">{busy ? 'Sending…' : 'Publish review'}<Send className="h-4 w-4" aria-hidden="true"/></button>
+      </form>
+      <div className="surface min-w-0 p-5 sm:p-6"><p className="eyebrow">Questions</p><h2 className="mt-2 text-2xl font-black">Ask the community</h2>
+        <form onSubmit={postQuestion} noValidate className="mt-5 flex flex-wrap gap-2"><div className="min-w-0 flex-1"><label htmlFor="product-question" className="sr-only">Your question</label><input {...fieldA11y('product-question', errors.question)} required minLength={5} id="product-question" className="input" placeholder="Ask a question" value={question} onChange={(event) => setQuestion(event.target.value)}/></div><button className="btn btn-dark" aria-label="Post question"><Send className="h-4 w-4" aria-hidden="true"/></button></form>
+        {errors.question && <p className="error-text mt-2" role="alert">{errors.question}</p>}
+        <div className="mt-5 space-y-3">{questions.slice(0, 4).map((item) => <div className="border-t pt-3" key={item._id}><b className="text-wrap text-sm"><MessageCircle className="mr-1 inline h-4 w-4 text-indigo-600" aria-hidden="true"/>{item.body}</b><p className="mt-2 text-xs muted">{item.answers?.length || 0} answers · {item.helpful || 0} found helpful</p></div>)}{!questions.length && <p className="text-sm muted">Be the first to ask.</p>}</div>
+      </div>
+    </div>
+    <div className="surface p-5 sm:p-6"><p className="eyebrow">Reviews</p><h2 className="mt-2 text-2xl font-black">What shoppers say</h2><div className="mt-5 grid gap-4 md:grid-cols-2">{reviews.slice(0, 6).map((item) => <article className="rounded-xl bg-slate-50 p-4" key={item._id || item.body}><div className="text-amber-500" aria-label={`${item.rating || 5} out of 5 stars`}>{'★'.repeat(item.rating || 5)}</div><b className="mt-2 block text-wrap">{item.title || 'Verified experience'}</b><p className="mt-2 text-sm text-slate-600 text-wrap">{item.body}</p><small className="mt-3 block muted">{item.userName || 'Halozon shopper'} {item.verifiedBuyer && <Check className="inline h-3 w-3 text-emerald-600" aria-label="Verified buyer"/>}</small></article>)}</div></div>
+    <form onSubmit={alertStock} noValidate className="surface flex flex-col gap-3 p-5 sm:flex-row sm:items-end sm:p-6"><FormField id="stock-email" label="Want a restock alert?" error={errors.stockEmail} hint="We will only email you about this product."><input {...fieldA11y('stock-email', errors.stockEmail, 'stock-email-description')} required type="email" className="input" placeholder="Your email" value={email} onChange={(event) => setEmail(event.target.value)}/></FormField><button className="btn btn-soft">Notify me</button></form>
+  </section>;
+}
