@@ -1,3 +1,24 @@
 'use client';
-import Link from 'next/link';import {ArrowRight,ShieldCheck,Truck,Lock,Star} from '@/lib/icons';
-export default function Hero(){return <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-900 text-white"><div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-fuchsia-500/25 blur-3xl animate-float"/><div className="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-cyan-400/15 blur-3xl animate-float"/><div className="shell relative grid lg:grid-cols-[1.1fr_.9fr] items-center gap-10 py-20 md:py-28"><div className="animate-reveal"><span className="pill bg-white/15 text-indigo-100 border border-white/20">A better marketplace</span><h1 className="text-5xl md:text-7xl font-black tracking-[-.06em] leading-[.95] mt-5">Discover the things that move you.</h1><p className="text-lg text-indigo-100 max-w-xl mt-6 leading-relaxed">A considered shopping experience built around trusted sellers, honest value, and products worth keeping.</p><div className="flex flex-wrap gap-3 mt-8"><Link href="/search" className="btn bg-white text-indigo-700 hover:bg-indigo-50">Start exploring <ArrowRight className="w-4 h-4"/></Link><Link href="/seller/apply" className="btn border border-white/30 text-white hover:bg-white/10">Sell on Halozon</Link></div></div><div className="grid grid-cols-2 gap-4 animate-float">{[[Truck,'Fast fulfillment'],[ShieldCheck,'Buyer protection'],[Lock,'Secure checkout'],[Star,'Top-rated sellers']].map(([I,label])=>{const Icon=I as any;return <div key={label as string} className="surface bg-white/10 border-white/15 p-6 text-white"><Icon className="w-7 h-7 text-cyan-300"/><b className="block mt-5">{label}</b><small className="text-indigo-200 block mt-1">Built into every order</small></div>})}</div></div></section>}
+
+import Link from 'next/link';
+import { ArrowRight, Lock, ShieldCheck, Star, Truck } from '@/lib/icons';
+
+export default function Hero() {
+  const proof = [[Truck, 'Fast fulfillment'], [ShieldCheck, 'Buyer protection'], [Lock, 'Secure checkout'], [Star, 'Top-rated sellers']] as const;
+  return (
+    <section className="border-b-2 border-black bg-black text-white">
+      <div className="shell grid items-center gap-10 py-16 md:py-24 lg:grid-cols-[1.15fr_.85fr]">
+        <div className="animate-reveal">
+          <span className="pill">A better marketplace</span>
+          <h1 className="mt-6 max-w-3xl text-5xl font-black uppercase leading-[.88] tracking-[-.08em] md:text-8xl">Buy less.<br /><span className="text-[#d7ff3f]">Choose better.</span></h1>
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-white/70">A high-signal shopping experience built around trusted sellers, honest value, and products worth keeping.</p>
+          <div className="mt-8 flex flex-wrap gap-4"><Link href="/search" className="btn border-white bg-[#d7ff3f] text-black">Start exploring <ArrowRight className="h-4 w-4" /></Link><Link href="/seller/apply" className="btn border-white bg-transparent text-white hover:bg-white hover:text-black">Sell on Halozon</Link></div>
+          <div className="mt-10 border-t-2 border-white/20 pt-4 text-xs font-black uppercase tracking-widest text-white/50">Independent commerce / shipping worldwide</div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 animate-float">
+          {proof.map(([Icon, label], index) => <div key={label} className={`border-2 border-white p-5 ${index === 0 ? 'bg-[#ff5c35] text-black' : 'bg-white/5'}`}><Icon className="h-7 w-7 text-[#d7ff3f]" /><b className="mt-8 block text-sm uppercase">{label}</b><small className="mt-1 block text-xs text-white/50">Built into every order</small></div>)}
+        </div>
+      </div>
+    </section>
+  );
+}
