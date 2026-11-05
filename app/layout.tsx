@@ -9,14 +9,14 @@ import { getCurrentUser } from '@/lib/auth';
 import { organizationJsonLd, SITE_URL, SITE_NAME } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'halozon — Online Shopping for Electronics, Books, Apparel & More',
+  title: 'halozon studio — Small joys, beautifully found',
   description:
-    'Free shipping on millions of items. Get the best of Shopping and Entertainment with halozon.',
+    'A softer way to shop: curious finds, independent makers, and everyday delight.',
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: 'halozon — Online Shopping',
+    title: 'halozon studio — Small joys, beautifully found',
     description:
-      'Free shipping on millions of items. Get the best of Shopping and Entertainment with halozon.',
+      'Curious finds, independent makers, and everyday delight.',
     url: SITE_URL,
     siteName: SITE_NAME,
     type: 'website',

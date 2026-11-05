@@ -1,58 +1,33 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Package, ShoppingBag, BarChart3, Store, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, BarChart3, LayoutDashboard, Package, ShoppingBag, Sparkles, Store } from 'lucide-react';
 
 const TABS = [
-  { href: '/seller/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/seller/products', label: 'Products', icon: Package },
+  { href: '/seller/dashboard', label: 'Studio overview', icon: LayoutDashboard },
+  { href: '/seller/products', label: 'Your products', icon: Package },
   { href: '/seller/orders', label: 'Orders', icon: ShoppingBag },
-  { href: '/seller/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/seller/store', label: 'Store Profile', icon: Store },
+  { href: '/seller/analytics', label: 'Insights', icon: BarChart3 },
+  { href: '/seller/store', label: 'Store profile', icon: Store },
 ];
 
 export default function SellerLayout({ user, children }: { user: any; children: React.ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="min-h-screen bg-amazon-bg">
-      {/* Sub-header */}
+    <div className="min-h-screen">
       <div className="bg-amazon-navy text-white">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-1 text-white/80 hover:text-white text-sm">
-              <ArrowLeft className="w-4 h-4" /> Back to store
-            </Link>
-            <div className="text-sm">
-              <span className="font-bold">halozon Seller Central</span>
-              <span className="ml-3 text-white/60">{user.sellerProfile?.storeName || user.name}</span>
-            </div>
-          </div>
-          <Link href="/seller/store" className="text-sm text-white/80 hover:text-white">
-            View public store
-          </Link>
+        <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+          <div className="flex items-center gap-4"><Link href="/" className="flex items-center gap-1 text-sm text-white/60 hover:text-white"><ArrowLeft className="h-4 w-4" /> Back to shop</Link><div className="hidden h-5 w-px bg-white/20 sm:block" /><div className="flex items-center gap-2 text-sm font-bold"><Sparkles className="h-4 w-4 text-amazon-yellow" /> Maker studio <span className="font-normal text-white/50">· {user.sellerProfile?.storeName || user.name}</span></div></div>
+          <Link href="/seller/store" className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-bold hover:border-white/60">View public store ↗</Link>
         </div>
       </div>
-
-      <div className="max-w-screen-xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-6">
-        <aside className="space-y-1 bg-white border border-amazon-border rounded-md p-3 self-start">
-          {TABS.map((t) => {
-            const Icon = t.icon;
-            const active = pathname === t.href;
-            return (
-              <Link
-                key={t.href}
-                href={t.href}
-                className={`flex items-center gap-2 px-3 py-2 rounded text-sm ${
-                  active ? 'bg-amazon-orange/10 text-amazon-linkHover font-bold' : 'text-amazon-text hover:bg-amazon-bg'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                {t.label}
-              </Link>
-            );
-          })}
+      <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 px-4 py-8 lg:grid-cols-[230px_1fr]">
+        <aside className="self-start rounded-3xl border border-amazon-border bg-white/80 p-2 shadow-card">
+          <div className="mb-2 rounded-2xl bg-amazon-mint p-4"><div className="text-xs font-bold uppercase tracking-widest text-amazon-textMuted">Your little business</div><div className="mt-1 text-lg font-black">{user.sellerProfile?.storeName || user.name}</div></div>
+          {TABS.map(({ href, label, icon: Icon }) => { const active = pathname === href; return <Link key={href} href={href} className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold ${active ? 'bg-amazon-navy text-white' : 'text-amazon-textMuted hover:bg-amazon-bg hover:text-amazon-text'}`}><Icon className="h-4 w-4" />{label}</Link>; })}
         </aside>
-        <div>{children}</div>
+        <main className="min-w-0">{children}</main>
       </div>
     </div>
   );

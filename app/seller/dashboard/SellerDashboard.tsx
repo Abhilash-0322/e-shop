@@ -22,11 +22,12 @@ export default function SellerDashboard({
     <SellerLayout user={user}>
       <div className="mb-6 flex justify-between items-start flex-wrap gap-3">
         <div>
-          <h1 className="text-3xl font-bold">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
-          <p className="text-sm text-amazon-textMuted">Here&apos;s how your store is doing today.</p>
+          <div className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[.2em] text-amazon-orange"><Sparkles className="h-4 w-4" /> Your maker studio</div>
+          <h1 className="text-3xl font-black tracking-tight">Welcome back, {user.sellerProfile?.storeName || user.name}</h1>
+          <p className="mt-2 text-sm text-amazon-textMuted">A quick pulse check on the lovely things you&apos;re putting into the world.</p>
         </div>
         <div className="flex gap-2">
-          <Link href="/seller/products/new" className="amazon-btn-yellow !text-sm">
+          <Link href="/seller/products/new" className="amazon-btn-primary !text-sm">
             <Plus className="w-4 h-4 inline mr-1" /> Add product
           </Link>
           <Link href="/seller/analytics" className="amazon-btn-dark !text-sm">
@@ -36,7 +37,7 @@ export default function SellerDashboard({
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard
           icon={DollarSign}
           label="Revenue"
@@ -63,7 +64,7 @@ export default function SellerDashboard({
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Sales chart */}
         <div className="panel p-4 lg:col-span-2">
           <div className="flex justify-between items-center mb-3">

@@ -148,12 +148,12 @@ export default function CheckoutView({
   if (placed) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center animate-fadeIn">
+        <div className="rounded-3xl border border-amazon-border bg-white/80 p-8 text-center shadow-card animate-fadeIn">
           <div className="w-16 h-16 mx-auto bg-amazon-green/10 rounded-full flex items-center justify-center mb-4 animate-pulseRing">
             <Check className="w-8 h-8 text-amazon-greenDark" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Order placed!</h1>
-          <p className="text-amazon-textMuted mb-4">Thank you, your order has been received.</p>
+          <h1 className="mb-2 text-3xl font-black">Your order is on its way ✦</h1>
+          <p className="mb-4 text-amazon-textMuted">Thank you — we&apos;ve tucked your order into the delivery constellation.</p>
           <div className="bg-amazon-bg border border-amazon-border rounded-md p-4 inline-block mb-4">
             <div className="text-xs text-amazon-textMuted">Order number</div>
             <div className="text-xl font-bold">{placed.orderNumber}</div>
@@ -180,8 +180,8 @@ export default function CheckoutView({
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-4">
       <div className="flex items-center justify-between mb-4">
-        <Link href="/" className="text-2xl font-extrabold text-amazon-navy">
-          halo<span className="text-amazon-orange">zon</span>
+        <Link href="/" className="text-2xl font-black tracking-[-.08em] text-amazon-navy">
+          halo<span className="text-amazon-orange">zon</span><span className="ml-1 text-xs tracking-normal text-amazon-orange">studio</span>
         </Link>
         <div className="text-sm text-amazon-textMuted flex items-center gap-1">
           <Lock className="w-4 h-4" /> Secure checkout
@@ -199,7 +199,7 @@ export default function CheckoutView({
                 <div key={s.i} className="flex items-center gap-2">
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      step >= s.i ? 'bg-amazon-orange text-white' : 'bg-amazon-bg text-amazon-textMuted'
+                      step >= s.i ? 'bg-amazon-navy text-white' : 'bg-amazon-bg text-amazon-textMuted'
                     }`}
                   >
                     {s.i}

@@ -21,11 +21,11 @@ export default function CartView() {
   if (items.length === 0) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="bg-white border border-amazon-border rounded-md p-8 text-center">
-          <h1 className="text-3xl font-bold mb-2">Your halozon Cart is empty</h1>
-          <Link href="/" className="amazon-link text-sm">
-            Shop today&apos;s deals
-          </Link>
+        <div className="rounded-3xl border border-amazon-border bg-white/80 p-10 text-center shadow-card">
+          <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-full bg-amazon-mint text-3xl">♡</div>
+          <h1 className="mb-2 text-3xl font-black">Your happy bag is waiting</h1>
+          <p className="mx-auto mb-5 max-w-sm text-sm text-amazon-textMuted">Fill it with something clever, cozy, or completely unnecessary in the best way.</p>
+          <Link href="/" className="amazon-btn-primary inline-block">Start exploring</Link>
         </div>
       </div>
     );
@@ -39,10 +39,10 @@ export default function CartView() {
     <div className="max-w-screen-xl mx-auto px-4 py-4">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
         <div>
-          <div className="bg-white border border-amazon-border rounded-md p-4 mb-3">
+          <div className="rounded-3xl border border-amazon-border bg-white/80 p-5 shadow-card">
             <div className="flex items-end justify-between">
-              <h1 className="text-3xl font-bold">Shopping Cart</h1>
-              <div className="text-sm text-amazon-textMuted">Price</div>
+              <div><div className="mb-1 text-xs font-black uppercase tracking-[.2em] text-amazon-orange">Your saved discoveries</div><h1 className="text-3xl font-black">Shopping bag</h1></div>
+              <div className="text-sm text-amazon-textMuted">Ready when you are</div>
             </div>
           </div>
           <div className="bg-white border border-amazon-border rounded-md divide-y divide-amazon-border">
