@@ -28,9 +28,9 @@ export default function ProductGrid({
   return (
     <section className="mb-6">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="p-1 mb-3 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-amazon-text">{title}</h2>
             {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
@@ -38,24 +38,24 @@ export default function ProductGrid({
           )}
         </div>
       )}
-      <div className="relative panel p-4">
+      <div className="relative">
         <button
           onClick={() => scroll('l')}
           aria-label="Scroll left"
-          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute left-1 top-1/2 -translate-y-1/2 z-10 bg-amazon-panel shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => scroll('r')}
           aria-label="Scroll right"
-          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
+          className="absolute right-1 top-1/2 -translate-y-1/2 z-10 bg-amazon-panel shadow-lg rounded-full p-2 hover:bg-amazon-bg hidden md:block"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
         <div
           ref={ref}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
         >
           {products.slice(0, 10).map((p) => (
             <ProductCard key={p._id} product={p} />

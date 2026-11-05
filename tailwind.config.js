@@ -7,48 +7,42 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Authentic Amazon palette
+        // Shared marketplace palette. Existing class names stay stable so
+        // the backend-facing screens can be restyled without changing flows.
         amazon: {
-          // Header / Nav
-          navy: '#131921',
-          navylight: '#232F3E',
-          navyxlight: '#37475A',
-          // Orange logo & links
-          orange: '#FF9900',
-          orangelight: '#FFA41C',
-          orangedark: '#FEBD69',
-          // CTAs
-          yellow: '#FFD814',
-          yellowHover: '#F7CA00',
-          buy: '#FFA41C',
-          buyHover: '#FA8900',
-          // Surfaces
-          bg: '#EAEDED',
-          panel: '#F7F8F8',
-          border: '#DDD',
-          borderDark: '#C1C1C1',
-          // Text
-          text: '#0F1111',
-          textMuted: '#565959',
-          link: '#007185',
-          linkHover: '#C7511F',
-          // States
-          deal: '#CC0C39',
-          prime: '#00A8E1',
-          green: '#067D62',
-          greenDark: '#007600',
-          red: '#B12704',
-          // Stars
-          star: '#FFA41C',
+          navy: '#17202a',
+          navylight: '#253447',
+          navyxlight: '#3b4c60',
+          orange: '#ec6a4b',
+          orangelight: '#f28768',
+          orangedark: '#c94f38',
+          yellow: '#d9f06b',
+          yellowHover: '#c7e452',
+          buy: '#d9f06b',
+          buyHover: '#c7e452',
+          bg: '#f7f5ef',
+          panel: '#fffdf8',
+          border: '#e6e0d5',
+          borderDark: '#cfc6b7',
+          text: '#17202a',
+          textMuted: '#69717b',
+          link: '#1d7a78',
+          linkHover: '#145957',
+          deal: '#d04f68',
+          prime: '#1d7a78',
+          green: '#4f8b68',
+          greenDark: '#397152',
+          red: '#bf4f43',
+          star: '#e8a04c',
         },
       },
       fontFamily: {
         amazon: ['"Amazon Ember"', 'Arial', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.04)',
-        cardHover: '0 4px 14px rgba(0,0,0,0.12)',
-        header: '0 2px 4px rgba(0,0,0,0.2)',
+        card: '0 8px 24px rgba(23,32,42,0.06)',
+        cardHover: '0 18px 40px rgba(23,32,42,0.14)',
+        header: '0 8px 28px rgba(23,32,42,0.12)',
       },
       keyframes: {
         shimmer: {

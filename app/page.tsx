@@ -6,6 +6,7 @@ import ProductGrid from '@/components/ProductGrid';
 import CategoryTile from '@/components/CategoryTile';
 import PersonalizedRow from '@/components/PersonalizedRow';
 import Link from 'next/link';
+import { ArrowUpRight, BadgeCheck, HeartHandshake, Sparkles, Users, type LucideIcon } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,105 +27,48 @@ export default async function Home() {
   const safeCategories = safe(categories);
 
   return (
-    <div className="min-h-screen pb-8">
+    <div className="min-h-screen pb-12">
       <Hero />
-
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
-        {/* Quick categories grid */}
-        {safeCategories.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {safeCategories.slice(0, 4).map((c: any) => (
-              <div key={String(c._id)} className="amazon-card p-4">
-                <h3 className="text-lg font-bold mb-2">{c.name}</h3>
-                <div className="grid grid-cols-2 gap-1">
-                  {[0, 1, 2, 3].map((k) => (
-                    <div key={k} className="aspect-square bg-amazon-bg rounded overflow-hidden">
-                      {c.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={c.image} alt={c.name} className="w-full h-full object-cover" loading="lazy" />
-                      ) : (
-                        <div className="w-full h-full shimmer-bg" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <Link href={`/category/${c.slug}`} className="amazon-link text-sm mt-2 inline-block">
-                  Shop now
-                </Link>
+      <div className="max-w-screen-xl mx-auto px-4 -mt-24 relative z-10 space-y-10">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {([
+            ['01', 'Human first', 'Meet the maker behind every shop.', Users],
+            ['02', 'Trust built in', 'Real reviews from real buyers.', BadgeCheck],
+            ['03', 'Easy on repeat', 'Save a favorite and come back.', HeartHandshake],
+            ['04', 'Always fresh', 'New drops every week.', Sparkles],
+          ] as [string, string, string, LucideIcon][]).map(([number, title, text, FeatureIcon]) => {
+            return (
+              <div key={String(number)} className="amazon-card p-4 md:p-5 bg-amazon-panel/95 backdrop-blur">
+                <div className="flex justify-between items-start mb-5"><span className="eyebrow">{number}</span><FeatureIcon className="w-5 h-5 text-amazon-orange" /></div>
+                <h3 className="font-bold">{String(title)}</h3><p className="text-xs text-amazon-textMuted mt-1">{String(text)}</p>
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </section>
 
-        {/* Deals strip */}
-        <ProductGrid products={safeDeals} title="🔥 Today's Deals" subtitle="Limited time offers" />
-
-        {/* Featured */}
-        <ProductGrid products={safeFeatured} title="Featured Categories" />
-
-        {/* Two-up promo */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="amazon-card p-6 bg-gradient-to-br from-amazon-navy to-amazon-navylight text-white">
-            <h3 className="text-xl font-bold mb-1">Sign in for the best experience</h3>
-            <p className="text-sm text-white/80 mb-3">Personalized recommendations, faster checkout, and more.</p>
-            <Link href="/signin" className="amazon-btn-yellow inline-block">Sign in securely</Link>
-            <div className="text-xs text-white/70 mt-3">
-              New customer?{' '}
-              <Link href="/register" className="amazon-link !text-white underline">
-                Start here.
-              </Link>
-            </div>
-          </div>
-          <div className="amazon-card p-6">
-            <h3 className="text-xl font-bold mb-2">Top Sellers</h3>
-            <p className="text-sm text-amazon-textMuted mb-3">Most-loved items by customers</p>
-            <div className="grid grid-cols-2 gap-2">
-              {safeBestSellers.slice(0, 4).map((p: any) => (
-                <Link key={p._id} href={`/product/${p._id}`} className="amazon-card-hover amazon-card p-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.images?.[0]} alt={p.title} className="w-full aspect-square object-contain" loading="lazy" />
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="amazon-card p-6 bg-gradient-to-br from-amazon-orange/20 to-amazon-orangedark/30">
-            <h3 className="text-xl font-bold mb-1">Try halozon Prime</h3>
-            <p className="text-sm text-amazon-textMuted mb-3">Fast, free delivery on millions of items.</p>
-            <Link href="/prime" className="amazon-btn-primary inline-block">Try Prime free</Link>
-            <div className="text-xs text-amazon-textMuted mt-2">Cancel anytime.</div>
-          </div>
-        </div>
-
-        <ProductGrid products={safeTopRated} title="Highly Rated" subtitle="Top customer reviews" />
-
-        {/* Categories */}
         {safeCategories.length > 0 && (
-          <section className="panel p-4">
-            <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
+          <section>
+            <div className="flex items-end justify-between mb-4"><div><p className="eyebrow">Browse by mood</p><h2 className="text-3xl font-black tracking-tight">Find your next thing</h2></div><Link href="/search" className="amazon-link text-sm inline-flex items-center gap-1">See all <ArrowUpRight className="w-4 h-4" /></Link></div>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-              {safeCategories.map((c: any) => (
-                <CategoryTile key={String(c._id)} name={c.name} image={c.image} slug={c.slug} />
-              ))}
+              {safeCategories.map((c: any) => <CategoryTile key={String(c._id)} name={c.name} image={c.image} slug={c.slug} />)}
             </div>
           </section>
         )}
 
-        {/* Best Sellers */}
-        <ProductGrid products={safeBestSellers} title="Best Sellers" />
-
-        {/* Personalized */}
-        <PersonalizedRow />
-
-        {/* Bottom info block */}
-        <div className="bg-white border border-amazon-border rounded-md p-6 mt-8 text-center">
-          <div className="text-xs text-amazon-textMuted mb-2">Personalized recommendations</div>
-          <h3 className="text-2xl font-bold mb-2">See more products for your interests</h3>
-          <Link href="/signin" className="amazon-btn-primary inline-block mt-2">Sign in to view</Link>
-          <div className="text-xs text-amazon-textMuted mt-3">
-            New customer?{' '}
-            <Link href="/register" className="amazon-link">Start here.</Link>
+        <ProductGrid products={safeDeals} title="Fresh drops" subtitle="Limited pieces, ready for a new home" showMore moreHref="/deals" />
+        <section className="grid grid-cols-1 lg:grid-cols-[1.2fr_.8fr] gap-5">
+          <div className="rounded-3xl p-7 md:p-10 bg-amazon-navy text-white overflow-hidden relative soft-grid">
+            <div className="relative z-10 max-w-lg"><p className="eyebrow !text-amazon-yellow">For the independent</p><h2 className="text-4xl md:text-5xl font-black tracking-tight mt-3">Your taste deserves a storefront.</h2><p className="text-white/70 mt-4 max-w-md">Open a studio, share your point of view, and turn the things you make into a community.</p><Link href="/seller/apply" className="amazon-btn-yellow inline-flex items-center gap-2 mt-7">Become a creator <ArrowUpRight className="w-4 h-4" /></Link></div>
+            <div className="absolute -right-16 -bottom-24 w-72 h-72 rounded-full bg-amazon-orange/40 blur-2xl" />
           </div>
-        </div>
+          <div className="rounded-3xl p-7 bg-amazon-yellow text-amazon-navy"><p className="eyebrow !text-amazon-navy/60">Community note</p><div className="text-6xl font-black mt-8">4.9<span className="text-2xl">/5</span></div><p className="font-bold mt-1">average maker rating</p><p className="text-sm mt-6 text-amazon-navy/70">“It feels like discovering a great little shop in a city I’ve never visited.”</p><div className="flex -space-x-2 mt-5">{['A','M','J','S'].map((x) => <span key={x} className="grid place-items-center w-8 h-8 rounded-full bg-amazon-navy text-amazon-yellow text-xs font-bold border-2 border-amazon-yellow">{x}</span>)}</div></div>
+        </section>
+
+        <ProductGrid products={safeFeatured} title="Editor’s picks" subtitle="A considered collection from the halozon community" />
+        <ProductGrid products={safeTopRated} title="Loved by the community" subtitle="The reviews are in" />
+        <ProductGrid products={safeBestSellers} title="What’s moving now" showMore moreHref="/search?sort=best-sellers" />
+        <PersonalizedRow />
+        <div className="text-center py-8"><p className="eyebrow">Keep exploring</p><h2 className="text-3xl font-black mt-2">There’s a world of good stuff out there.</h2><Link href="/search" className="amazon-btn-primary inline-flex items-center gap-2 mt-5">Explore everything <ArrowUpRight className="w-4 h-4" /></Link></div>
       </div>
     </div>
   );

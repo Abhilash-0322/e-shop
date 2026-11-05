@@ -1,36 +1,36 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowUpRight, Sparkles } from 'lucide-react';
 
 const SLIDES = [
   {
-    eyebrow: 'Up to 60% off',
-    title: 'A new era of smart home',
-    sub: 'Discover Echo, Fire TV and Ring devices.',
-    bg: 'from-amazon-navy via-amazon-navylight to-amazon-orange/70',
-    cta: { href: '/category/electronics', label: 'Shop Electronics' },
+    eyebrow: 'The creator marketplace',
+    title: 'Small makers. Big energy.',
+    sub: 'Find thoughtful goods, limited drops, and the people behind them.',
+    bg: 'from-amazon-navy via-[#234b5b] to-amazon-link',
+    cta: { href: '/search?q=creator', label: 'Explore the community' },
   },
   {
-    eyebrow: 'Today only',
-    title: 'Deals of the Day',
-    sub: 'New deals every hour. Refresh often.',
-    bg: 'from-amazon-orange via-amazon-orangedark to-amazon-buy',
-    cta: { href: '/deals', label: 'See today\u2019s deals' },
+    eyebrow: 'Fresh drops',
+    title: 'Made for the curious.',
+    sub: 'A rotating edit of objects with a point of view.',
+    bg: 'from-[#502d57] via-amazon-deal to-amazon-orange',
+    cta: { href: '/deals', label: 'See what just landed' },
   },
   {
-    eyebrow: 'Prime exclusive',
-    title: 'Fast, free delivery',
-    sub: 'On millions of items with Prime.',
-    bg: 'from-amazon-prime via-amazon-navylight to-amazon-navy',
-    cta: { href: '/prime', label: 'Try Prime free' },
+    eyebrow: 'Halo+ members',
+    title: 'More ways to support makers.',
+    sub: 'Unlock early access, free shipping, and member-only studio stories.',
+    bg: 'from-[#537052] via-amazon-green to-amazon-navy',
+    cta: { href: '/prime', label: 'See member perks' },
   },
   {
-    eyebrow: 'Featured',
-    title: 'Books that inspire',
-    sub: 'Bestsellers, indie gems, and more.',
-    bg: 'from-amazon-navy via-emerald-900 to-amazon-navy',
-    cta: { href: '/category/books', label: 'Browse books' },
+    eyebrow: 'Meet the makers',
+    title: 'Every order tells a story.',
+    sub: 'Follow your favorite sellers and find your next everyday favorite.',
+    bg: 'from-[#573c27] via-amazon-orangedark to-amazon-orange',
+    cta: { href: '/seller/apply', label: 'Open your studio' },
   },
 ];
 
@@ -42,7 +42,7 @@ export default function Hero() {
   }, []);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
+    <div className="relative w-full h-[480px] md:h-[590px] overflow-hidden">
       <div
         key={i}
         className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
@@ -52,19 +52,20 @@ export default function Hero() {
         <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
       </div>
-      <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
-        <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
+      <div className="relative max-w-screen-xl mx-auto px-5 h-full flex flex-col justify-center text-white">
+        <div className="flex items-center gap-2 text-sm uppercase tracking-widest font-semibold mb-4 animate-fadeIn text-white/75">
+          <Sparkles className="w-4 h-4 text-amazon-yellow" />
           {s.eyebrow}
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-tight">
+        <h1 className="display-title text-5xl md:text-8xl font-black mb-5 animate-fadeIn max-w-3xl">
           {s.title}
         </h1>
-        <p className="text-lg md:text-xl mb-6 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
+        <p className="text-lg md:text-2xl mb-8 animate-fadeIn max-w-xl text-white/80">{s.sub}</p>
         <Link
           href={s.cta.href}
-          className="amazon-btn-yellow w-fit !text-base !px-6 !py-2.5 animate-fadeIn"
+          className="amazon-btn-yellow w-fit !text-base !px-6 !py-3 animate-fadeIn inline-flex items-center gap-2"
         >
-          {s.cta.label}
+          {s.cta.label} <ArrowUpRight className="w-4 h-4" />
         </Link>
       </div>
       {/* Arrows */}

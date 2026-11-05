@@ -7,9 +7,10 @@ export default async function AccountPage() {
   if (!user) redirect('/signin?redirect=/account');
   return (
     <AccountLayout user={user}>
-      <div className="bg-white border border-amazon-border rounded-md p-6">
-        <h1 className="text-3xl font-bold mb-1">Your Account</h1>
-        <p className="text-sm text-amazon-textMuted mb-4">Hello, {user.name}</p>
+      <div className="panel p-6 md:p-8">
+        <p className="eyebrow">Your halozon</p>
+        <h1 className="text-4xl font-black tracking-tight mb-1">Your Account</h1>
+        <p className="text-sm text-amazon-textMuted mb-6">Hello, {user.name}. Keep your favorites close and your orders moving.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card title="Your Orders" desc="Track, return, or buy things again" href="/account/orders" />
           <Card title="Your Addresses" desc="Edit addresses for orders and gifts" href="/account/addresses" />
@@ -37,8 +38,8 @@ export default async function AccountPage() {
 
 function Card({ title, desc, href, highlight }: { title: string; desc: string; href: string; highlight?: boolean }) {
   return (
-    <a href={href} className={`border rounded-md p-4 hover:shadow-cardHover transition-all hover:-translate-y-0.5 block ${highlight ? 'border-amazon-orange bg-amazon-orange/5' : 'border-amazon-border'}`}>
-      <div className="font-bold mb-1">{title}</div>
+    <a href={href} className={`border rounded-2xl p-5 hover:shadow-cardHover transition-all hover:-translate-y-0.5 block ${highlight ? 'border-amazon-orange bg-amazon-orange/5' : 'border-amazon-border'}`}>
+      <div className="font-black mb-1">{title}</div>
       <div className="text-sm text-amazon-textMuted">{desc}</div>
     </a>
   );

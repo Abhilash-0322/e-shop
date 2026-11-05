@@ -48,7 +48,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
   return (
     <Link
       href={`/product/${product._id}`}
-      className="amazon-card amazon-card-hover p-3 group flex flex-col h-full relative"
+      className="amazon-card amazon-card-hover p-3.5 group flex flex-col h-full relative"
     >
       {!compact && (
         <label
@@ -66,25 +66,25 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           Compare
         </label>
       )}
-      <div className="relative aspect-square mb-2 bg-white overflow-hidden flex items-center justify-center">
+      <div className="relative aspect-square mb-3 bg-amazon-bg rounded-xl overflow-hidden flex items-center justify-center">
         {product.images?.[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={product.images[0]}
             alt={product.title}
-            className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+            className="max-h-full max-w-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
           />
         ) : (
           <div className="shimmer-bg w-full h-full" />
         )}
         {discount > 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute top-2 left-2 bg-amazon-deal text-white text-[10px] uppercase tracking-wide font-bold px-2 py-1 rounded-full">
             -{discount}%
           </span>
         )}
         {product.isDeal && discount === 0 && (
-          <span className="absolute top-0 left-0 bg-amazon-deal text-white text-xs font-bold px-2 py-1">
+          <span className="absolute top-2 left-2 bg-amazon-deal text-white text-[10px] uppercase tracking-wide font-bold px-2 py-1 rounded-full">
             DEAL
           </span>
         )}
@@ -116,7 +116,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
             <span className="text-amazon-link text-xs">{(product.ratingCount || 0).toLocaleString()}</span>
           </div>
         ) : null}
-        <div className="text-sm text-amazon-text line-clamp-3 mb-1 group-hover:text-amazon-linkHover transition-colors">
+        <div className="text-sm font-medium text-amazon-text line-clamp-2 mb-1 group-hover:text-amazon-linkHover transition-colors">
           {product.title}
         </div>
         <div className="mt-auto">
@@ -136,7 +136,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
               Save {formatPrice((product.listPrice || 0) - product.price)} ({discount}%)
             </div>
           )}
-          {!compact && <div className="chip mt-2 w-fit">FREE delivery</div>}
+          {!compact && <div className="chip mt-2 w-fit !bg-amazon-yellow/30 !border-transparent !text-amazon-navy">Ships with care</div>}
         </div>
       </div>
     </Link>
