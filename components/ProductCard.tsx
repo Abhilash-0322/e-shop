@@ -48,7 +48,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
   return (
     <Link
       href={`/product/${product._id}`}
-      className="amazon-card amazon-card-hover p-3 group flex flex-col h-full relative"
+      className="amazon-card amazon-card-hover group relative flex h-full flex-col p-3"
     >
       {!compact && (
         <label
@@ -66,7 +66,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
           Compare
         </label>
       )}
-      <div className="relative aspect-square mb-2 bg-white overflow-hidden flex items-center justify-center">
+      <div className="relative mb-2 flex aspect-square items-center justify-center overflow-hidden rounded-xl bg-amazon-panel">
         {product.images?.[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -116,7 +116,7 @@ export default function ProductCard({ product, compact }: { product: P; compact?
             <span className="text-amazon-link text-xs">{(product.ratingCount || 0).toLocaleString()}</span>
           </div>
         ) : null}
-        <div className="text-sm text-amazon-text line-clamp-3 mb-1 group-hover:text-amazon-linkHover transition-colors">
+        <div className="mb-1 line-clamp-3 text-sm text-amazon-text transition-colors group-hover:text-amazon-linkHover">
           {product.title}
         </div>
         <div className="mt-auto">

@@ -49,6 +49,7 @@ export default async function DashboardPage() {
       series={last7Days}
       recentOrders={JSON.parse(JSON.stringify(orders)).slice(0, 5)}
       topProducts={serialize(myProducts).sort((a: any, b: any) => b.sold - a.sold).slice(0, 5)}
+      lowStock={serialize(myProducts).filter((p: any) => (p.stock || 0) <= 5).sort((a: any, b: any) => a.stock - b.stock).slice(0, 5)}
     />
   );
 }

@@ -29,13 +29,13 @@ export default async function Home() {
     <div className="min-h-screen pb-8">
       <Hero />
 
-      <div className="max-w-screen-xl mx-auto px-4 -mt-32 relative z-10 space-y-6">
+      <div className="relative z-10 mx-auto -mt-16 max-w-screen-xl space-y-6 px-4 pb-8">
         {/* Quick categories grid */}
         {safeCategories.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {safeCategories.slice(0, 4).map((c: any) => (
               <div key={String(c._id)} className="amazon-card p-4">
-                <h3 className="text-lg font-bold mb-2">{c.name}</h3>
+                <h3 className="mb-2 text-lg font-bold tracking-tight">{c.name}</h3>
                 <div className="grid grid-cols-2 gap-1">
                   {[0, 1, 2, 3].map((k) => (
                     <div key={k} className="aspect-square bg-amazon-bg rounded overflow-hidden">
@@ -57,7 +57,7 @@ export default async function Home() {
         )}
 
         {/* Deals strip */}
-        <ProductGrid products={safeDeals} title="🔥 Today's Deals" subtitle="Limited time offers" />
+        <ProductGrid products={safeDeals} title="Today's deals" subtitle="Limited-time prices, refreshed throughout the day" />
 
         {/* Featured */}
         <ProductGrid products={safeFeatured} title="Featured Categories" />

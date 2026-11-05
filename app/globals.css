@@ -4,6 +4,16 @@
 
 :root {
   color-scheme: light;
+  --canvas: #f5f7fb;
+  --surface: #ffffff;
+  --ink: #152035;
+  --muted: #667085;
+  --line: #e4e7ec;
+  --accent: #f97316;
+  --accent-soft: #fff1e8;
+  --positive: #0f766e;
+  --warning: #b54708;
+  --danger: #c4320a;
 }
 
 html, body {
@@ -11,62 +21,82 @@ html, body {
 }
 
 body {
-  background: #EAEDED;
-  color: #0F1111;
-  font-family: "Amazon Ember", Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+button, input, textarea, select { font: inherit; }
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(249, 115, 22, .28);
+  outline-offset: 2px;
 }
 
 * { box-sizing: border-box; }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: #eef1f5; }
+::-webkit-scrollbar-thumb { background: #c7ced8; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #98a2b3; }
 
 /* Selection */
-::selection { background: #FFD814; color: #0F1111; }
+::selection { background: #fed7aa; color: #152035; }
 
 @layer components {
   .amazon-link {
-    @apply text-amazon-link hover:text-amazon-linkHover hover:underline cursor-pointer transition-colors;
+    @apply text-amazon-link hover:text-amazon-linkHover cursor-pointer transition-colors;
   }
   .amazon-btn-yellow {
-    @apply bg-amazon-yellow hover:bg-amazon-yellowHover text-amazon-text text-sm font-medium rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-orange hover:bg-amazon-orangelight text-white text-sm font-semibold rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
   .amazon-btn-orange {
-    @apply bg-amazon-buy hover:bg-amazon-buyHover text-amazon-text text-sm font-medium rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-orange hover:bg-amazon-buyHover text-white text-sm font-semibold rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
   .amazon-btn-primary {
-    @apply bg-amazon-orange hover:bg-amazon-orangelight text-amazon-navy text-sm font-semibold rounded-md px-4 py-2 transition-all duration-150 active:scale-[.98];
+    @apply bg-amazon-orange hover:bg-amazon-orangelight text-white text-sm font-semibold rounded-lg px-4 py-2 transition-all duration-150 active:scale-[.98] shadow-sm;
   }
   .amazon-btn-dark {
-    @apply bg-amazon-navy hover:bg-amazon-navylight text-white text-sm font-medium rounded-md px-4 py-2 transition-all;
+    @apply bg-amazon-navy hover:bg-amazon-navylight text-white text-sm font-semibold rounded-lg px-4 py-2 transition-all;
   }
   .amazon-input {
-    @apply w-full px-3 py-2 border border-amazon-borderDark rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-amazon-orange focus:border-amazon-orange transition-shadow;
+    @apply w-full px-3 py-2.5 border border-amazon-border rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amazon-orange/25 focus:border-amazon-orange transition-shadow;
   }
   .amazon-card {
-    @apply bg-white rounded-md shadow-card overflow-hidden transition-all duration-200;
+    @apply bg-white rounded-2xl border border-amazon-border shadow-card overflow-hidden transition-all duration-200;
   }
   .amazon-card-hover {
     @apply hover:shadow-cardHover hover:-translate-y-0.5;
   }
   .panel {
-    @apply bg-white border border-amazon-border rounded-md;
+    @apply bg-white border border-amazon-border rounded-2xl;
   }
   .chip {
-    @apply inline-flex items-center gap-1 text-xs bg-amazon-bg border border-amazon-border rounded-full px-2 py-0.5;
+    @apply inline-flex items-center gap-1 text-xs bg-amazon-panel border border-amazon-border rounded-full px-2.5 py-1;
   }
   .price-strike {
     @apply text-amazon-textMuted text-xs line-through;
   }
   .shimmer-bg {
-    background: linear-gradient(90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+    background: linear-gradient(90deg, #eef1f5 0%, #f9fafb 50%, #eef1f5 100%);
     background-size: 200% 100%;
   }
+
+  .ops-shell { @apply min-h-screen bg-amazon-bg; }
+  .ops-page { @apply mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 lg:px-8; }
+  .ops-page-title { @apply text-2xl font-semibold tracking-tight text-amazon-text sm:text-3xl; }
+  .ops-kicker { @apply text-[11px] font-bold uppercase tracking-[.16em] text-amazon-textMuted; }
+  .ops-card { @apply rounded-2xl border border-amazon-border bg-white shadow-card; }
+  .status-pill { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold; }
+  .data-table { @apply min-w-full divide-y divide-amazon-border text-sm; }
+  .data-table thead { @apply bg-amazon-panel text-left text-[11px] uppercase tracking-wider text-amazon-textMuted; }
+  .data-table th { @apply whitespace-nowrap px-4 py-3 font-semibold; }
+  .data-table td { @apply px-4 py-3 align-middle; }
+  .data-table tbody tr { @apply border-t border-amazon-border transition-colors hover:bg-amazon-panel/60; }
+  .empty-state { @apply flex flex-col items-center justify-center rounded-2xl border border-dashed border-amazon-border bg-white px-6 py-14 text-center; }
 }
 
 /* Hide Next dev indicator */

@@ -55,11 +55,11 @@ const COLS: { title: string; items: Item[] }[] = [
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
+    <footer className="mt-16">
       {/* Back to top */}
       <button
         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="w-full bg-amazon-navylight hover:bg-amazon-navy text-white text-sm py-3 transition-colors flex items-center justify-center gap-1"
+        className="flex w-full items-center justify-center gap-1 bg-amazon-navylight py-3 text-sm text-white transition-colors hover:bg-amazon-navy"
         aria-label="Back to top"
       >
         <ChevronUp className="w-4 h-4" /> Back to top
@@ -67,7 +67,7 @@ export default function Footer() {
 
       {/* Main 4-col */}
       <div className="bg-amazon-navy text-white text-sm">
-        <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mx-auto grid max-w-screen-xl grid-cols-2 gap-8 px-6 py-12 md:grid-cols-4">
           {COLS.map((col) => (
             <div key={col.title}>
               <h3 className="font-bold mb-3 text-white">{col.title}</h3>

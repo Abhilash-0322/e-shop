@@ -50,14 +50,14 @@ export default function Header({ user }: { user: User }) {
   }
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="sticky top-0 z-50 shadow-header">
       {/* Top nav */}
       <nav className="bg-amazon-navy text-white text-sm">
-        <div className="px-2 py-1.5 flex items-center gap-1">
+        <div className="mx-auto flex max-w-[1600px] items-center gap-1 px-2 py-2 sm:px-4">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-end border border-transparent hover:border-white px-2 py-1.5 transition-all"
+            className="flex items-end rounded-lg border border-transparent px-2 py-1.5 transition-all hover:border-white"
           >
             <span className="text-2xl font-extrabold tracking-tight leading-none text-white">
               halo
@@ -81,8 +81,8 @@ export default function Header({ user }: { user: User }) {
           </Link>
 
           {/* Search */}
-          <form onSubmit={submitSearch} className="flex-1 mx-2">
-            <div className="flex rounded-md overflow-hidden h-10 bg-white">
+          <form onSubmit={submitSearch} className="mx-2 flex-1">
+            <div className="flex h-10 overflow-hidden rounded-xl bg-white ring-1 ring-white/10">
               <select
                 aria-label="Search category"
                 className="hidden md:block bg-amazon-bg hover:bg-amazon-border text-amazon-text text-xs px-2 border-r border-amazon-borderDark"
@@ -104,7 +104,7 @@ export default function Header({ user }: { user: User }) {
               <button
                 type="submit"
                 aria-label="Search"
-                className="bg-amazon-orange hover:bg-amazon-orangelight px-4 transition-colors"
+                className="bg-amazon-orange px-4 transition-colors hover:bg-amazon-orangelight"
               >
                 <Search className="w-5 h-5 text-amazon-navy" />
               </button>
@@ -219,7 +219,7 @@ export default function Header({ user }: { user: User }) {
           "bg-amazon-navylight text-white text-sm transition-shadow",
           scrolled && "shadow-header"
         )}>
-          <div className="px-2 py-1 flex items-center gap-1 overflow-x-auto">
+          <div className="mx-auto flex max-w-[1600px] items-center gap-1 overflow-x-auto px-2 py-1 sm:px-4">
             <button
               onClick={() => setShowCat(true)}
               className="flex items-center gap-1 border border-transparent hover:border-white px-2 py-1.5 font-bold whitespace-nowrap"

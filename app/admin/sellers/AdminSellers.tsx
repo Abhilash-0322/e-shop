@@ -32,18 +32,19 @@ export default function AdminSellers() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold mb-4">Seller applications</h1>
+      <div className="ops-page !px-0 !py-0">
+      <div className="mb-6"><div className="ops-kicker">Partner operations</div><h1 className="ops-page-title mt-1">Seller applications</h1><p className="mt-1 text-sm text-amazon-textMuted">Review seller identity, payouts, and storefront readiness.</p></div>
 
       {loading ? (
         <div className="shimmer-bg h-40 rounded-md" />
       ) : items.length === 0 ? (
-        <div className="panel p-10 text-center text-sm text-amazon-textMuted">No sellers yet.</div>
+        <div className="empty-state">No seller applications yet.</div>
       ) : (
         <div className="space-y-3">
           {items.map((u) => {
             const sp = u.sellerProfile || {};
             return (
-              <div key={u._id} className="panel p-4">
+              <div key={u._id} className="ops-card p-5">
                 <div className="flex justify-between items-start flex-wrap gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -91,6 +92,7 @@ export default function AdminSellers() {
           })}
         </div>
       )}
+      </div>
     </AdminLayout>
   );
 }

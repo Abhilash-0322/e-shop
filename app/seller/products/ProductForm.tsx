@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Upload, X, Save } from 'lucide-react';
+import { Upload, X, Save, Info, ImagePlus, CircleDollarSign, Boxes } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const CATS = [
@@ -98,11 +98,15 @@ export default function ProductForm({ user, initial, mode }: Props) {
 
   return (
     <form onSubmit={submit} className="space-y-4">
+      <div className="mb-2 flex items-center justify-between rounded-2xl border border-amazon-orange/20 bg-amazon-orange/5 px-4 py-3 text-sm">
+        <div className="flex items-center gap-2"><Info className="h-4 w-4 text-amazon-orange" /><span>{mode === 'create' ? 'Complete the essentials to publish a customer-ready listing.' : 'Changes are saved to your live catalog when you submit.'}</span></div>
+        <span className="hidden text-xs font-semibold text-amazon-textMuted sm:block">{images.length}/5 images</span>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Left: basics */}
         <div className="md:col-span-2 space-y-4">
-          <div className="panel p-4 space-y-3">
-            <h2 className="font-bold">Basic info</h2>
+          <div className="panel space-y-3 p-5">
+            <div className="flex items-center gap-2"><div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amazon-navy/5"><Info className="h-4 w-4 text-amazon-navy" /></div><div><h2 className="font-bold">Basic information</h2><p className="text-xs text-amazon-textMuted">Make your product easy to discover.</p></div></div>
             <label className="block">
               <span className="text-sm font-bold block mb-1">Title *</span>
               <input className="amazon-input" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -136,8 +140,8 @@ export default function ProductForm({ user, initial, mode }: Props) {
             </label>
           </div>
 
-          <div className="panel p-4 space-y-3">
-            <h2 className="font-bold">Images *</h2>
+          <div className="panel space-y-3 p-5">
+            <div className="flex items-center justify-between"><div className="flex items-center gap-2"><ImagePlus className="h-4 w-4 text-amazon-orange" /><h2 className="font-bold">Product images *</h2></div><span className="text-xs text-amazon-textMuted">Up to 5</span></div>
             <div className="flex gap-2 flex-wrap">
               <label className="amazon-btn-dark !text-xs cursor-pointer">
                 <Upload className="w-3 h-3 inline mr-1" /> Upload
@@ -164,8 +168,8 @@ export default function ProductForm({ user, initial, mode }: Props) {
                 </div>
               ))}
               {images.length === 0 && (
-                <div className="col-span-full text-sm text-amazon-textMuted text-center py-4 border border-dashed border-amazon-border rounded">
-                  Add at least one image
+                  <div className="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed border-amazon-border py-8 text-center text-sm text-amazon-textMuted">
+                  <ImagePlus className="mb-2 h-6 w-6" /> Add at least one image
                 </div>
               )}
             </div>
@@ -174,8 +178,8 @@ export default function ProductForm({ user, initial, mode }: Props) {
 
         {/* Right: pricing + inventory */}
         <div className="space-y-4">
-          <div className="panel p-4 space-y-3">
-            <h2 className="font-bold">Pricing</h2>
+          <div className="panel space-y-3 p-5">
+            <div className="flex items-center gap-2"><CircleDollarSign className="h-4 w-4 text-amazon-greenDark" /><h2 className="font-bold">Pricing</h2></div>
             <label className="block">
               <span className="text-sm font-bold block mb-1">Price *</span>
               <input
@@ -199,8 +203,8 @@ export default function ProductForm({ user, initial, mode }: Props) {
               <span className="text-xs text-amazon-textMuted mt-1 inline-block">For showing "Save X%"</span>
             </label>
           </div>
-          <div className="panel p-4 space-y-3">
-            <h2 className="font-bold">Inventory</h2>
+          <div className="panel space-y-3 p-5">
+            <div className="flex items-center gap-2"><Boxes className="h-4 w-4 text-amazon-prime" /><h2 className="font-bold">Inventory</h2></div>
             <label className="block">
               <span className="text-sm font-bold block mb-1">Stock quantity *</span>
               <input

@@ -33,7 +33,8 @@ export default function AdminReviews() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold mb-4">Review moderation</h1>
+      <div className="ops-page !px-0 !py-0">
+      <div className="mb-6"><div className="ops-kicker">Trust & safety</div><h1 className="ops-page-title mt-1">Review moderation</h1><p className="mt-1 text-sm text-amazon-textMuted">Keep customer feedback useful, honest, and safe.</p></div>
       <p className="text-sm text-amazon-textMuted mb-4">
         Delete inappropriate reviews. This updates product ratings automatically.
       </p>
@@ -41,11 +42,11 @@ export default function AdminReviews() {
       {loading ? (
         <div className="shimmer-bg h-40 rounded-md" />
       ) : items.length === 0 ? (
-        <div className="panel p-10 text-center text-sm text-amazon-textMuted">No reviews yet.</div>
+        <div className="empty-state">No reviews need moderation.</div>
       ) : (
         <div className="space-y-3">
           {items.map((r) => (
-            <div key={r.reviewId} className="panel p-4">
+            <div key={r.reviewId} className="ops-card p-5">
               <div className="flex justify-between items-start gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -68,6 +69,7 @@ export default function AdminReviews() {
           ))}
         </div>
       )}
+      </div>
     </AdminLayout>
   );
 }

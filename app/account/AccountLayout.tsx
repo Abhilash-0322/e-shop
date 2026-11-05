@@ -17,17 +17,18 @@ const TABS = [
 export default function AccountLayout({ user, children }: { user: { name: string; email: string }; children: React.ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-4 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+    <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-[260px_1fr]">
       <aside className="space-y-2">
-        <div className="bg-white border border-amazon-border rounded-md p-4">
-          <div className="font-bold text-lg mb-1">Hello, {user.name}</div>
+        <div className="ops-card p-4">
+          <div className="ops-kicker">Your workspace</div>
+          <div className="mb-1 mt-1 text-lg font-bold">Hello, {user.name}</div>
           <nav className="mt-2 space-y-1">
             {TABS.map((t) => (
               <Link
                 key={t.href}
                 href={t.href}
                 className={`block px-2 py-1.5 rounded text-sm ${
-                  pathname === t.href ? 'bg-amazon-orange/10 text-amazon-linkHover font-medium' : 'text-amazon-link hover:bg-amazon-bg'
+                  pathname === t.href ? 'bg-amazon-orange/10 font-semibold text-amazon-orangedark' : 'text-amazon-link hover:bg-amazon-panel'
                 }`}
               >
                 {t.label}

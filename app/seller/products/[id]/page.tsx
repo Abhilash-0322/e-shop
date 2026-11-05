@@ -15,16 +15,21 @@ export default async function EditProductPage({ params }: { params: { id: string
   if (!product) notFound();
   return (
     <SellerLayout user={user}>
-      <Link href="/seller/products" className="text-sm text-amazon-link hover:underline flex items-center gap-1 mb-3">
+      <div className="ops-page">
+      <Link href="/seller/products" className="mb-3 flex items-center gap-1 text-sm text-amazon-link">
         <ArrowLeft className="w-3 h-3" /> Back to products
       </Link>
       <div className="flex justify-between items-start mb-4 flex-wrap gap-2">
-        <h1 className="text-3xl font-bold">Edit product</h1>
+        <div>
+          <div className="ops-kicker">Catalog workspace</div>
+          <h1 className="ops-page-title mt-1">Edit product</h1>
+        </div>
         <Link href={`/product/${product._id}`} className="text-sm text-amazon-link hover:underline">
           View live →
         </Link>
       </div>
       <ProductForm user={user} initial={serialize(product)} mode="edit" />
+      </div>
     </SellerLayout>
   );
 }

@@ -28,9 +28,9 @@ export default function ProductGrid({
   return (
     <section className="mb-6">
       {title && (
-        <div className="bg-white border border-amazon-border rounded-md p-4 mb-3 flex items-end justify-between">
+        <div className="mb-3 flex items-end justify-between rounded-2xl border border-amazon-border bg-white p-4">
           <div>
-            <h2 className="text-2xl font-bold text-amazon-text">{title}</h2>
+            <h2 className="text-xl font-bold tracking-tight text-amazon-text">{title}</h2>
             {subtitle && <p className="text-sm text-amazon-textMuted">{subtitle}</p>}
           </div>
           {showMore && moreHref && (
@@ -55,7 +55,7 @@ export default function ProductGrid({
         </button>
         <div
           ref={ref}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+          className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
         >
           {products.slice(0, 10).map((p) => (
             <ProductCard key={p._id} product={p} />

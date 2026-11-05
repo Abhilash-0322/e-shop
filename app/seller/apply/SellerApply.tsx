@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Store, Check, ArrowRight } from 'lucide-react';
+import { Store, Check, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function SellerApply({ user }: { user: any }) {
@@ -41,29 +41,35 @@ export default function SellerApply({ user }: { user: any }) {
   return (
     <div className="min-h-screen bg-amazon-bg">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amazon-navy via-amazon-navylight to-amazon-orange text-white py-16">
-        <div className="max-w-screen-md mx-auto px-6 text-center">
-          <Store className="w-12 h-12 mx-auto mb-3" />
-          <h1 className="text-4xl font-bold mb-2">Sell on halozon</h1>
-          <p className="text-lg text-white/90 mb-2">Reach millions of customers.</p>
-          <p className="text-sm text-white/80">Setup takes 5 minutes.</p>
+      <div className="overflow-hidden bg-amazon-navy text-white">
+        <div className="mx-auto max-w-6xl px-6 py-14 lg:flex lg:items-center lg:justify-between lg:gap-12">
+          <div className="max-w-2xl">
+            <div className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-amazon-orangelight"><Sparkles className="h-4 w-4" /> Seller onboarding</div>
+            <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Build a store customers come back to.</h1>
+            <p className="mt-4 max-w-xl text-lg text-white/75">List your products, reach new customers, and manage fulfillment from one calm, focused workspace.</p>
+          </div>
+          <div className="mt-8 grid max-w-sm grid-cols-1 gap-3 sm:grid-cols-3 lg:mt-0 lg:w-[420px]">
+            <Benefit icon={Store} label="Create your storefront" />
+            <Benefit icon={ShieldCheck} label="Protected payouts" />
+            <Benefit icon={Sparkles} label="Seller insights" />
+          </div>
         </div>
       </div>
 
-      <div className="max-w-screen-md mx-auto px-6 -mt-8 relative z-10">
-        <div className="bg-white border border-amazon-border rounded-md p-6 shadow-card">
+      <div className="relative z-10 mx-auto max-w-screen-md px-6 py-8">
+        <div className="rounded-2xl border border-amazon-border bg-white p-6 shadow-card sm:p-8">
           {/* Stepper */}
-          <div className="flex items-center mb-6">
+          <div className="mb-8 flex items-center">
             {[1, 2, 3].map((n) => (
               <div key={n} className="flex items-center flex-1 last:flex-initial">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold transition-colors ${
                     step >= n ? 'bg-amazon-orange text-white' : 'bg-amazon-bg text-amazon-textMuted'
                   }`}
                 >
                   {step > n ? <Check className="w-4 h-4" /> : n}
                 </div>
-                {n < 3 && <div className={`flex-1 h-1 ${step > n ? 'bg-amazon-orange' : 'bg-amazon-bg'}`} />}
+                {n < 3 && <div className={`mx-2 h-1 flex-1 rounded-full ${step > n ? 'bg-amazon-orange' : 'bg-amazon-bg'}`} />}
               </div>
             ))}
           </div>
@@ -179,11 +185,15 @@ export default function SellerApply({ user }: { user: any }) {
         </div>
 
         <div className="text-center mt-6">
-          <Link href="/" className="text-sm text-amazon-link hover:underline">
+          <Link href="/" className="text-sm text-amazon-link">
             ← Back to shopping
           </Link>
         </div>
       </div>
     </div>
   );
+}
+
+function Benefit({ icon: Icon, label }: { icon: any; label: string }) {
+  return <div className="rounded-2xl border border-white/15 bg-white/10 p-3 text-center"><Icon className="mx-auto mb-2 h-5 w-5 text-amazon-orangelight" /><div className="text-xs font-semibold text-white/80">{label}</div></div>;
 }

@@ -24,7 +24,15 @@ export default function SellerAnalytics({ user }: { user: any }) {
 
   return (
     <SellerLayout user={user}>
-      <h1 className="text-3xl font-bold mb-4">Analytics</h1>
+      <div className="ops-page">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <div className="ops-kicker">Performance workspace</div>
+          <h1 className="ops-page-title mt-1">Analytics</h1>
+          <p className="mt-1 text-sm text-amazon-textMuted">A practical view of revenue, demand, and inventory health.</p>
+        </div>
+        <span className="chip bg-amazon-panel">Last 14 days · updated live</span>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <Kpi icon={DollarSign} label="Revenue" value={formatPrice(data.metrics.revenue)} color="text-amazon-orange" />
@@ -34,8 +42,14 @@ export default function SellerAnalytics({ user }: { user: any }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-        <div className="panel p-4 lg:col-span-2">
-          <h2 className="font-bold mb-3">Revenue (last 14 days)</h2>
+        <div className="panel p-5 lg:col-span-2">
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h2 className="font-bold">Revenue trend</h2>
+              <p className="mt-1 text-xs text-amazon-textMuted">Gross sales from your catalog</p>
+            </div>
+            <div className="text-right text-xs text-amazon-textMuted">14 days</div>
+          </div>
           <Sparkline data={data.series} />
           <div className="grid grid-cols-7 gap-1 mt-3 text-center text-[10px] text-amazon-textMuted">
             {data.series.slice(-7).map((d: any) => (
@@ -47,7 +61,7 @@ export default function SellerAnalytics({ user }: { user: any }) {
           </div>
         </div>
 
-        <div className="panel p-4">
+        <div className="panel p-5">
           <h2 className="font-bold mb-3 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amazon-deal" /> Low stock alerts
           </h2>
@@ -56,7 +70,7 @@ export default function SellerAnalytics({ user }: { user: any }) {
           ) : (
             <div className="space-y-2">
               {data.lowStock.map((p: any) => (
-                <div key={p._id} className="flex items-center gap-2 p-2 bg-amazon-deal/5 border border-amazon-deal/20 rounded">
+                <div key={p._id} className="flex items-center gap-2 rounded-xl border border-amazon-deal/20 bg-amazon-deal/5 p-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={p.image} alt={p.title} className="w-10 h-10 object-contain bg-white rounded" />
                   <div className="flex-1 min-w-0">
@@ -70,7 +84,7 @@ export default function SellerAnalytics({ user }: { user: any }) {
         </div>
       </div>
 
-      <div className="panel p-4">
+      <div className="panel p-5">
         <h2 className="font-bold mb-3">Top revenue products</h2>
         <table className="w-full text-sm">
           <thead className="border-b border-amazon-border text-left text-xs text-amazon-textMuted">
@@ -103,6 +117,7 @@ export default function SellerAnalytics({ user }: { user: any }) {
             )}
           </tbody>
         </table>
+      </div>
       </div>
     </SellerLayout>
   );

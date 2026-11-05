@@ -33,14 +33,14 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
     <div>
       {/* Hero */}
       <div className={`bg-gradient-to-br ${heroBg} text-white`}>
-        <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-24 text-center">
+        <div className="mx-auto max-w-screen-xl px-6 py-16 text-center md:py-24">
           {page.hero.eyebrow && (
             <div className="text-xs uppercase tracking-widest text-white/70 mb-3 font-semibold">
               {page.hero.eyebrow}
             </div>
           )}
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3" dangerouslySetInnerHTML={{ __html: page.hero.headline }} />
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto" dangerouslySetInnerHTML={{ __html: page.hero.sub }} />
+          <h1 className="mb-3 text-4xl font-extrabold tracking-tight md:text-5xl" dangerouslySetInnerHTML={{ __html: page.hero.headline }} />
+          <p className="mx-auto max-w-2xl text-lg text-white/80 md:text-xl" dangerouslySetInnerHTML={{ __html: page.hero.sub }} />
           {page.cta && (
             <div className="mt-6">
               <Link href={page.cta.href} className="amazon-btn-yellow !text-base !px-8 !py-2.5 inline-block">
@@ -51,7 +51,7 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
+      <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[1fr_280px]">
         {/* Body */}
         <div className="space-y-6 text-amazon-text">
           {page.body.map((block, i) => (
@@ -70,7 +70,7 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
         {/* Sidebar */}
         <aside className="space-y-4 self-start">
           {page.related && page.related.length > 0 && (
-            <div className="panel p-4">
+            <div className="ops-card p-5">
               <h3 className="font-bold mb-2">Related</h3>
               <ul className="space-y-1.5 text-sm">
                 {page.related.map((r) => (
@@ -81,7 +81,7 @@ function InfoView({ page, products }: { page: InfoPage; products: any[] }) {
               </ul>
             </div>
           )}
-          <div className="panel p-4 bg-amazon-bg/50">
+          <div className="ops-card bg-amazon-bg/50 p-5">
             <h3 className="font-bold mb-2">Featured products</h3>
             <div className="grid grid-cols-2 gap-2">
               {products.map((p) => (
@@ -123,7 +123,7 @@ function BlockRenderer({ block }: { block: InfoBlock }) {
       return (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 my-4">
           {block.items.map((it, i) => (
-            <div key={i} className="panel p-4 text-center">
+            <div key={i} className="ops-card p-4 text-center">
               <div className={`text-3xl font-extrabold ${colors[i % colors.length]}`}>{it.value}</div>
               <div className="text-xs text-amazon-textMuted mt-1">{it.label}</div>
             </div>
@@ -135,7 +135,7 @@ function BlockRenderer({ block }: { block: InfoBlock }) {
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
           {block.items.map((it, i) => (
-            <div key={i} className="panel p-4">
+            <div key={i} className="ops-card p-4">
               <h4 className="font-bold mb-1" dangerouslySetInnerHTML={{ __html: it.title }} />
               <p className="text-sm text-amazon-text" dangerouslySetInnerHTML={{ __html: it.body }} />
             </div>
@@ -146,7 +146,7 @@ function BlockRenderer({ block }: { block: InfoBlock }) {
       return (
         <div className="space-y-2 my-4">
           {block.items.map((it, i) => (
-            <details key={i} className="panel p-4">
+            <details key={i} className="ops-card p-4">
               <summary className="font-bold cursor-pointer" dangerouslySetInnerHTML={{ __html: it.q }} />
               <p className="text-sm text-amazon-text mt-2" dangerouslySetInnerHTML={{ __html: it.a }} />
             </details>

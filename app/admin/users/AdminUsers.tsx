@@ -44,7 +44,8 @@ export default function AdminUsers() {
 
   return (
     <AdminLayout>
-      <h1 className="text-3xl font-bold mb-4">Users</h1>
+      <div className="ops-page !px-0 !py-0">
+      <div className="mb-6"><div className="ops-kicker">Customer operations</div><h1 className="ops-page-title mt-1">Users</h1><p className="mt-1 text-sm text-amazon-textMuted">Manage access, roles, and account status.</p></div>
       <div className="relative mb-3 max-w-md">
         <Search className="w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 text-amazon-textMuted" />
         <input
@@ -57,9 +58,9 @@ export default function AdminUsers() {
       </div>
       <button onClick={refresh} className="amazon-btn-dark !text-xs mb-4">Search</button>
 
-      <div className="bg-white border border-amazon-border rounded-md overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-amazon-bg text-xs text-amazon-textMuted">
+      <div className="ops-card overflow-x-auto">
+        <table className="data-table">
+          <thead>
             <tr>
               <th className="p-3 text-left">Name</th>
               <th className="p-3 text-left">Email</th>
@@ -105,10 +106,11 @@ export default function AdminUsers() {
               </tr>
             ))}
             {!loading && items.length === 0 && (
-              <tr><td colSpan={6} className="p-6 text-center text-sm text-amazon-textMuted">No users</td></tr>
+              <tr><td colSpan={6} className="p-10 text-center text-sm text-amazon-textMuted">No users match this search.</td></tr>
             )}
           </tbody>
         </table>
+      </div>
       </div>
     </AdminLayout>
   );

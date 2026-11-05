@@ -42,7 +42,7 @@ export default function Hero() {
   }, []);
   const s = SLIDES[i];
   return (
-    <div className="relative w-full h-[420px] md:h-[520px] overflow-hidden">
+    <div className="relative h-[390px] w-full overflow-hidden md:h-[470px]">
       <div
         key={i}
         className={`absolute inset-0 bg-gradient-to-br ${s.bg} animate-fadeIn`}
@@ -52,17 +52,18 @@ export default function Hero() {
         <div className="absolute -top-20 -right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-32 -left-20 w-[28rem] h-[28rem] bg-amazon-orange/20 rounded-full blur-3xl" />
       </div>
-      <div className="relative max-w-screen-xl mx-auto px-6 h-full flex flex-col justify-center text-white">
-        <div className="text-sm uppercase tracking-widest font-semibold mb-2 animate-fadeIn text-white/80">
+      <div className="relative mx-auto flex h-full max-w-screen-xl flex-col justify-center px-6 text-white">
+        <div className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.14em] text-white/80 backdrop-blur animate-fadeIn">
+          <span className="h-1.5 w-1.5 rounded-full bg-amazon-orangelight" />
           {s.eyebrow}
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-3 animate-fadeIn max-w-2xl leading-tight">
+        <h1 className="mb-3 max-w-2xl text-4xl font-extrabold leading-tight tracking-tight animate-fadeIn md:text-6xl">
           {s.title}
         </h1>
-        <p className="text-lg md:text-xl mb-6 animate-fadeIn max-w-xl text-white/90">{s.sub}</p>
+        <p className="mb-6 max-w-xl text-lg text-white/80 animate-fadeIn md:text-xl">{s.sub}</p>
         <Link
           href={s.cta.href}
-          className="amazon-btn-yellow w-fit !text-base !px-6 !py-2.5 animate-fadeIn"
+          className="amazon-btn-yellow w-fit !px-6 !py-2.5 !text-sm animate-fadeIn"
         >
           {s.cta.label}
         </Link>
