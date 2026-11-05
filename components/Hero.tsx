@@ -1,3 +1,62 @@
 'use client';
-import Link from 'next/link';import {ArrowRight,ShieldCheck,Truck,Lock,Star} from '@/lib/icons';
-export default function Hero(){return <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-900 text-white"><div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-fuchsia-500/25 blur-3xl animate-float"/><div className="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-cyan-400/15 blur-3xl animate-float"/><div className="shell relative grid lg:grid-cols-[1.1fr_.9fr] items-center gap-10 py-20 md:py-28"><div className="animate-reveal"><span className="pill bg-white/15 text-indigo-100 border border-white/20">A better marketplace</span><h1 className="text-5xl md:text-7xl font-black tracking-[-.06em] leading-[.95] mt-5">Discover the things that move you.</h1><p className="text-lg text-indigo-100 max-w-xl mt-6 leading-relaxed">A considered shopping experience built around trusted sellers, honest value, and products worth keeping.</p><div className="flex flex-wrap gap-3 mt-8"><Link href="/search" className="btn bg-white text-indigo-700 hover:bg-indigo-50">Start exploring <ArrowRight className="w-4 h-4"/></Link><Link href="/seller/apply" className="btn border border-white/30 text-white hover:bg-white/10">Sell on Halozon</Link></div></div><div className="grid grid-cols-2 gap-4 animate-float">{[[Truck,'Fast fulfillment'],[ShieldCheck,'Buyer protection'],[Lock,'Secure checkout'],[Star,'Top-rated sellers']].map(([I,label])=>{const Icon=I as any;return <div key={label as string} className="surface bg-white/10 border-white/15 p-6 text-white"><Icon className="w-7 h-7 text-cyan-300"/><b className="block mt-5">{label}</b><small className="text-indigo-200 block mt-1">Built into every order</small></div>})}</div></div></section>}
+
+import Link from 'next/link';
+import { Activity, ArrowRight, CheckCircle2, Clock, Package, Search, ShieldCheck, Sparkles, Store, Zap } from '@/lib/icons';
+
+const actions = [
+  { href: '/search', label: 'Find something', detail: 'Search the catalog', icon: Search },
+  { href: '/account/orders', label: 'Track an order', detail: 'See delivery status', icon: Package },
+  { href: '/deals', label: 'Browse drops', detail: 'Fresh value, daily', icon: Zap },
+];
+
+export default function Hero() {
+  return (
+    <section className="command-board">
+      <div className="shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
+        <div className="relative z-10 animate-reveal">
+          <div className="mb-5 flex flex-wrap items-center gap-2 text-[10px] font-extrabold uppercase tracking-[.18em] text-[#9af3e4]">
+            <span className="flex items-center gap-1.5"><Activity className="h-3.5 w-3.5" /> Marketplace command center</span>
+            <span className="rounded-full border border-white/15 px-2 py-1 text-slate-300">v2.4 live</span>
+          </div>
+          <h1 className="max-w-2xl text-4xl font-black leading-[.98] tracking-[-.055em] md:text-6xl">
+            Your next move starts here.
+          </h1>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
+            Search, decide, and keep every shopping task moving from one calm command center.
+          </p>
+          <div className="mt-7 grid max-w-2xl gap-2 sm:grid-cols-3">
+            {actions.map((action) => {
+              const Icon = action.icon;
+              return (
+                <Link key={action.href} href={action.href} className="group rounded-lg border border-white/10 bg-white/[.06] p-3 transition hover:-translate-y-0.5 hover:border-[#8df5e7]/40 hover:bg-white/[.1]">
+                  <Icon className="h-4 w-4 text-[#8df5e7]" />
+                  <b className="mt-3 block text-xs">{action.label}</b>
+                  <span className="mt-1 block text-[10px] text-slate-400">{action.detail}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+        <div className="relative z-10 rounded-xl border border-white/10 bg-white/[.06] p-4 backdrop-blur-sm animate-float">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <span className="text-[10px] font-extrabold uppercase tracking-[.16em] text-slate-400">System pulse</span>
+              <h2 className="mt-1 text-lg font-black">Everything in motion</h2>
+            </div>
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#9af3e4]"><span className="h-1.5 w-1.5 rounded-full bg-[#32d583]" /> Healthy</span>
+          </div>
+          <div className="board-grid">
+            <div className="board-stat"><Clock className="h-4 w-4 text-[#9af3e4]" /><strong>48h</strong><small>average dispatch</small></div>
+            <div className="board-stat"><ShieldCheck className="h-4 w-4 text-[#9af3e4]" /><strong>100%</strong><small>buyer protection</small></div>
+            <div className="board-stat"><Store className="h-4 w-4 text-[#f5b544]" /><strong>2.4k</strong><small>active sellers</small></div>
+            <div className="board-stat"><Sparkles className="h-4 w-4 text-[#f5b544]" /><strong>4.9 / 5</strong><small>shopper signal</small></div>
+          </div>
+          <div className="mt-4 flex items-center gap-2 rounded-lg border border-white/10 bg-black/10 px-3 py-2 text-xs text-slate-300">
+            <CheckCircle2 className="h-4 w-4 text-[#32d583]" /> Clear actions, fewer dead ends.
+            <ArrowRight className="ml-auto h-3.5 w-3.5 text-slate-500" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

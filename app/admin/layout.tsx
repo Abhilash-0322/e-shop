@@ -1,1 +1,22 @@
-import {redirect} from 'next/navigation';import Link from 'next/link';import {getCurrentUser} from '@/lib/auth';import {LayoutDashboard,Users,Package,Store,ArrowLeft} from '@/lib/icons';const nav=[['/admin','Overview',LayoutDashboard],['/admin/users','Users',Users],['/admin/products','Products',Package],['/admin/sellers','Sellers',Store]] as const;export default async function AdminLayout({children}:{children:React.ReactNode}){const u=await getCurrentUser();if(!u||u.role!=='admin')redirect('/');return <div><div className="bg-slate-950 text-white"><div className="shell py-4 flex gap-5"><Link href="/" className="flex gap-2 items-center text-slate-300"><ArrowLeft className="w-4 h-4"/>Storefront</Link><b>Admin console</b></div></div><div className="shell py-8 grid lg:grid-cols-[220px_1fr] gap-8"><aside className="surface p-3 space-y-1 h-fit">{nav.map(([h,l,I])=><Link href={h} key={h} className="flex gap-2 items-center p-3 rounded-xl font-bold text-sm text-slate-600 hover:bg-indigo-50 hover:text-indigo-700"><I className="w-4 h-4"/>{l}</Link>)}</aside><div>{children}</div></div></div>}
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { getCurrentUser } from '@/lib/auth';
+import { AlertTriangle, ArrowLeft, LayoutDashboard, Package, Store, Users } from '@/lib/icons';
+
+const nav = [['/admin', 'Overview', LayoutDashboard], ['/admin/users', 'Users', Users], ['/admin/products', 'Products', Package], ['/admin/sellers', 'Sellers', Store], ['/admin/reviews', 'Reviews', AlertTriangle]] as const;
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const user = await getCurrentUser();
+  if (!user || user.role !== 'admin') redirect('/');
+  return (
+    <div className="workspace-shell shell grid gap-7 lg:grid-cols-[220px_1fr]">
+      <aside className="workspace-sidebar">
+        <div className="workspace-sidebar-title">Operations console</div>
+        <div className="border-b border-slate-100 px-3 pb-4"><b className="block text-sm">Halozon Ops</b><p className="muted mt-1 text-[11px]">Admin workspace</p><span className="mt-3 inline-flex rounded-full bg-amber-50 px-2 py-1 text-[10px] font-extrabold text-amber-700">Elevated access</span></div>
+        <nav className="mt-3 space-y-1">{nav.map(([href, label, Icon]) => <Link key={href} href={href}><Icon className="h-4 w-4" />{label}</Link>)}</nav>
+        <div className="mt-4 border-t border-slate-100 pt-3"><Link href="/" className="text-slate-500"><ArrowLeft className="h-4 w-4" />Storefront</Link></div>
+      </aside>
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}

@@ -1,4 +1,125 @@
 'use client';
-import Link from 'next/link';import {useEffect,useState} from 'react';import {usePathname,useRouter,useSearchParams} from 'next/navigation';import {Search,ShoppingCart,Menu,X,ChevronDown,User,Package,LogOut} from '@/lib/icons';import {useCart} from '@/hooks/useCart';
-type UserData={id:string;name:string;email:string;role:string}|null;const cats=['Electronics','Computers','Smart Home','Books','Fashion','Home & Kitchen','Games'];
-export default function Header({user}:{user:UserData}){const router=useRouter();const pathname=usePathname();const sp=useSearchParams();const {count}=useCart();const [q,setQ]=useState(sp.get('q')||'');const [open,setOpen]=useState(false);const [mobile,setMobile]=useState(false);const [categories,setCategories]=useState<string[]>(cats);useEffect(()=>{let alive=true;fetch('/api/categories').then(r=>r.json()).then(d=>{if(alive&&d.items?.length)setCategories(d.items.map((x:any)=>x.name))}).catch(()=>{});return()=>{alive=false}},[]);function submit(e:React.FormEvent){e.preventDefault();router.push(`/search?q=${encodeURIComponent(q.trim())}`)}async function logout(){await fetch('/api/auth/logout',{method:'POST'});router.refresh()}const cat=(x:string)=>`/category/${x.toLowerCase().replace(/\s+/g,'-').replace(/&/g,'and')}`;return <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200"><div className="shell flex items-center gap-4 py-3"><Link href="/" className="flex items-center gap-2 shrink-0"><span className="hz-logo-mark">H</span><span className="hz-logo hidden sm:block">Halozon</span></Link><form onSubmit={submit} className="flex-1 max-w-3xl"><div className="flex items-center rounded-xl border border-slate-300 bg-slate-50 focus-within:bg-white focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-100 overflow-hidden"><Search className="ml-3 w-5 h-5 text-indigo-500"/><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search products, brands, categories" className="flex-1 bg-transparent outline-none px-3 py-2.5 text-sm"/><button className="btn btn-primary !rounded-none">Search</button></div></form><div className="flex items-center gap-1"><div className="relative hidden md:block"><button onClick={()=>setOpen(v=>!v)} className="flex items-center gap-2 p-2 rounded-xl hover:bg-indigo-50"><User className="w-5 h-5 text-indigo-600"/><span className="hidden lg:block text-left text-sm"><small className="block text-slate-500">{user?`Hi, ${user.name.split(' ')[0]}`:'Welcome'}</small><b>Account</b><ChevronDown className="inline w-3 h-3 ml-1"/></span></button>{open&&<div className="absolute right-0 top-full mt-2 w-72 surface p-4 animate-reveal">{user?<><div className="border-b pb-3 mb-3"><b>{user.name}</b><p className="text-xs muted">{user.email}</p></div><div className="grid grid-cols-2 gap-2 text-sm"><Link className="amazon-link" href="/account">Dashboard</Link><Link className="amazon-link" href="/account/orders">Orders</Link><Link className="amazon-link" href="/account/wishlist">Wishlist</Link><Link className="amazon-link" href="/account/addresses">Addresses</Link>{user.role==='seller'&&<Link className="amazon-link" href="/seller/dashboard">Seller hub</Link>}{user.role==='admin'&&<Link className="amazon-link" href="/admin">Admin</Link>}</div><button onClick={logout} className="btn btn-soft mt-4 w-full"><LogOut className="w-4 h-4"/>Sign out</button></>:<><Link href="/signin" className="btn btn-primary w-full">Sign in</Link><Link href="/register" className="block text-center amazon-link text-sm mt-3">Create account</Link></>}</div>}</div><Link href="/account/orders" className="hidden lg:flex p-2 rounded-xl hover:bg-indigo-50"><Package className="w-5 h-5"/></Link><Link href="/cart" className="relative p-2 rounded-xl hover:bg-indigo-50"><ShoppingCart className="w-6 h-6"/>{count>0&&<span className="absolute -top-1 -right-1 bg-fuchsia-600 text-white rounded-full min-w-5 h-5 text-[10px] flex items-center justify-center font-bold">{count}</span>}</Link><button onClick={()=>setMobile(true)} className="md:hidden p-2" aria-label="Open navigation"><Menu/></button></div></div><nav className="shell flex gap-5 overflow-x-auto pb-3 text-sm">{categories.map(c=><Link className={`whitespace-nowrap font-medium ${pathname===cat(c)?'text-indigo-700':'text-slate-600 hover:text-indigo-700'}`} href={cat(c)} key={c}>{c}</Link>)}<Link className="whitespace-nowrap font-bold text-fuchsia-600" href="/deals">Trending deals</Link><Link className="whitespace-nowrap font-bold text-sky-600" href="/prime">Halozon Plus</Link></nav>{mobile&&<div className="fixed inset-0 z-[60]"><button className="absolute inset-0 bg-slate-950/50" onClick={()=>setMobile(false)} aria-label="Close navigation"/><aside className="relative w-full max-w-sm bg-white h-full p-5 animate-reveal"><div className="flex justify-between items-center mb-5"><b className="text-xl">Explore Halozon</b><button onClick={()=>setMobile(false)} aria-label="Close"><X/></button></div>{categories.map(c=><Link key={c} href={cat(c)} onClick={()=>setMobile(false)} className="block rounded-xl p-3 hover:bg-indigo-50 font-semibold">{c}</Link>)}<Link href="/deals" onClick={()=>setMobile(false)} className="block rounded-xl p-3 text-fuchsia-600 font-bold">Trending deals</Link></aside></div>}</header>}
+
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChevronDown, LayoutDashboard, Menu, Package, ShoppingCart, Store, User, X, Zap } from '@/lib/icons';
+import { useCart } from '@/hooks/useCart';
+import CommandPalette from './CommandPalette';
+
+type UserData = { id: string; name: string; email: string; role: string } | null;
+
+const DEFAULT_CATEGORIES = ['Electronics', 'Computers', 'Smart Home', 'Books', 'Fashion', 'Home & Kitchen', 'Games'];
+
+export default function Header({ user }: { user: UserData }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { count } = useCart();
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [categories, setCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/categories', { signal: controller.signal })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!controller.signal.aborted && data.items?.length) setCategories(data.items.map((item: { name: string }) => item.name));
+      })
+      .catch(() => {});
+    return () => controller.abort();
+  }, []);
+
+  async function logout() {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.refresh();
+  }
+
+  const categoryHref = (category: string) => `/category/${category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`;
+
+  return (
+    <header className="command-header">
+      <div className="shell command-topbar">
+        <Link href="/" className="command-brand" aria-label="Halozon home">
+          <span className="command-brand-mark">H</span>
+          <span className="hidden sm:inline">Halozon</span>
+        </Link>
+        <span className="command-status hidden lg:flex">Live workspace</span>
+        <CommandPalette userRole={user?.role} />
+        <Link href="/deals" className="command-quick-action hidden md:inline-flex">
+          <Zap className="h-3.5 w-3.5" /> Quick deals
+        </Link>
+        <div className="relative">
+          <button type="button" className="command-icon-button" onClick={() => setAccountOpen((value) => !value)} aria-label="Open account menu">
+            <User className="h-4 w-4" />
+          </button>
+          {accountOpen && (
+            <div className="surface absolute right-0 top-full z-50 mt-2 w-72 p-4 animate-reveal">
+              {user ? (
+                <>
+                  <div className="mb-3 border-b border-slate-100 pb-3">
+                    <b className="block text-sm">{user.name}</b>
+                    <span className="text-xs muted">{user.email}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs font-bold">
+                    <Link className="rounded-md p-2 hover:bg-indigo-50" href="/account">Account</Link>
+                    <Link className="rounded-md p-2 hover:bg-indigo-50" href="/account/orders">Orders</Link>
+                    <Link className="rounded-md p-2 hover:bg-indigo-50" href="/account/wishlist">Wishlist</Link>
+                    <Link className="rounded-md p-2 hover:bg-indigo-50" href="/account/addresses">Addresses</Link>
+                    {(user.role === 'seller' || user.role === 'admin') && <Link className="rounded-md p-2 hover:bg-indigo-50" href="/seller/dashboard">Seller hub</Link>}
+                    {user.role === 'admin' && <Link className="rounded-md p-2 hover:bg-indigo-50" href="/admin">Admin</Link>}
+                  </div>
+                  <button type="button" onClick={logout} className="btn btn-soft mt-4 w-full">Sign out</button>
+                </>
+              ) : (
+                <>
+                  <Link href="/signin" className="btn btn-primary w-full">Sign in</Link>
+                  <Link href="/register" className="mt-3 block text-center text-xs font-bold text-indigo-600">Create an account</Link>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+        <Link href="/account/orders" className="command-icon-button hidden sm:inline-grid" aria-label="Orders">
+          <Package className="h-4 w-4" />
+        </Link>
+        <Link href="/cart" className="command-icon-button relative" aria-label={`Cart with ${count} items`}>
+          <ShoppingCart className="h-4 w-4" />
+          {count > 0 && <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-[#f5b544] px-1 text-center text-[9px] font-black text-slate-950">{count}</span>}
+        </Link>
+        <button type="button" className="command-icon-button md:hidden" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
+          <Menu className="h-4 w-4" />
+        </button>
+      </div>
+      <div className="command-subnav">
+        <nav className="shell flex items-center gap-5 overflow-x-auto" aria-label="Primary navigation">
+          <span className="command-nav-label hidden md:inline">Workspace</span>
+          <Link href="/search" className="command-nav-link" data-active={pathname === '/search'}><LayoutDashboard className="h-3.5 w-3.5" /> Discover</Link>
+          {categories.slice(0, 5).map((category) => (
+            <Link key={category} href={categoryHref(category)} className="command-nav-link" data-active={pathname === categoryHref(category)}>{category}</Link>
+          ))}
+          <span className="command-divider hidden md:block" />
+          <Link href="/deals" className="command-nav-link" data-active={pathname === '/deals'}><Zap className="h-3.5 w-3.5 text-[#f5b544]" /> Deals</Link>
+          <Link href="/seller/apply" className="command-nav-link hidden lg:inline-flex" data-active={pathname.startsWith('/seller')}><Store className="h-3.5 w-3.5" /> Sell</Link>
+        </nav>
+      </div>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[70] md:hidden">
+          <button type="button" className="absolute inset-0 bg-slate-950/60" onClick={() => setMobileOpen(false)} aria-label="Close navigation" />
+          <aside className="relative h-full w-[min(88vw,22rem)] bg-white p-5 text-slate-900 shadow-2xl animate-reveal">
+            <div className="mb-5 flex items-center justify-between">
+              <span className="font-black">Workspace navigation</span>
+              <button type="button" onClick={() => setMobileOpen(false)} aria-label="Close navigation"><X className="h-5 w-5" /></button>
+            </div>
+            <Link href="/search" onClick={() => setMobileOpen(false)} className="mb-2 flex items-center gap-3 rounded-lg bg-indigo-50 p-3 text-sm font-bold text-indigo-700"><LayoutDashboard className="h-4 w-4" /> Discover</Link>
+            {categories.map((category) => (
+              <Link key={category} href={categoryHref(category)} onClick={() => setMobileOpen(false)} className="block rounded-lg p-3 text-sm font-bold hover:bg-slate-50">{category}</Link>
+            ))}
+            <Link href="/deals" onClick={() => setMobileOpen(false)} className="mt-2 flex items-center gap-3 rounded-lg p-3 text-sm font-bold text-amber-600 hover:bg-amber-50"><Zap className="h-4 w-4" /> Deals</Link>
+            <Link href="/help" onClick={() => setMobileOpen(false)} className="block rounded-lg p-3 text-sm font-bold hover:bg-slate-50">Help center</Link>
+          </aside>
+        </div>
+      )}
+    </header>
+  );
+}
